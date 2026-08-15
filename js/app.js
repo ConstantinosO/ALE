@@ -11,6 +11,8 @@ import * as exam from './views/exam.js';
 import * as analysis from './views/analysis.js';
 import * as settings from './views/settings.js';
 import * as chaptertest from './views/chaptertest.js';
+import { loadEdits, saveEdits, applyEdits, pruneDeployed } from './edit/overlay.js';
+import { retryPendingAll } from './edit/editor.js';
 
 const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, analysis, settings, chaptertest };
 
@@ -28,7 +30,17 @@ function save() {
 }
 
 async function getContent(courseId) {
-  contentCache[courseId] ??= await loadContent(courseId);
+  if (!contentCache[courseId]) {
+    const content = await loadContent(courseId);
+    const editStore = loadEdits(window.localStorage);
+    if (editStore.edits[courseId]) {
+      pruneDeployed(content, editStore.edits[courseId]);
+      if (!Object.keys(editStore.edits[courseId] || {}).length) delete editStore.edits[courseId];
+      applyEdits(content, editStore.edits[courseId]);
+      saveEdits(window.localStorage, editStore);
+    }
+    contentCache[courseId] = content;
+  }
   return contentCache[courseId];
 }
 
@@ -80,3 +92,4 @@ container.addEventListener('click', (e) => {
   if (a && a.getAttribute('href') === location.hash) { e.preventDefault(); render(); }
 });
 render();
+retryPendingAll().catch(() => {}); // fire-and-forget: commit any pending edits

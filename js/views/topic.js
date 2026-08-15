@@ -1,4 +1,7 @@
 import { escapeHtml } from '../ui.js';
+import { formatText } from '../core/format.js';
+import { editBtn, wireEditing, confirmLeaveEdit } from '../edit/editor.js';
+import { loadEdits, pendingCount } from '../edit/overlay.js';
 import { allTopics } from '../core/content.js';
 import { newTopicProgress, recordAnswer, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
@@ -35,34 +38,43 @@ export async function render(el, ctx) {
       ${next ? `<a class="btn btn-gold" href="#/topic/${courseId}/${next.id}">Επόμενο →</a>` : ''}
     </div>`;
 
+  const pending = pendingCount(loadEdits(window.localStorage), courseId, topicId);
+
   el.innerHTML = `
     <div class="row" style="margin-bottom:12px">
       <a class="btn btn-ghost" href="#/course/${courseId}">← Πίσω</a>
       <span class="grow muted">${idx >= 0 ? `${idx + 1}/${topics.length}` : ''}</span>
+      ${pending ? '<span class="pill">εκκρεμεί ⟳</span>' : ''}
       <span class="pill">Completion ${Number(p.mastery) || 0}%</span>
       ${p.weak ? '<span class="pill pill-bad">αδύναμο</span>' : ''}
     </div>
     <div class="card">
-      <h2>${escapeHtml(topic.title)}</h2>
+      <div class="row"><h2 class="grow">${escapeHtml(topic.title)}</h2>${editBtn(topic.id)}</div>
       <p class="muted">${escapeHtml(topic.chapterTitle)}</p>
-      <p>${escapeHtml(topic.summary) || '<span class="muted">Χωρίς σύνοψη.</span>'}</p>
+      <div class="prose" data-editpath="summary">${formatText(topic.summary) || '<span class="muted">Χωρίς σύνοψη.</span>'}</div>
     </div>
-    ${topic.keyDefinitions.length ? `<div class="card"><h2>📖 Βασικοί ορισμοί</h2>
-      ${topic.keyDefinitions.map((d) => `<p><b>${escapeHtml(d.term)}:</b> ${escapeHtml(d.definition)}</p>`).join('')}
+    ${topic.keyDefinitions.length ? `<div class="card">
+      <div class="row"><h2 class="grow">📖 Βασικοί ορισμοί</h2>${editBtn(topic.id)}</div>
+      ${topic.keyDefinitions.map((d, i) => `<p style="margin-bottom:2px"><b>${escapeHtml(d.term)}:</b></p>
+        <div class="prose" data-editpath="keyDefinitions.${i}.definition" style="margin-bottom:10px">${formatText(d.definition)}</div>`).join('')}
     </div>` : ''}
-    ${topic.killerFacts.length ? `<div class="card"><h2>💡 Κρίσιμα σημεία</h2>
-      <ul>${topic.killerFacts.map((f) => `<li>${escapeHtml(f)}</li>`).join('')}</ul>
+    ${topic.killerFacts.length ? `<div class="card">
+      <div class="row"><h2 class="grow">💡 Κρίσιμα σημεία</h2>${editBtn(topic.id)}</div>
+      <ul>${topic.killerFacts.map((f, i) => `<li><div class="prose" data-editpath="killerFacts.${i}">${formatText(f)}</div></li>`).join('')}</ul>
     </div>` : ''}
-    ${topic.commonTraps.length ? `<div class="card"><h2>⚠️ Συνήθεις παγίδες</h2>
-      <ul>${topic.commonTraps.map((f) => `<li>${escapeHtml(f)}</li>`).join('')}</ul>
+    ${topic.commonTraps.length ? `<div class="card">
+      <div class="row"><h2 class="grow">⚠️ Συνήθεις παγίδες</h2>${editBtn(topic.id)}</div>
+      <ul>${topic.commonTraps.map((f, i) => `<li><div class="prose" data-editpath="commonTraps.${i}">${formatText(f)}</div></li>`).join('')}</ul>
     </div>` : ''}
-    ${(topic.shortAnswers || []).length ? `<div class="card"><h2>✍️ Ερωτήσεις σύντομης απάντησης</h2>
-      ${topic.shortAnswers.map((s) => `<p>${escapeHtml(s.question)}</p>
-      <details><summary>Υπόδειγμα απάντησης</summary><p>${escapeHtml(s.modelAnswer)}</p></details>`).join('')}
+    ${(topic.shortAnswers || []).length ? `<div class="card">
+      <div class="row"><h2 class="grow">✍️ Ερωτήσεις σύντομης απάντησης</h2>${editBtn(topic.id)}</div>
+      ${topic.shortAnswers.map((s, i) => `<div class="prose" data-editpath="shortAnswers.${i}.question">${formatText(s.question)}</div>
+      <details><summary>Υπόδειγμα απάντησης</summary><div class="prose" data-editpath="shortAnswers.${i}.modelAnswer">${formatText(s.modelAnswer)}</div></details>`).join('')}
     </div>` : ''}
-    ${topic.examQuestion ? `<div class="card"><h2>📝 Θέμα εξέτασης (${topic.examQuestion.marks} μονάδες)</h2>
-      <p>${escapeHtml(topic.examQuestion.question)}</p>
-      <details><summary>Υπόδειγμα απάντησης</summary><p>${escapeHtml(topic.examQuestion.modelAnswer)}</p></details>
+    ${topic.examQuestion ? `<div class="card">
+      <div class="row"><h2 class="grow">📝 Θέμα εξέτασης (${topic.examQuestion.marks} μονάδες)</h2>${editBtn(topic.id)}</div>
+      <div class="prose" data-editpath="examQuestion.question">${formatText(topic.examQuestion.question)}</div>
+      <details><summary>Υπόδειγμα απάντησης</summary><div class="prose" data-editpath="examQuestion.modelAnswer">${formatText(topic.examQuestion.modelAnswer)}</div></details>
     </div>` : ''}
     <div class="card" id="check">
       ${questions.length ? `<h2>✅ Έλεγχος κατανόησης</h2>
@@ -72,6 +84,8 @@ export async function render(el, ctx) {
     </div>
     ${navRow(true)}
   `;
+
+  wireEditing(el, { courseId, content });
 
   const startBtn = document.getElementById('startcheck');
   if (!startBtn) return;
@@ -112,9 +126,17 @@ export async function render(el, ctx) {
             else if (bi === chosen) b.classList.add('wrong');
           });
           document.getElementById('checkfeedback').innerHTML = `
-            <p><b>${correct ? '✅ Σωστό!' : '❌ Λάθος.'}</b> ${escapeHtml(q.explanation)}</p>
+            <p><b>${correct ? '✅ Σωστό!' : '❌ Λάθος.'}</b></p>
+            <div class="row">
+              <div class="grow prose" id="checkexpl" data-editpath="mcq.${topic.mcq.indexOf(q)}.explanation">${formatText(q.explanation)}</div>
+              ${editBtn(topic.id, 'checkexpl')}
+            </div>
             <button class="btn btn-gold btn-block" id="checknext">${i + 1 < questions.length ? 'Επόμενη' : 'Ολοκλήρωση'}</button>`;
+          wireEditing(document.getElementById('checkfeedback'), { courseId, content });
           document.getElementById('checknext').addEventListener('click', () => {
+            // Only #check is rewritten — an open ✏️ on the summary or the
+            // killerFacts cards is untouched and must not be prompted about.
+            if (!confirmLeaveEdit(card)) return;
             i++;
             if (i < questions.length) showQuestion(); else finish();
           });
