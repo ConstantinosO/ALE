@@ -34,7 +34,7 @@ export const BADGES = [
   { id: 'seri-14', name: 'Σερί 14 Ημερών', icon: '⚡', test: (s) => s.currentStreak >= 14 },
   { id: 'xp-1000', name: '1.000 XP', icon: '🏅', test: (s) => s.totalXp >= 1000 },
   { id: 'xp-5000', name: '5.000 XP', icon: '🏆', test: (s) => s.totalXp >= 5000 },
-  { id: 'mastered-10', name: '10 Θέματα σε Κυριαρχία', icon: '🎓', test: (s, x) => (x?.masteredTopics ?? 0) >= 10 },
+  { id: 'mastered-10', name: '10 Θέματα με Completion 80%', icon: '🎓', test: (s, x) => (x?.masteredTopics ?? 0) >= 10 },
 ];
 
 export function evaluateBadges(stats, extras, now) {
