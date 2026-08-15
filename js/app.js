@@ -8,8 +8,10 @@ import * as topic from './views/topic.js';
 import * as quiz from './views/quiz.js';
 import * as flashcards from './views/flashcards.js';
 import * as exam from './views/exam.js';
+import * as analysis from './views/analysis.js';
+import * as settings from './views/settings.js';
 
-const VIEWS = { dashboard, course, topic, quiz, flashcards, exam };
+const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, analysis, settings };
 
 const container = document.getElementById('view');
 const state = loadState(window.localStorage);
