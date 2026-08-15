@@ -3,8 +3,10 @@ import { loadState, saveState } from './core/store.js';
 import { loadCourses, loadContent, loadAnalysis } from './core/content.js';
 import { escapeHtml } from './ui.js';
 import * as dashboard from './views/dashboard.js';
+import * as course from './views/course.js';
+import * as topic from './views/topic.js';
 
-const VIEWS = { dashboard };
+const VIEWS = { dashboard, course, topic };
 
 const container = document.getElementById('view');
 const state = loadState(window.localStorage);
