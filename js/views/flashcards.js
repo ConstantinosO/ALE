@@ -4,7 +4,7 @@ import { isDue } from '../core/srs.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
 import { formatText } from '../core/format.js';
-import { editBtn, wireEditing } from '../edit/editor.js';
+import { editBtn, wireEditing, confirmLeaveEdit } from '../edit/editor.js';
 
 export async function render(el, ctx) {
   const { courseId } = ctx.params;
@@ -59,6 +59,7 @@ export async function render(el, ctx) {
         </div>`;
       wireEditing(document.getElementById('actions'), { courseId, content });
       const grade = (correct) => {
+        if (!confirmLeaveEdit()) return; // grading replaces the whole view
         const prev = prog(topicId);
         if (correct) { knew++; xpEarned += XP[prev.difficulty] ?? 10; }
         ctx.state.topics[topicId] = recordAnswer(prev, {

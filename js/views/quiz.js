@@ -3,7 +3,7 @@ import { pickQuizQuestions } from '../core/picker.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
 import { formatText } from '../core/format.js';
-import { editBtn, wireEditing } from '../edit/editor.js';
+import { editBtn, wireEditing, confirmLeaveEdit } from '../edit/editor.js';
 import { findTopic } from '../edit/overlay.js';
 
 const MODE_TITLES = {
@@ -80,6 +80,7 @@ export async function render(el, ctx) {
           <button class="btn btn-gold btn-block" id="next">${i + 1 < questions.length ? 'Επόμενη' : 'Ολοκλήρωση'}</button>`;
         wireEditing(document.getElementById('feedback'), { courseId, content });
         document.getElementById('next').addEventListener('click', () => {
+          if (!confirmLeaveEdit()) return; // advancing replaces the whole view
           i++;
           if (i < questions.length) showQuestion(); else finish();
         });

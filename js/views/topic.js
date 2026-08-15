@@ -1,6 +1,6 @@
 import { escapeHtml } from '../ui.js';
 import { formatText } from '../core/format.js';
-import { editBtn, wireEditing } from '../edit/editor.js';
+import { editBtn, wireEditing, confirmLeaveEdit } from '../edit/editor.js';
 import { loadEdits, pendingCount } from '../edit/overlay.js';
 import { allTopics } from '../core/content.js';
 import { newTopicProgress, recordAnswer, XP } from '../core/progress.js';
@@ -134,6 +134,7 @@ export async function render(el, ctx) {
             <button class="btn btn-gold btn-block" id="checknext">${i + 1 < questions.length ? 'Επόμενη' : 'Ολοκλήρωση'}</button>`;
           wireEditing(document.getElementById('checkfeedback'), { courseId, content });
           document.getElementById('checknext').addEventListener('click', () => {
+            if (!confirmLeaveEdit()) return; // advancing rewrites #check
             i++;
             if (i < questions.length) showQuestion(); else finish();
           });

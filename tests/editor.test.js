@@ -3,7 +3,7 @@
 // discipline (never write back a pre-await snapshot).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { retryPendingAll } from '../js/edit/editor.js';
+import { retryPendingAll, hasOpenEdit, confirmLeaveEdit } from '../js/edit/editor.js';
 import { EDITS_KEY } from '../js/edit/overlay.js';
 import { b64EncodeUtf8, serializeContent } from '../js/edit/github.js';
 
@@ -109,6 +109,21 @@ test('retryPendingAll is a no-op without a token', async () => {
   const r = await retryPendingAll(s, async () => { called = true; });
   assert.deepEqual(r, { retried: 0, pending: 1 });
   assert.equal(called, false);
+});
+
+// --- I5: the dirty-state guard must never block ordinary navigation --------
+
+test('no open edit session: the guard reports clean and waves navigation through', () => {
+  assert.equal(hasOpenEdit(), false);
+  let asked = false;
+  const realConfirm = globalThis.confirm;
+  globalThis.confirm = () => { asked = true; return false; };
+  try {
+    assert.equal(confirmLeaveEdit(), true);
+    assert.equal(asked, false, 'must not prompt when nothing is being edited');
+  } finally {
+    if (realConfirm) globalThis.confirm = realConfirm; else delete globalThis.confirm;
+  }
 });
 
 // --- I2: only the edits that actually applied become committed -------------
