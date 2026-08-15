@@ -109,11 +109,13 @@ function enterEditMode(container, courseId, content, topic, btn) {
     saveEdits(window.localStorage, store);
 
     status.textContent = 'Αποθηκεύτηκε τοπικά — καταχώρηση στο GitHub…';
-    const result = await commitEdits(store.token, courseId, pendingList(store, courseId));
+    const sent = pendingList(store, courseId);
+    const result = await commitEdits(store.token, courseId, sent);
     if (result.ok) {
       const fresh = loadEdits(window.localStorage);
-      for (const fields of Object.values(fresh.edits[courseId] || {})) {
-        for (const entry of Object.values(fields)) entry.committed = true;
+      for (const p of sent) {
+        const entry = fresh.edits[courseId]?.[p.topicId]?.[p.path];
+        if (entry && entry.text === p.text) entry.committed = true;
       }
       saveEdits(window.localStorage, fresh);
       status.textContent = '✅ Καταχωρήθηκε στο GitHub.';
