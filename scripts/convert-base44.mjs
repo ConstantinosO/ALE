@@ -59,7 +59,7 @@ for (const t of topics) {
     : CURRICULUM_TO_COURSE[t.curriculum_id];
   if (!courseId) { console.warn(`Άγνωστο μάθημα για θέμα: ${t.title}`); continue; }
   byCourse[courseId] ??= {};
-  const chKey = t.chapter_id;
+  const chKey = ch ? t.chapter_id : '__misc__';
   byCourse[courseId][chKey] ??= {
     id: chKey,
     title: ch ? ch.title : 'Λοιπά θέματα',
