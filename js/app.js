@@ -5,8 +5,9 @@ import { escapeHtml } from './ui.js';
 import * as dashboard from './views/dashboard.js';
 import * as course from './views/course.js';
 import * as topic from './views/topic.js';
+import * as quiz from './views/quiz.js';
 
-const VIEWS = { dashboard, course, topic };
+const VIEWS = { dashboard, course, topic, quiz };
 
 const container = document.getElementById('view');
 const state = loadState(window.localStorage);
