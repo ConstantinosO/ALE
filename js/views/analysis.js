@@ -23,16 +23,16 @@ export async function render(el, ctx) {
       <table class="freq">
         ${(a.topicFrequencies || []).map((f) => `
           <tr><td>${escapeHtml(f.topic)}</td><td style="width:45%">
-            <div class="bar"><span style="width:${f.percentage}%"></span></div></td>
-            <td>${f.percentage}%</td></tr>`).join('')}
+            <div class="bar"><span style="width:${Number(f.percentage) || 0}%"></span></div></td>
+            <td>${Number(f.percentage) || 0}%</td></tr>`).join('')}
       </table>
     </div>
     ${a.questionTypes?.length ? `<div class="card"><h2>Τύποι ερωτήσεων</h2>
       <table class="freq">${a.questionTypes.map((t) => `
-        <tr><td>${escapeHtml(t.type)}</td><td>${t.count}</td><td>${t.percentage}%</td></tr>`).join('')}</table>
+        <tr><td>${escapeHtml(t.type)}</td><td>${Number(t.count) || 0}</td><td>${Number(t.percentage) || 0}%</td></tr>`).join('')}</table>
     </div>` : ''}
     ${a.killerFacts?.length ? `<div class="card"><h2>💡 Σημεία που επανέρχονται</h2>
-      <ul>${a.killerFacts.map((k) => `<li>${escapeHtml(k.fact)} <span class="pill">×${k.frequency}</span></li>`).join('')}</ul>
+      <ul>${a.killerFacts.map((k) => `<li>${escapeHtml(k.fact)} <span class="pill">×${Number(k.frequency) || 0}</span></li>`).join('')}</ul>
     </div>` : ''}
     ${a.recommendations?.length ? `<div class="card"><h2>🎯 Συστάσεις</h2>
       <ul>${a.recommendations.map((r) => `<li>${escapeHtml(r)}</li>`).join('')}</ul>
