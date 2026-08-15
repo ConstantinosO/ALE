@@ -1,4 +1,4 @@
-const CACHE = 'ale-v3'; // bump on every content/app update
+const CACHE = 'ale-v4'; // bump on every content/app update
 const CORE = ['./', './index.html', './css/app.css', './manifest.webmanifest'];
 
 self.addEventListener('install', (e) => {
