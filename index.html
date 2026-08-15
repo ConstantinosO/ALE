@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ALE — Μηχανή Προσαρμοστικής Μάθησης</title>
+  <meta name="theme-color" content="#111228">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="#/" class="brand">ALE</a>
+    <span id="countdown" class="countdown"></span>
+  </header>
+  <main id="view" class="view"></main>
+  <nav class="bottomnav">
+    <a href="#/">🏠 Αρχική</a>
+    <a href="#/settings">⚙️ Ρυθμίσεις</a>
+  </nav>
+  <script type="module" src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "examDate": "2026-10-03",
+  "courses": [
+    { "id": "klados-zois", "title": "Κλάδος Ζωής", "status": "active" },
+    { "id": "basikes-arxes", "title": "Βασικές Αρχές Ασφαλίσεων", "status": "passed" }
+  ]
+}
