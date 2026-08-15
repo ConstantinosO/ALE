@@ -47,7 +47,7 @@ export async function render(el, ctx) {
           ${c.status === 'passed' ? '<span class="pill pill-ok">✓ Επιτυχία</span>' : `<span class="pill">${topicCount} θέματα</span>`}
         </div>
         <div class="bar ${mastery >= 80 ? 'hi' : ''}"><span style="width:${mastery}%"></span></div>
-        <p class="muted">Κυριαρχία ${mastery}%${due ? ` · ${due} για επανάληψη` : ''}</p>
+        <p class="muted">Completion ${mastery}%${due ? ` · ${due} για επανάληψη` : ''}</p>
         <div class="row">
           <a class="btn" href="#/course/${c.id}">Ύλη</a>
           <a class="btn btn-ghost" href="#/quiz/${c.id}/micro">Κουίζ</a>

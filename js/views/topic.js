@@ -39,7 +39,7 @@ export async function render(el, ctx) {
     <div class="row" style="margin-bottom:12px">
       <a class="btn btn-ghost" href="#/course/${courseId}">← Πίσω</a>
       <span class="grow muted">${idx >= 0 ? `${idx + 1}/${topics.length}` : ''}</span>
-      <span class="pill">${Number(p.mastery) || 0}% κυριαρχία</span>
+      <span class="pill">Completion ${Number(p.mastery) || 0}%</span>
       ${p.weak ? '<span class="pill pill-bad">αδύναμο</span>' : ''}
     </div>
     <div class="card">
@@ -145,7 +145,7 @@ export async function render(el, ctx) {
             <div class="stat"><b>${pct}%</b><span>Επίδοση</span></div>
             <div class="stat"><b>+${xpEarned}</b><span>XP</span></div>
           </div>
-          <p class="muted">Κυριαρχία θέματος: ${mastery}%</p>
+          <p class="muted">Completion θέματος: ${mastery}%</p>
           ${pct < 80 ? '<button class="btn btn-ghost btn-block" id="retry">Ξανά</button>' : ''}
           ${isLastOfChapter
             ? `<p class="muted">Ολοκλήρωσες το κεφάλαιο «${escapeHtml(topic.chapterTitle)}».</p>
