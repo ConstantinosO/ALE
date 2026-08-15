@@ -104,8 +104,8 @@ prunes.
   `{ sha, json }` (base64-decoded, UTF-8). `content.json` is 832 KB — under
   the API's 1 MB inline limit; per-course files keep it bounded.
 - `putFile(token, path, json, sha, message)` → `PUT` with 2-space
-  `JSON.stringify` + trailing newline (matches the assemble script's output
-  so diffs stay minimal), base64-encoded.
+  `JSON.stringify`, no trailing newline (matches the repo file exactly so
+  diffs stay minimal), base64-encoded.
 - `b64EncodeUtf8` / `b64DecodeUtf8` via `TextEncoder`/`TextDecoder` (plain
   `btoa` corrupts Greek — pinned by a Greek-text test).
 - **Commit flow per save:** GET the canonical file → apply this save's field
