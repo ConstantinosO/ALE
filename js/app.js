@@ -57,7 +57,12 @@ async function render() {
     params: route.params, examDateIso,
   };
   container.innerHTML = '<p class="muted">Φόρτωση…</p>';
-  await view.render(container, ctx);
+  try {
+    await view.render(container, ctx);
+  } catch (e) {
+    container.innerHTML = `<div class="card"><h2>Σφάλμα</h2><p>${escapeHtml(e.message)}</p>
+      <a class="btn" href="#/">Αρχική</a> <button onclick="location.reload()">Δοκιμή ξανά</button></div>`;
+  }
 }
 
 window.addEventListener('hashchange', render);
