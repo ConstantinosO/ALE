@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  b64EncodeUtf8, b64DecodeUtf8, serializeContent, getFile, putFile, commitEdits,
+  b64EncodeUtf8, b64DecodeUtf8, serializeContent, getFile, putFile, commitEdits, isSettled,
 } from '../js/edit/github.js';
 
 test('base64 round-trips Greek text', () => {
@@ -24,7 +24,7 @@ test('serializeContent: 2-space indent, no trailing newline', () => {
 
 function contentFixture() {
   return { courseId: 'kz', chapters: [{ id: 'c1', title: 'Κ', topics: [
-    { id: 't1', title: 'Θ', summary: 'παλιό', keyDefinitions: [], killerFacts: [],
+    { id: 't1', title: 'Θ', summary: 'παλιό', keyDefinitions: [], killerFacts: ['γεγονός'],
       commonTraps: [], mcq: [], shortAnswers: [], flashcards: [], examQuestion: null },
   ] }] };
 }
@@ -69,21 +69,94 @@ test('putFile threads sha and base64 body', async () => {
 test('commitEdits applies fields to the FETCHED copy and PUTs', async () => {
   const f = stubFetch([okGet(contentFixture()), okPut()]);
   const r = await commitEdits('T', 'kz', [{ topicId: 't1', path: 'summary', text: 'νέο' }], f);
-  assert.deepEqual(r, { ok: true, applied: 1 });
+  assert.equal(r.ok, true);
+  assert.equal(r.applied, 1);
+  assert.deepEqual(r.results, [{ topicId: 't1', path: 'summary', applied: true, reason: 'ok' }]);
   const body = JSON.parse(f.calls[1].opts.body);
   const pushed = JSON.parse(b64DecodeUtf8(body.content));
   assert.equal(pushed.chapters[0].topics[0].summary, 'νέο');
   assert.ok(body.message.includes('t1'));
 });
 
-test('commitEdits skips invalid paths and missing topics', async () => {
+test('commitEdits skips invalid paths and missing topics, and says so per edit', async () => {
   const f = stubFetch([okGet(contentFixture())]);
   const r = await commitEdits('T', 'kz', [
     { topicId: 't1', path: 'mcq.0.correctIndex', text: 'x' },
     { topicId: 'ghost', path: 'summary', text: 'x' },
   ], f);
-  assert.deepEqual(r, { ok: true, applied: 0 });
+  assert.equal(r.ok, true);
+  assert.equal(r.applied, 0);
+  assert.deepEqual(r.results.map((x) => x.reason), ['missing-path', 'missing-topic']);
+  assert.ok(r.results.every((x) => x.applied === false));
   assert.equal(f.calls.length, 1); // no PUT when nothing applies
+});
+
+// --- C2: the baseline check -------------------------------------------------
+
+test('commitEdits refuses an edit whose remote value moved away from base', async () => {
+  const c = contentFixture();
+  c.chapters[0].topics[0].killerFacts = ['ΑΛΛΟ γεγονός']; // regenerated upstream
+  const f = stubFetch([okGet(c)]);
+  const r = await commitEdits('T', 'kz', [
+    { topicId: 't1', path: 'killerFacts.0', text: 'η αλλαγή μου', base: 'γεγονός' },
+  ], f);
+  assert.equal(r.ok, true);
+  assert.equal(r.applied, 0);
+  assert.deepEqual(r.results, [{ topicId: 't1', path: 'killerFacts.0', applied: false, reason: 'conflict' }]);
+  assert.equal(f.calls.length, 1); // never PUT over the divergent field
+});
+
+test('commitEdits applies when the remote still matches base', async () => {
+  const f = stubFetch([okGet(contentFixture()), okPut()]);
+  const r = await commitEdits('T', 'kz', [
+    { topicId: 't1', path: 'killerFacts.0', text: 'η αλλαγή μου', base: 'γεγονός' },
+  ], f);
+  assert.equal(r.applied, 1);
+  const pushed = JSON.parse(b64DecodeUtf8(JSON.parse(f.calls[1].opts.body).content));
+  assert.equal(pushed.chapters[0].topics[0].killerFacts[0], 'η αλλαγή μου');
+});
+
+test('commitEdits applies legacy entries (no base) without a baseline check', async () => {
+  const c = contentFixture();
+  c.chapters[0].topics[0].summary = 'κάτι εντελώς άλλο';
+  const f = stubFetch([okGet(c), okPut()]);
+  const r = await commitEdits('T', 'kz', [{ topicId: 't1', path: 'summary', text: 'νέο' }], f);
+  assert.equal(r.applied, 1);
+  assert.equal(r.results[0].reason, 'ok');
+});
+
+test('commitEdits treats an empty-string base as a real baseline', async () => {
+  const c = contentFixture();
+  c.chapters[0].topics[0].summary = 'δεν είναι κενό';
+  const f = stubFetch([okGet(c)]);
+  const r = await commitEdits('T', 'kz', [{ topicId: 't1', path: 'summary', text: 'ν', base: '' }], f);
+  assert.equal(r.results[0].reason, 'conflict');
+  assert.equal(f.calls.length, 1);
+});
+
+test('commitEdits skips the PUT when the remote already equals the new text', async () => {
+  const f = stubFetch([okGet(contentFixture())]);
+  const r = await commitEdits('T', 'kz', [
+    { topicId: 't1', path: 'summary', text: 'παλιό', base: 'παλιό' },
+  ], f);
+  assert.equal(r.ok, true);
+  assert.equal(r.applied, 0);           // nothing written
+  assert.equal(r.results[0].reason, 'unchanged');
+  assert.equal(isSettled(r.results[0]), true); // ...but the remote does hold it
+  assert.equal(f.calls.length, 1);      // no 852 KB PUT for a no-op
+});
+
+test('commitEdits mixes outcomes: one applied, one conflicted', async () => {
+  const f = stubFetch([okGet(contentFixture()), okPut()]);
+  const r = await commitEdits('T', 'kz', [
+    { topicId: 't1', path: 'summary', text: 'νέο', base: 'παλιό' },
+    { topicId: 't1', path: 'killerFacts.0', text: 'χ', base: 'ΔΕΝ ΤΑΙΡΙΑΖΕΙ' },
+  ], f);
+  assert.equal(r.applied, 1);
+  assert.deepEqual(r.results.map((x) => x.reason), ['ok', 'conflict']);
+  const pushed = JSON.parse(b64DecodeUtf8(JSON.parse(f.calls[1].opts.body).content));
+  assert.equal(pushed.chapters[0].topics[0].summary, 'νέο');
+  assert.equal(pushed.chapters[0].topics[0].killerFacts[0], 'γεγονός'); // untouched
 });
 
 test('commitEdits retries ONCE on sha conflict, then reports failure', async () => {

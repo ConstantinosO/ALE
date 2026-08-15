@@ -78,6 +78,45 @@ test('pruneDeployed removes entries matching fetched content and orphans', () =>
   assert.deepEqual(Object.keys(edits.t1), ['killerFacts.0']);
 });
 
+// --- I1: the remote moving away from `base` also retires an entry -----------
+
+test('pruneDeployed drops an entry whose remote diverged from its base', () => {
+  const c = sampleContent(); // summary is 'αρχικό'
+  // The PC committed 'Α-κείμενο'; the iPad has since committed 'Β-κείμενο',
+  // so the fetched value matches neither the entry text nor its base.
+  const edits = { t1: { summary: { text: 'Α-κείμενο', base: 'Β-κείμενο', committed: true } } };
+  pruneDeployed(c, edits);
+  assert.deepEqual(edits, {}, 'a stale entry must not be re-applied forever');
+});
+
+test('pruneDeployed keeps an entry whose remote still equals its base', () => {
+  const c = sampleContent();
+  const edits = { t1: { summary: { text: 'δικό μου', base: 'αρχικό', committed: false } } };
+  pruneDeployed(c, edits);
+  assert.deepEqual(Object.keys(edits.t1), ['summary'], 'a live pending edit must survive');
+});
+
+test('pruneDeployed still prunes on text match even when base also matches', () => {
+  const c = sampleContent();
+  const edits = { t1: { summary: { text: 'αρχικό', base: 'αρχικό', committed: true } } };
+  pruneDeployed(c, edits);
+  assert.deepEqual(edits, {});
+});
+
+test('pruneDeployed prunes a based entry whose path no longer resolves', () => {
+  const c = sampleContent();
+  const edits = { t1: { 'killerFacts.7': { text: 'χ', base: 'ψ', committed: false } } };
+  pruneDeployed(c, edits);
+  assert.deepEqual(edits, {});
+});
+
+test('pruneDeployed leaves legacy entries (no base) to the old rule', () => {
+  const c = sampleContent();
+  const edits = { t1: { summary: { text: 'δικό μου', committed: false } } };
+  pruneDeployed(c, edits);
+  assert.deepEqual(Object.keys(edits.t1), ['summary']);
+});
+
 test('pendingList and pendingCount count committed:false only', () => {
   const data = { token: 't', edits: { kz: {
     t1: { summary: { text: 'α', committed: false },
@@ -91,6 +130,22 @@ test('pendingList and pendingCount count committed:false only', () => {
   assert.equal(pendingCount(data, 'kz'), 2);
   assert.equal(pendingCount(data, 'kz', 't1'), 1);
   assert.equal(pendingCount(data, 'άλλο'), 0);
+});
+
+test('pendingList threads base through, and omits it for legacy entries', () => {
+  const data = { token: 't', edits: { kz: {
+    t1: { summary: { text: 'νέο', base: 'παλιό', committed: false },
+          'killerFacts.0': { text: 'χ', committed: false } },   // legacy, no base
+  } } };
+  assert.deepEqual(pendingList(data, 'kz'), [
+    { topicId: 't1', path: 'summary', text: 'νέο', base: 'παλιό' },
+    { topicId: 't1', path: 'killerFacts.0', text: 'χ' },
+  ]);
+});
+
+test('pendingList keeps an empty-string base (a real baseline, not "absent")', () => {
+  const data = { token: 't', edits: { kz: { t1: { summary: { text: 'ν', base: '', committed: false } } } } };
+  assert.deepEqual(pendingList(data, 'kz'), [{ topicId: 't1', path: 'summary', text: 'ν', base: '' }]);
 });
 
 test('findTopic locates topics across chapters', () => {

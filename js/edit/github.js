@@ -44,22 +44,52 @@ export async function putFile(token, path, json, sha, message, fetchFn = fetch) 
   return res.json();
 }
 
+// Per-edit outcome reasons. Callers must NOT treat ok:true as "everything
+// committed" — inspect `results`. `settled` means the remote now holds the
+// edit's text (either we just wrote it, or it was already there).
+export const APPLY_OK = 'ok';
+export const APPLY_UNCHANGED = 'unchanged';
+export const APPLY_CONFLICT = 'conflict';
+export const APPLY_MISSING_TOPIC = 'missing-topic';
+export const APPLY_MISSING_PATH = 'missing-path';
+
+export function isSettled(result) {
+  return result.applied || result.reason === APPLY_UNCHANGED;
+}
+
 export async function commitEdits(token, courseId, edits, fetchFn = fetch) {
   const path = `data/${courseId}/content.json`;
   const attempt = async () => {
     const { sha, json } = await getFile(token, path, fetchFn);
+    const results = [];
     let applied = 0;
     for (const e of edits) {
       const topic = findTopic(json, e.topicId);
-      if (topic && typeof getPath(topic, e.path) === 'string'
-          && setPath(topic, e.path, e.text)) applied++;
+      const cur = topic ? getPath(topic, e.path) : undefined;
+      const out = (reason) => results.push({ topicId: e.topicId, path: e.path, applied: reason === APPLY_OK, reason });
+      if (typeof cur !== 'string') {
+        // Includes non-whitelisted paths: getPath refuses them outright.
+        out(topic ? APPLY_MISSING_PATH : APPLY_MISSING_TOPIC);
+      } else if (typeof e.base === 'string' && cur !== e.base) {
+        // The remote no longer says what this edit was made against — indices
+        // may have shifted, or another device rewrote the field. Never write
+        // blind: report it so the caller leaves the edit pending.
+        out(APPLY_CONFLICT);
+      } else if (cur === e.text) {
+        out(APPLY_UNCHANGED); // already deployed — no point PUTting 852 KB
+      } else if (setPath(topic, e.path, e.text)) {
+        applied++;
+        out(APPLY_OK);
+      } else {
+        out(APPLY_MISSING_PATH);
+      }
     }
-    if (!applied) return { ok: true, applied: 0 };
-    const ids = [...new Set(edits.map((e) => e.topicId))].join(', ');
-    const n = edits.length;
+    if (!applied) return { ok: true, applied: 0, results };
+    const ids = [...new Set(results.filter((r) => r.applied).map((r) => r.topicId))].join(', ');
+    const n = applied;
     const message = `edit: ${ids} (${n} ${n === 1 ? 'πεδίο' : 'πεδία'})`;
     await putFile(token, path, json, sha, message, fetchFn);
-    return { ok: true, applied };
+    return { ok: true, applied, results };
   };
   try {
     return await attempt();

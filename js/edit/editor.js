@@ -103,7 +103,11 @@ function enterEditMode(container, courseId, content, topic, btn) {
     const changes = [];
     for (const r of editable) {
       const text = serializeEditor(r);
-      if (text !== originals.get(r)) changes.push({ topicId: topic.id, path: r.dataset.editpath, text });
+      if (text !== originals.get(r)) {
+        changes.push({
+          topicId: topic.id, path: r.dataset.editpath, text, base: originals.get(r),
+        });
+      }
       r.innerHTML = formatText(text) || '<span class="muted">—</span>';
     }
     leave();
@@ -112,7 +116,14 @@ function enterEditMode(container, courseId, content, topic, btn) {
     const store = loadEdits(window.localStorage);
     store.edits[courseId] ??= {};
     for (const c of changes) {
-      (store.edits[courseId][c.topicId] ??= {})[c.path] = { text: c.text, committed: false };
+      const fields = (store.edits[courseId][c.topicId] ??= {});
+      const prev = fields[c.path];
+      // `base` is what the REPO holds for this field. On a re-edit of an entry
+      // that has not been committed yet, the repo still has the older baseline
+      // — keep it. Once committed, the repo holds the previous text, which is
+      // exactly what `originals` captured this time round.
+      const base = prev && !prev.committed && typeof prev.base === 'string' ? prev.base : c.base;
+      fields[c.path] = { text: c.text, base, committed: false };
       const real = findTopic(content, c.topicId);
       if (real) setPath(real, c.path, c.text);
     }

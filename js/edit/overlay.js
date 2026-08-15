@@ -65,13 +65,18 @@ export function applyEdits(content, courseEdits) {
   }
 }
 
-// Call BEFORE applyEdits, on freshly fetched content: entries whose text is
-// already deployed (or whose topic no longer exists) are finished with.
+// Call BEFORE applyEdits, on freshly fetched content: an entry is finished
+// with when its text is already deployed, when its topic no longer exists,
+// or when the remote value has moved away from the entry's `base` — the
+// other device rewrote that field, so this entry is stale, not pending.
+// Entries without a `base` (legacy) keep the old prune-on-match behaviour.
 export function pruneDeployed(content, courseEdits) {
   for (const [topicId, fields] of Object.entries(courseEdits || {})) {
     const topic = findTopic(content, topicId);
     for (const [path, entry] of Object.entries(fields)) {
-      if (!topic || getPath(topic, path) === entry.text) delete fields[path];
+      const remote = topic ? getPath(topic, path) : undefined;
+      if (!topic || remote === entry.text
+          || (typeof entry.base === 'string' && remote !== entry.base)) delete fields[path];
     }
     if (!Object.keys(fields).length) delete courseEdits[topicId];
   }
@@ -81,7 +86,12 @@ export function pendingList(data, courseId) {
   const out = [];
   for (const [topicId, fields] of Object.entries(data.edits[courseId] || {})) {
     for (const [path, entry] of Object.entries(fields)) {
-      if (!entry.committed) out.push({ topicId, path, text: entry.text });
+      if (entry.committed) continue;
+      const item = { topicId, path, text: entry.text };
+      // Only carry a real baseline; legacy entries stay three-keyed so
+      // commitEdits can tell "no baseline recorded" from "baseline empty".
+      if (typeof entry.base === 'string') item.base = entry.base;
+      out.push(item);
     }
   }
   return out;
