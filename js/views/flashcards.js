@@ -1,7 +1,7 @@
 import { escapeHtml } from '../ui.js';
 import { allTopics } from '../core/content.js';
 import { isDue } from '../core/srs.js';
-import { recordAnswer, newTopicProgress } from '../core/progress.js';
+import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
 
 export async function render(el, ctx) {
@@ -54,7 +54,7 @@ export async function render(el, ctx) {
         </div>`;
       const grade = (correct) => {
         const prev = prog(topicId);
-        if (correct) { knew++; xpEarned += 10; }
+        if (correct) { knew++; xpEarned += XP[prev.difficulty] ?? 10; }
         ctx.state.topics[topicId] = recordAnswer(prev, {
           correct, questionDifficulty: prev.difficulty, now: new Date().toISOString(),
         });
