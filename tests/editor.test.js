@@ -26,14 +26,15 @@ function contentFixture() {
 
 // A fetch stub whose GET runs `onGet` first — the hook stands in for anything
 // that writes to localStorage while the network round-trip is in flight.
-function hookedFetch(onGet) {
+// `remote` is the canonical file the GET serves.
+function hookedFetch(onGet, remote = contentFixture()) {
   return async (url, opts = {}) => {
     if (opts.method === 'PUT') return { ok: true, status: 200, json: async () => ({}) };
     if (onGet) await onGet();
     return {
       ok: true,
       status: 200,
-      json: async () => ({ sha: 'sha1', content: b64EncodeUtf8(serializeContent(contentFixture())) }),
+      json: async () => ({ sha: 'sha1', content: b64EncodeUtf8(serializeContent(remote)) }),
     };
   };
 }
@@ -106,6 +107,44 @@ test('retryPendingAll is a no-op without a token', async () => {
   s._write({ token: '', edits: { kz: { t1: { summary: { text: 'ν', committed: false } } } } });
   let called = false;
   const r = await retryPendingAll(s, async () => { called = true; });
-  assert.deepEqual(r, { retried: 0 });
+  assert.deepEqual(r, { retried: 0, pending: 1 });
   assert.equal(called, false);
+});
+
+// --- I2: only the edits that actually applied become committed -------------
+
+test('retryPendingAll leaves a conflicted edit pending, marks the applied one', async () => {
+  const s = memStorage();
+  s._write(storeWith({ t1: {
+    summary: { text: 'νέο', base: 'παλιό', committed: false },              // base matches remote
+    'killerFacts.0': { text: 'χ', base: 'ΠΑΛΙΟΤΕΡΟ', committed: false },    // base diverged
+  } }));
+  const r = await retryPendingAll(s, hookedFetch());
+  assert.equal(r.retried, 1);
+  assert.equal(r.pending, 1, 'the conflicted edit is still queued');
+  const after = s._read().edits.kz.t1;
+  assert.equal(after.summary.committed, true);
+  assert.equal(after['killerFacts.0'].committed, false, 'a refused edit must not vanish from the queue');
+});
+
+test('retryPendingAll leaves an edit pending when its path no longer resolves', async () => {
+  const s = memStorage();
+  s._write(storeWith({ t1: { 'shortAnswers.4.modelAnswer': { text: 'χ', committed: false } } }));
+  const r = await retryPendingAll(s, hookedFetch());
+  assert.equal(r.retried, 0);
+  assert.equal(r.pending, 1);
+  assert.equal(s._read().edits.kz.t1['shortAnswers.4.modelAnswer'].committed, false);
+});
+
+test('retryPendingAll settles an edit the remote already holds, without a PUT', async () => {
+  const s = memStorage();
+  s._write(storeWith({ t1: { summary: { text: 'παλιό', base: 'παλιό', committed: false } } }));
+  let puts = 0;
+  const f = hookedFetch();
+  const counting = async (url, opts = {}) => { if (opts.method === 'PUT') puts++; return f(url, opts); };
+  const r = await retryPendingAll(s, counting);
+  assert.equal(r.retried, 1, 'already-deployed text must not stay pending forever');
+  assert.equal(r.pending, 0);
+  assert.equal(puts, 0, 'no pointless 852 KB PUT');
+  assert.equal(s._read().edits.kz.t1.summary.committed, true);
 });

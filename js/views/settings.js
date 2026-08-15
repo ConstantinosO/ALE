@@ -167,8 +167,12 @@ export async function render(el, ctx) {
 
   document.getElementById('retrypending').addEventListener('click', async () => {
     tokenMsg.textContent = 'Καταχώρηση εκκρεμών αλλαγών…';
-    const { retried } = await retryPendingAll();
-    tokenMsg.textContent = retried ? `✅ Καταχωρήθηκαν ${retried} αλλαγές.` : '⚠️ Δεν καταχωρήθηκε τίποτα — έλεγξε token/σύνδεση.';
+    const { retried, pending } = await retryPendingAll();
+    tokenMsg.textContent = !retried
+      ? '⚠️ Δεν καταχωρήθηκε τίποτα — έλεγξε token/σύνδεση.'
+      : pending
+        ? '⚠️ Μερική καταχώρηση — κάποιες αλλαγές παραμένουν σε εκκρεμότητα.'
+        : `✅ Καταχωρήθηκαν ${retried} αλλαγές.`;
     refreshTokenUi();
   });
 }
