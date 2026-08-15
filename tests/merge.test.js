@@ -101,3 +101,59 @@ test('local sessions survive merge unchanged, imported ignored', () => {
   const m = mergeState(local, imported);
   assert.deepEqual(m.sessions, localSessions);
 });
+
+test('imported topic with garbage fields is sanitized to safe numeric/enum values', () => {
+  const local = stateWith({});
+  const imported = stateWith({
+    a: {
+      mastery: '<img src=x>', acc: 'NaNish', correct: 'x', incorrect: {},
+      consecCorrect: null, consecIncorrect: undefined, xp: 'lots', intervalIndex: 'far',
+      difficulty: '<script>alert(1)</script>', nextReview: 123, lastStudied: '2026-08-12T00:00:00.000Z',
+      weak: 'yes',
+    },
+  });
+  const m = mergeState(local, imported);
+  const a = m.topics.a;
+  assert.equal(a.mastery, 0);
+  assert.equal(a.acc, 0);
+  assert.equal(a.correct, 0);
+  assert.equal(a.incorrect, 0);
+  assert.equal(a.consecCorrect, 0);
+  assert.equal(a.consecIncorrect, 0);
+  assert.equal(a.xp, 0);
+  assert.equal(a.intervalIndex, 0);
+  assert.equal(a.difficulty, 'easy');
+  assert.equal(a.nextReview, null);
+  assert.equal(a.lastStudied, '2026-08-12T00:00:00.000Z');
+  assert.equal(typeof a.weak, 'boolean');
+  assert.equal(a.weak, true);
+});
+
+test('imported topics with a __proto__ key are skipped and Object.prototype is not polluted', () => {
+  const local = stateWith({});
+  const imported = JSON.parse('{"version":1,"topics":{"__proto__":{"mastery":99,"polluted":true},"constructor":{"mastery":1},"prototype":{"mastery":1}},"stats":{}}');
+  const m = mergeState(local, imported);
+  assert.equal(({}).polluted, undefined);
+  assert.equal(Object.prototype.polluted, undefined);
+  assert.deepEqual(m.topics, {});
+});
+
+test('settings merge: examDate falls back to imported when local is null, else local wins', () => {
+  const local = freshState(); local.settings.examDate = null;
+  const imported = freshState(); imported.settings.examDate = '2026-09-01';
+  assert.equal(mergeState(local, imported).settings.examDate, '2026-09-01');
+
+  const local2 = freshState(); local2.settings.examDate = '2026-10-03';
+  const imported2 = freshState(); imported2.settings.examDate = '2026-09-01';
+  assert.equal(mergeState(local2, imported2).settings.examDate, '2026-10-03');
+});
+
+test('settings merge: excludedChapters combines imported-only courses, local wins per-course on conflict', () => {
+  const local = freshState();
+  local.settings.excludedChapters = { courseA: ['ch1'] };
+  const imported = freshState();
+  imported.settings.excludedChapters = { courseA: ['ch9'], courseB: ['ch2'] };
+  const m = mergeState(local, imported);
+  assert.deepEqual(m.settings.excludedChapters.courseA, ['ch1']); // local wins
+  assert.deepEqual(m.settings.excludedChapters.courseB, ['ch2']); // imported-only fills in
+});

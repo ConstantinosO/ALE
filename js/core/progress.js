@@ -24,6 +24,7 @@ export function recordAnswer(p, { correct, questionDifficulty, now }) {
     n.difficulty = n.difficulty === 'easy' ? 'medium' : 'hard';
     n.consecCorrect = 0;
   }
+  // intended: consecIncorrect is not reset on demotion, so a long wrong streak steps down one level per answer
   if (n.consecIncorrect >= 2 && n.difficulty !== 'easy') {
     n.difficulty = n.difficulty === 'hard' ? 'medium' : 'easy';
   }

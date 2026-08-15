@@ -32,7 +32,7 @@ export async function render(el, ctx) {
           return `<a class="list-item" href="#/topic/${course.id}/${t.id}">
             <span class="grow">${escapeHtml(t.title)}</span>
             ${p.weak ? '<span class="pill pill-bad">αδύναμο</span>' : ''}
-            <span class="pill">${p.mastery}%</span>
+            <span class="pill">${Number(p.mastery) || 0}%</span>
           </a>`;
         }).join('') || '<p class="muted">Χωρίς θέματα ακόμη.</p>'}
       </div>`).join('')}

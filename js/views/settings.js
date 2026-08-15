@@ -1,4 +1,4 @@
-import { fmtDate } from '../ui.js';
+import { fmtDate, escapeHtml } from '../ui.js';
 import { validateSnapshot, mergeState } from '../core/merge.js';
 import { freshState, saveState } from '../core/store.js';
 import { dateStr, BADGES } from '../core/stats.js';
@@ -21,7 +21,7 @@ export async function render(el, ctx) {
           const earned = s.badges.find((e) => e.id === b.id);
           return `<div class="badge ${earned ? 'earned' : ''}">
             <div class="icon">${b.icon}</div><div class="name">${b.name}</div>
-            ${earned ? `<div class="name muted">${earned.earnedDate}</div>` : ''}</div>`;
+            ${earned ? `<div class="name muted">${escapeHtml(earned.earnedDate)}</div>` : ''}</div>`;
         }).join('')}
       </div>
     </div>
@@ -67,6 +67,7 @@ export async function render(el, ctx) {
       Object.assign(ctx.state, merged);
       ctx.save();
       msg.textContent = '✅ Η εισαγωγή ολοκληρώθηκε. Η πρόοδος συγχωνεύτηκε.';
+      setTimeout(() => ctx.navigate('#/settings'), 1200);
     } catch {
       msg.textContent = '⚠️ Το αρχείο δεν είναι έγκυρο JSON.';
     }

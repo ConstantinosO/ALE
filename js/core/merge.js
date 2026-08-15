@@ -6,14 +6,28 @@ export function validateSnapshot(o) {
   return { ok: true };
 }
 
+const NUMERIC_FIELDS = ['mastery', 'acc', 'correct', 'incorrect', 'consecCorrect', 'consecIncorrect', 'xp', 'intervalIndex'];
+const DIFFICULTIES = new Set(['easy', 'medium', 'hard']);
+
+function sanitizeTopic(imp) {
+  const out = {};
+  for (const f of NUMERIC_FIELDS) out[f] = Number(imp[f]) || 0;
+  out.difficulty = DIFFICULTIES.has(imp.difficulty) ? imp.difficulty : 'easy';
+  out.nextReview = typeof imp.nextReview === 'string' ? imp.nextReview : null;
+  out.lastStudied = typeof imp.lastStudied === 'string' ? imp.lastStudied : null;
+  out.weak = !!imp.weak;
+  return out;
+}
+
 export function mergeState(local, imported) {
   const topics = { ...local.topics };
   for (const [id, imp] of Object.entries(imported.topics)) {
+    if (id === '__proto__' || id === 'constructor' || id === 'prototype') continue;
     const loc = topics[id];
-    if (!loc) { topics[id] = imp; continue; }
+    if (!loc) { topics[id] = sanitizeTopic(imp); continue; }
     const locT = loc.lastStudied ? Date.parse(loc.lastStudied) : 0;
     const impT = imp.lastStudied ? Date.parse(imp.lastStudied) : 0;
-    topics[id] = impT > locT ? imp : loc;
+    topics[id] = impT > locT ? sanitizeTopic(imp) : loc;
   }
 
   const badgeMap = new Map();
@@ -33,6 +47,9 @@ export function mergeState(local, imported) {
     ...local,
     topics,
     stats,
-    settings: { ...imported.settings, ...local.settings },
+    settings: {
+      examDate: local.settings?.examDate ?? imported.settings?.examDate ?? null,
+      excludedChapters: { ...(imported.settings?.excludedChapters || {}), ...(local.settings?.excludedChapters || {}) },
+    },
   };
 }

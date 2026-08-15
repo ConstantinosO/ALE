@@ -12,7 +12,7 @@ export async function render(el, ctx) {
   el.innerHTML = `
     <div class="row" style="margin-bottom:12px">
       <a class="btn btn-ghost" href="#/course/${courseId}">← Πίσω</a>
-      <span class="pill">${p.mastery}% κυριαρχία</span>
+      <span class="pill">${Number(p.mastery) || 0}% κυριαρχία</span>
       ${p.weak ? '<span class="pill pill-bad">αδύναμο</span>' : ''}
     </div>
     <div class="card">
@@ -28,6 +28,10 @@ export async function render(el, ctx) {
     </div>` : ''}
     ${topic.commonTraps.length ? `<div class="card"><h2>⚠️ Συνήθεις παγίδες</h2>
       <ul>${topic.commonTraps.map((f) => `<li>${escapeHtml(f)}</li>`).join('')}</ul>
+    </div>` : ''}
+    ${(topic.shortAnswers || []).length ? `<div class="card"><h2>✍️ Ερωτήσεις σύντομης απάντησης</h2>
+      ${topic.shortAnswers.map((s) => `<p>${escapeHtml(s.question)}</p>
+      <details><summary>Υπόδειγμα απάντησης</summary><p>${escapeHtml(s.modelAnswer)}</p></details>`).join('')}
     </div>` : ''}
     ${topic.examQuestion ? `<div class="card"><h2>📝 Θέμα εξέτασης (${topic.examQuestion.marks} μονάδες)</h2>
       <p>${escapeHtml(topic.examQuestion.question)}</p>
