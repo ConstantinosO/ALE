@@ -8,6 +8,7 @@ const CORE = [
   './js/app.js',
   './js/router.js',
   './js/ui.js',
+  './js/shell.js',
   './js/core/content.js',
   './js/core/format.js',
   './js/core/merge.js',
