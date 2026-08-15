@@ -27,10 +27,16 @@ export function serializeEditor(root) {
     const name = child.nodeType === 1 ? child.nodeName.toUpperCase() : '';
     if (name === 'OL' || name === 'UL') {
       endRun();
-      const lines = [...child.childNodes]
+      // Empty <li>s are dropped BEFORE numbering. An empty item would emit a
+      // bare "1." / "-" marker with nothing after it, and formatText requires
+      // whitespace after the marker on EVERY line — one empty item would drop
+      // the whole block back to a paragraph showing literal "1." characters.
+      // (Pressing Enter at the end of a list is the everyday way to make one.)
+      const items = [...child.childNodes]
         .filter((n) => n.nodeType === 1 && n.nodeName.toUpperCase() === 'LI')
-        .map((li, i) => (name === 'OL' ? `${i + 1}. ` : '- ')
-          + inlineText(li).replace(/\n+/g, ' ').trim());
+        .map((li) => inlineText(li).replace(/\n+/g, ' ').trim())
+        .filter((t) => t !== '');
+      const lines = items.map((t, i) => (name === 'OL' ? `${i + 1}. ` : '- ') + t);
       if (lines.length) blocks.push(lines.join('\n'));
     } else if (BLOCK.has(name)) {
       endRun();
