@@ -70,7 +70,7 @@ export async function render(el, ctx) {
           if (bi === q.correctIndex) b.classList.add('correct');
           else if (bi === chosen) b.classList.add('wrong');
         });
-        const qi = findTopic(content, topicId)?.mcq.indexOf(q) ?? -1;
+        const qi = findTopic(content, topicId)?.mcq?.indexOf(q) ?? -1;
         document.getElementById('feedback').innerHTML = `
           <p><b>${correct ? '✅ Σωστό!' : '❌ Λάθος.'}</b></p>
           <div class="row">

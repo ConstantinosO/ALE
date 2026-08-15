@@ -150,10 +150,16 @@ function enterEditMode(container, courseId, content, topic, btn) {
     const changes = [];
     for (const r of editable) {
       const text = serializeEditor(r);
-      if (text !== originals.get(r)) {
-        changes.push({
-          topicId: topic.id, path: r.dataset.editpath, text, base: originals.get(r),
-        });
+      const was = originals.get(r);
+      if (text !== was) {
+        // Blanking a field commits "" to the repo and there is no in-app undo,
+        // so make it deliberate. Declining restores the region untouched.
+        if (text === '' && was !== ''
+            && !globalThis.confirm?.('Το πεδίο θα μείνει κενό. Σίγουρα;')) {
+          r.innerHTML = formatText(was);
+          continue;
+        }
+        changes.push({ topicId: topic.id, path: r.dataset.editpath, text, base: was });
       }
       r.innerHTML = formatText(text) || '<span class="muted">—</span>';
     }

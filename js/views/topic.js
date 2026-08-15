@@ -128,8 +128,8 @@ export async function render(el, ctx) {
           document.getElementById('checkfeedback').innerHTML = `
             <p><b>${correct ? '✅ Σωστό!' : '❌ Λάθος.'}</b></p>
             <div class="row">
-              <div class="grow prose" data-editpath="mcq.${topic.mcq.indexOf(q)}.explanation">${formatText(q.explanation)}</div>
-              ${editBtn(topic.id)}
+              <div class="grow prose" id="checkexpl" data-editpath="mcq.${topic.mcq.indexOf(q)}.explanation">${formatText(q.explanation)}</div>
+              ${editBtn(topic.id, 'checkexpl')}
             </div>
             <button class="btn btn-gold btn-block" id="checknext">${i + 1 < questions.length ? 'Επόμενη' : 'Ολοκλήρωση'}</button>`;
           wireEditing(document.getElementById('checkfeedback'), { courseId, content });

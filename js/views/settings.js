@@ -39,6 +39,7 @@ export async function render(el, ctx) {
         <button class="btn btn-ghost" id="testtoken">Έλεγχος σύνδεσης</button>
         <button class="btn btn-ghost" id="removetoken">Αφαίρεση token</button>
         <button class="btn btn-ghost" id="retrypending">⟳ Εκκρεμείς (<span id="pendingn"></span>)</button>
+        <button class="btn btn-ghost" id="clearedits">Καθαρισμός τοπικών αλλαγών</button>
       </div>
       <p class="muted" id="tokenmsg"></p>
     </div>
@@ -131,6 +132,8 @@ export async function render(el, ctx) {
     const n = pendingCount(store);
     document.getElementById('pendingn').textContent = n;
     document.getElementById('retrypending').style.display = n ? '' : 'none';
+    document.getElementById('clearedits').style.display =
+      Object.keys(store.edits).length ? '' : 'none';
   };
   refreshTokenUi();
 
@@ -163,6 +166,22 @@ export async function render(el, ctx) {
     saveEdits(window.localStorage, store);
     tokenMsg.textContent = 'Το token αφαιρέθηκε. Οι τοπικές αλλαγές παραμένουν.';
     refreshTokenUi();
+  });
+
+  // The only in-app route back to the repo's own material: the overlay is
+  // applied on top of the fetched content, so without this a local edit
+  // (especially after the token is removed and every ✏️ disappears) has no
+  // way back. Reload rather than re-render — getContent caches the already
+  // edited copy for the session.
+  document.getElementById('clearedits').addEventListener('click', () => {
+    if (!confirm('Θα διαγραφούν όλες οι τοπικές αλλαγές ύλης, και όσες δεν έχουν καταχωρηθεί στο GitHub θα χαθούν. Σίγουρα;')) return;
+    const store = loadEdits(window.localStorage);
+    store.edits = {}; // the token stays
+    if (!saveEdits(window.localStorage, store)) {
+      tokenMsg.textContent = '⚠️ Ο καθαρισμός δεν αποθηκεύτηκε — δοκίμασε ξανά.';
+      return;
+    }
+    location.reload();
   });
 
   document.getElementById('retrypending').addEventListener('click', async () => {
