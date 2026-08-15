@@ -51,3 +51,14 @@ test('generated data files pass validation', () => {
     assert.ok(allTopics(c).length > 0, id);
   }
 });
+
+test('generated data files use canonical difficulty values', () => {
+  const allowed = new Set(['easy', 'medium', 'hard']);
+  for (const id of ['klados-zois', 'basikes-arxes']) {
+    const c = JSON.parse(readFileSync(`data/${id}/content.json`, 'utf8'));
+    for (const topic of allTopics(c)) {
+      for (const q of topic.mcq) assert.ok(allowed.has(q.difficulty), `${id}/${topic.id} mcq: ${q.difficulty}`);
+      for (const q of topic.shortAnswers) assert.ok(allowed.has(q.difficulty), `${id}/${topic.id} shortAnswer: ${q.difficulty}`);
+    }
+  }
+});

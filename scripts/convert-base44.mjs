@@ -13,6 +13,20 @@ const chapters = JSON.parse(readFileSync('reference/base44-export/chapters.json'
 
 const chapterById = Object.fromEntries(chapters.map((c) => [c.id, c]));
 
+const DIFFICULTY_MAP = {
+  'εύκολη': 'easy',
+  'μέτρια': 'medium',
+  'δύσκολη': 'hard',
+  easy: 'easy',
+  medium: 'medium',
+  hard: 'hard',
+};
+
+function normalizeDifficulty(value) {
+  const key = (value || '').trim().toLowerCase();
+  return DIFFICULTY_MAP[key] || 'medium';
+}
+
 function mapTopic(t, order) {
   return {
     id: t.id,
@@ -24,10 +38,10 @@ function mapTopic(t, order) {
     mcq: (t.mcq_questions || []).map((q) => ({
       question: q.question || '', options: q.options || [],
       correctIndex: q.correct_index ?? 0, explanation: q.explanation || '',
-      difficulty: q.difficulty || 'medium',
+      difficulty: normalizeDifficulty(q.difficulty),
     })),
     shortAnswers: (t.short_answer_questions || []).map((q) => ({
-      question: q.question || '', modelAnswer: q.model_answer || '', difficulty: q.difficulty || 'medium',
+      question: q.question || '', modelAnswer: q.model_answer || '', difficulty: normalizeDifficulty(q.difficulty),
     })),
     flashcards: (t.flashcards || []).map((f) => ({ front: f.front || '', back: f.back || '' })),
     examQuestion: t.exam_question && t.exam_question.question
