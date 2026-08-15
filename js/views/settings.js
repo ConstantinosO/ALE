@@ -2,6 +2,9 @@ import { fmtDate, escapeHtml } from '../ui.js';
 import { validateSnapshot, mergeState } from '../core/merge.js';
 import { freshState, saveState } from '../core/store.js';
 import { dateStr, BADGES } from '../core/stats.js';
+import { loadEdits, saveEdits, pendingCount } from '../edit/overlay.js';
+import { getFile } from '../edit/github.js';
+import { retryPendingAll } from '../edit/editor.js';
 
 export async function render(el, ctx) {
   const s = ctx.state.stats;
@@ -24,6 +27,20 @@ export async function render(el, ctx) {
             ${earned ? `<div class="name muted">${escapeHtml(earned.earnedDate)}</div>` : ''}</div>`;
         }).join('')}
       </div>
+    </div>
+    <div class="card">
+      <h2>✏️ Επεξεργασία ύλης</h2>
+      <p class="muted">Με GitHub token οι αλλαγές σου στην ύλη αποθηκεύονται μόνιμα για όλες τις συσκευές. Οδηγίες δημιουργίας: δες το README στο GitHub.</p>
+      <div class="row">
+        <input type="password" id="ghtoken" placeholder="github_pat_…" autocomplete="off" class="grow">
+        <button class="btn" id="savetoken">Αποθήκευση</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn btn-ghost" id="testtoken">Έλεγχος σύνδεσης</button>
+        <button class="btn btn-ghost" id="removetoken">Αφαίρεση token</button>
+        <button class="btn btn-ghost" id="retrypending">⟳ Εκκρεμείς (<span id="pendingn"></span>)</button>
+      </div>
+      <p class="muted" id="tokenmsg"></p>
     </div>
     <div class="card">
       <h2>🔄 Συγχρονισμός συσκευών</h2>
@@ -104,5 +121,54 @@ export async function render(el, ctx) {
       saveState(ctx.state, window.localStorage);
       ctx.navigate('#/');
     }
+  });
+
+  const tokenMsg = document.getElementById('tokenmsg');
+  const refreshTokenUi = () => {
+    const store = loadEdits(window.localStorage);
+    document.getElementById('ghtoken').placeholder = store.token ? '••••••• (αποθηκευμένο)' : 'github_pat_…';
+    document.getElementById('removetoken').style.display = store.token ? '' : 'none';
+    const n = pendingCount(store);
+    document.getElementById('pendingn').textContent = n;
+    document.getElementById('retrypending').style.display = n ? '' : 'none';
+  };
+  refreshTokenUi();
+
+  document.getElementById('savetoken').addEventListener('click', () => {
+    const v = document.getElementById('ghtoken').value.trim();
+    if (!v) return;
+    const store = loadEdits(window.localStorage);
+    store.token = v;
+    saveEdits(window.localStorage, store);
+    document.getElementById('ghtoken').value = '';
+    tokenMsg.textContent = '✅ Το token αποθηκεύτηκε σε αυτή τη συσκευή.';
+    refreshTokenUi();
+  });
+
+  document.getElementById('testtoken').addEventListener('click', async () => {
+    const store = loadEdits(window.localStorage);
+    if (!store.token) { tokenMsg.textContent = 'ℹ️ Δεν υπάρχει αποθηκευμένο token.'; return; }
+    tokenMsg.textContent = 'Έλεγχος…';
+    try {
+      await getFile(store.token, 'data/courses.json');
+      tokenMsg.textContent = '✅ Η σύνδεση με το GitHub λειτουργεί.';
+    } catch (e) {
+      tokenMsg.textContent = `⚠️ Αποτυχία σύνδεσης (${e.message}). Έλεγξε το token.`;
+    }
+  });
+
+  document.getElementById('removetoken').addEventListener('click', () => {
+    const store = loadEdits(window.localStorage);
+    store.token = '';
+    saveEdits(window.localStorage, store);
+    tokenMsg.textContent = 'Το token αφαιρέθηκε. Οι τοπικές αλλαγές παραμένουν.';
+    refreshTokenUi();
+  });
+
+  document.getElementById('retrypending').addEventListener('click', async () => {
+    tokenMsg.textContent = 'Καταχώρηση εκκρεμών αλλαγών…';
+    const { retried } = await retryPendingAll();
+    tokenMsg.textContent = retried ? `✅ Καταχωρήθηκαν ${retried} αλλαγές.` : '⚠️ Δεν καταχωρήθηκε τίποτα — έλεγξε token/σύνδεση.';
+    refreshTokenUi();
   });
 }

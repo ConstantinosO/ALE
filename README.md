@@ -41,3 +41,23 @@
 Η ύλη ζει σε `data/<course>/content.json` και παράγεται από το Claude Code από τα
 αρχεία ύλης (PDF/DOCX). Μετά από κάθε ενημέρωση ύλης: bump το `CACHE` στο `sw.js`
 (π.χ. `ale-v2`) και push.
+
+## Επεξεργασία ύλης από την εφαρμογή
+
+Οι αλλαγές στην ύλη (μορφοποίηση, διορθώσεις) γίνονται μέσα από την εφαρμογή
+και αποθηκεύονται μόνιμα στο αρχείο `data/<μάθημα>/content.json` αυτού του
+αποθετηρίου. Χρειάζεται ένα GitHub token **μία φορά ανά συσκευή**:
+
+1. Άνοιξε github.com → Settings → Developer settings →
+   **Fine-grained personal access tokens** → Generate new token.
+2. Resource owner: ο λογαριασμός σου. **Repository access: Only select
+   repositories → ConstantinosO/ALE** (μόνο αυτό).
+3. Permissions → Repository permissions → **Contents: Read and write**.
+   Τίποτα άλλο.
+4. Expiration: ό,τι προτιμάς (π.χ. 1 έτος). Generate & αντίγραψε το token.
+5. Στην εφαρμογή: Ρυθμίσεις → «Επεξεργασία ύλης» → επικόλλησε το token →
+   Αποθήκευση → Έλεγχος σύνδεσης.
+
+Χωρίς token η εφαρμογή λειτουργεί κανονικά, απλώς χωρίς κουμπιά ✏️ —
+ασφαλής για να τη μοιραστείς με άλλον μαθητή. Το token μένει μόνο στη
+συσκευή (localStorage) και δεν μπαίνει ποτέ στα αρχεία συγχρονισμού προόδου.
