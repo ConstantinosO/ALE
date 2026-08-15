@@ -7,7 +7,7 @@
 ## Context
 
 - The original ALE was built on Base44 (app id `698f37ba863183534a052fa8`). Its 7 entity schemas (Curriculum, Chapter, Topic, UserProgress, StudySession, UserStats, ExamPaper) define the feature set and are the reference for this rebuild.
-- 3 examination courses total. **Βασικές αρχές ασφαλίσεων is already passed** and is out of scope for study content. Active courses: **Κλάδος Ζωής** (source material exists) and a **third course** (material to be provided later).
+- 3 examination courses total. **Βασικές αρχές ασφαλίσεων is already passed** but its study content **stays in the app**, marked with a "passed" status — it remains fully studyable (e.g. for another student practising on their own device). Actively studied courses: **Κλάδος Ζωής** (source material exists) and a **third course** (material to be provided later).
 - The 22 Greek topics already generated in Base44 will be exported as reference material before any content regeneration; content is regenerated fresh from source files.
 - All UI and content in **Greek**. No English version needed for now.
 
@@ -23,7 +23,7 @@
 The user provides exam material (PDF **and DOCX**), each accompanied by their own context notes. Claude Code reads the files and generates static JSON consumed by the app:
 
 ```
-data/courses.json                  # course list + default exam date (2026-10-03)
+data/courses.json                  # course list (with status: active | passed) + default exam date (2026-10-03)
 data/<course>/content.json         # chapters → topics
 data/<course>/exam-analysis.json   # past-paper analysis (baked in)
 ```
@@ -51,7 +51,7 @@ Per topic (mirrors Base44 UserProgress):
 
 - **Mastery 0–100**, driven by answer history.
 - **Difficulty ladder**: start easy; consecutive correct answers promote easy→medium→hard; consecutive mistakes demote.
-- **Spaced repetition**: review intervals 1 → 3 → 7 → 14 → 30 days; a wrong answer resets the topic's interval to 1 day. Due topics surface on the dashboard.
+- **Spaced repetition**: review intervals 1 → 3 → 7 → 10 → 14 → 19 days; a wrong answer resets the topic's interval to 1 day. Due topics surface on the dashboard. Courses marked "passed" are excluded from the dashboard's due-review queue but remain studyable on demand.
 - **Weak-topic flag**: set on repeated consecutive mistakes or mastery below threshold; feeds the weak-areas mode.
 - **Mastery formula**: rolling accuracy over the topic's answer history weighted toward recent answers, scaled by the difficulty reached (a topic answered correctly only on easy questions caps below one mastered at hard).
 - **Gamification**: XP per correct answer scaled by difficulty (easy 10, medium 20, hard 30), daily streak, longest streak, badges for milestones. Study sessions are recorded (mode, questions, correct, time, XP).
@@ -77,7 +77,6 @@ Per topic (mirrors Base44 UserProgress):
 
 ## Out of scope
 
-- Βασικές αρχές ασφαλίσεων study content (course already passed).
 - Any backend, accounts, or automatic cross-device sync.
 - In-app AI content generation (content is generated in Claude Code only).
 - English UI.
