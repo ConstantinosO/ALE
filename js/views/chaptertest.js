@@ -1,4 +1,5 @@
 import { escapeHtml } from '../ui.js';
+import { formatText } from '../core/format.js';
 import { newTopicProgress, recordAnswer, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
 
@@ -110,7 +111,7 @@ export async function render(el, ctx) {
             else if (bi === chosen) b.classList.add('wrong');
           });
           document.getElementById('feedback').innerHTML = `
-            <p><b>${correct ? '✅ Σωστό!' : '❌ Λάθος.'}</b> ${escapeHtml(q.explanation)}</p>
+            <p><b>${correct ? '✅ Σωστό!' : '❌ Λάθος.'}</b> ${formatText(q.explanation)}</p>
             <button class="btn btn-gold btn-block" id="next">${i + 1 < questions.length ? 'Επόμενη' : 'Ολοκλήρωση'}</button>`;
           document.getElementById('next').addEventListener('click', () => {
             i++;

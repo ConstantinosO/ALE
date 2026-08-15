@@ -3,6 +3,8 @@ import { allTopics } from '../core/content.js';
 import { isDue } from '../core/srs.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
+import { formatText } from '../core/format.js';
+import { editBtn, wireEditing } from '../edit/editor.js';
 
 export async function render(el, ctx) {
   const { courseId } = ctx.params;
@@ -14,7 +16,7 @@ export async function render(el, ctx) {
   // due topics first, then the rest; flatten all their flashcards
   const ts = allTopics(content, excluded).filter((t) => (t.flashcards || []).length);
   ts.sort((a, b) => Number(isDue(prog(b.id).nextReview, now)) - Number(isDue(prog(a.id).nextReview, now)));
-  const cards = ts.flatMap((t) => t.flashcards.map((f) => ({ topicId: t.id, topicTitle: t.title, f })));
+  const cards = ts.flatMap((t) => t.flashcards.map((f, fi) => ({ topicId: t.id, topicTitle: t.title, f, fi })));
 
   if (!cards.length) {
     el.innerHTML = `<div class="card"><h2>🗂️ Κάρτες</h2>
@@ -30,7 +32,7 @@ export async function render(el, ctx) {
   let flipped = false;
 
   const show = () => {
-    const { topicId, topicTitle, f } = cards[i];
+    const { topicId, topicTitle, f, fi } = cards[i];
     flipped = false;
     el.innerHTML = `
       <div class="row" style="margin-bottom:12px">
@@ -45,13 +47,17 @@ export async function render(el, ctx) {
     card.addEventListener('click', () => {
       if (flipped) return;
       flipped = true;
-      card.innerHTML = escapeHtml(f.back);
+      card.innerHTML = formatText(f.back);
+      card.classList.add('prose');
+      card.dataset.editpath = `flashcards.${fi}.back`;
       card.style.borderColor = 'var(--gold)';
       document.getElementById('actions').innerHTML = `
         <div class="row">
           <button class="btn grow" id="no">❌ Δεν το ήξερα</button>
           <button class="btn btn-gold grow" id="yes">✅ Το ήξερα</button>
+          ${editBtn(topicId, 'card')}
         </div>`;
+      wireEditing(document.getElementById('actions'), { courseId, content });
       const grade = (correct) => {
         const prev = prog(topicId);
         if (correct) { knew++; xpEarned += XP[prev.difficulty] ?? 10; }

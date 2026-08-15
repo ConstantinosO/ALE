@@ -2,6 +2,9 @@ import { escapeHtml } from '../ui.js';
 import { pickQuizQuestions } from '../core/picker.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
+import { formatText } from '../core/format.js';
+import { editBtn, wireEditing } from '../edit/editor.js';
+import { findTopic } from '../edit/overlay.js';
 
 const MODE_TITLES = {
   micro: '⚡ Γρήγορο Κουίζ',
@@ -67,9 +70,15 @@ export async function render(el, ctx) {
           if (bi === q.correctIndex) b.classList.add('correct');
           else if (bi === chosen) b.classList.add('wrong');
         });
+        const qi = findTopic(content, topicId)?.mcq.indexOf(q) ?? -1;
         document.getElementById('feedback').innerHTML = `
-          <p><b>${correct ? '✅ Σωστό!' : '❌ Λάθος.'}</b> ${escapeHtml(q.explanation)}</p>
+          <p><b>${correct ? '✅ Σωστό!' : '❌ Λάθος.'}</b></p>
+          <div class="row">
+            <div class="grow prose"${qi >= 0 ? ` data-editpath="mcq.${qi}.explanation"` : ''}>${formatText(q.explanation)}</div>
+            ${qi >= 0 ? editBtn(topicId) : ''}
+          </div>
           <button class="btn btn-gold btn-block" id="next">${i + 1 < questions.length ? 'Επόμενη' : 'Ολοκλήρωση'}</button>`;
+        wireEditing(document.getElementById('feedback'), { courseId, content });
         document.getElementById('next').addEventListener('click', () => {
           i++;
           if (i < questions.length) showQuestion(); else finish();
