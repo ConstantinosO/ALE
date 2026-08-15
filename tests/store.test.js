@@ -47,3 +47,13 @@ test('saveState returns false when storage throws', () => {
   const st = { setItem: () => { throw new Error('quota'); } };
   assert.equal(saveState(freshState(), st), false);
 });
+
+test('topics as null falls back to fresh state', () => {
+  const st = fakeStorage({ 'ale.v1': JSON.stringify({ version: 1, topics: null }) });
+  assert.deepEqual(loadState(st), freshState());
+});
+
+test('topics as array falls back to fresh state', () => {
+  const st = fakeStorage({ 'ale.v1': JSON.stringify({ version: 1, topics: [] }) });
+  assert.deepEqual(loadState(st), freshState());
+});

@@ -17,7 +17,7 @@ export function loadState(storage) {
     const raw = storage.getItem(KEY);
     if (!raw) return freshState();
     const parsed = JSON.parse(raw);
-    if (!parsed || parsed.version !== 1 || typeof parsed.topics !== 'object') return freshState();
+    if (!parsed || parsed.version !== 1 || typeof parsed.topics !== 'object' || parsed.topics === null || Array.isArray(parsed.topics)) return freshState();
     const base = freshState();
     return {
       ...base, ...parsed,
