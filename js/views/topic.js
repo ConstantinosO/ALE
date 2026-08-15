@@ -134,7 +134,9 @@ export async function render(el, ctx) {
             <button class="btn btn-gold btn-block" id="checknext">${i + 1 < questions.length ? 'Επόμενη' : 'Ολοκλήρωση'}</button>`;
           wireEditing(document.getElementById('checkfeedback'), { courseId, content });
           document.getElementById('checknext').addEventListener('click', () => {
-            if (!confirmLeaveEdit()) return; // advancing rewrites #check
+            // Only #check is rewritten — an open ✏️ on the summary or the
+            // killerFacts cards is untouched and must not be prompted about.
+            if (!confirmLeaveEdit(card)) return;
             i++;
             if (i < questions.length) showQuestion(); else finish();
           });

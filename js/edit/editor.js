@@ -7,7 +7,10 @@ import { serializeEditor } from './serialize.js';
 import {
   loadEdits, saveEdits, getPath, setPath, findTopic, pendingList, pendingCount,
 } from './overlay.js';
-import { commitEdits, isSettled } from './github.js';
+import { commitEdits, isSettled, APPLY_CONFLICT } from './github.js';
+import {
+  registerSession, hasOpenEdit, discardOpenEdits, confirmLeaveEdit,
+} from './sessions.js';
 
 const QUOTA_MSG = 'Προσοχή: η αλλαγή δεν αποθηκεύτηκε τοπικά '
   + '(ο χώρος του προγράμματος περιήγησης είναι πλήρης).';
@@ -19,24 +22,16 @@ function persist(storage, data) {
   return false;
 }
 
-// Every edit session currently open, so a view about to replace its own DOM
-// can ask first (typed text would otherwise vanish with no warning) and then
-// tear the toolbar down — it lives outside the region and would be orphaned.
-const openSessions = new Set();
+// The open-session registry lives in ./sessions.js; re-exported here so the
+// views keep a single import for the whole editing surface.
+export { hasOpenEdit, discardOpenEdits, confirmLeaveEdit };
 
-export function hasOpenEdit() { return openSessions.size > 0; }
-
-export function discardOpenEdits() {
-  for (const s of [...openSessions]) s.discard();
-}
-
-// Call from any handler about to replace edited content. Returns false to
-// mean "the user said no — do not navigate".
-export function confirmLeaveEdit() {
-  if (!hasOpenEdit()) return true;
-  if (!globalThis.confirm?.('Έχεις ανοιχτή επεξεργασία. Να συνεχίσω και να την ακυρώσω;')) return false;
-  discardOpenEdits();
-  return true;
+// Put the regions back the way they were rendered before editing. Cancel and
+// discard MUST share this: a discard that skips it leaves typed text on
+// screen, non-editable and looking saved, while nothing was ever written to
+// ale.edits.v1 — it then vanishes on the next navigation.
+export function restoreRegions(regions, originals) {
+  for (const r of regions) r.innerHTML = formatText(originals.get(r));
 }
 
 const key = (o) => `${o.topicId} ${o.path}`;
@@ -128,23 +123,25 @@ function enterEditMode(container, courseId, content, topic, btn) {
   });
 
   let closed = false;
+  let unregister = () => {};
   const leave = () => {
     if (closed) return; // a second Save click must not double-close
     closed = true;
-    openSessions.delete(session);
+    unregister();
     for (const r of editable) { r.contentEditable = 'false'; r.classList.remove('editing'); }
     btn.style.display = '';
   };
-  // Abandon without saving, and take the toolbar with us — used when the view
-  // is about to replace the DOM this session lives in.
-  const session = { discard: () => { leave(); bar.remove(); } };
-  openSessions.add(session);
-
-  bar.querySelector('[data-act="cancel"]').addEventListener('click', () => {
-    for (const r of editable) r.innerHTML = formatText(originals.get(r));
-    bar.remove();
+  // Abandon without saving: restore the original rendering, end the session
+  // and take the toolbar with us. This IS the Cancel handler — the two must
+  // never drift apart.
+  const revert = () => {
+    restoreRegions(editable, originals);
     leave();
-  });
+    bar.remove();
+  };
+  unregister = registerSession({ bar, regions: editable, discard: revert });
+
+  bar.querySelector('[data-act="cancel"]').addEventListener('click', revert);
 
   bar.querySelector('[data-act="save"]').addEventListener('click', async () => {
     const changes = [];
@@ -199,18 +196,27 @@ function enterEditMode(container, courseId, content, topic, btn) {
 
 // storage/fetchFn are injectable for tests; the app always uses the defaults.
 export async function retryPendingAll(storage = window.localStorage, fetchFn = undefined) {
-  const token = loadEdits(storage).token;
-  if (!token) return { retried: 0, pending: pendingCount(loadEdits(storage)) };
   let retried = 0;
-  // Re-read the course list too: it must not come from a pre-await snapshot.
-  for (const courseId of Object.keys(loadEdits(storage).edits)) {
-    const pending = pendingList(loadEdits(storage), courseId);
+  let conflicts = 0;
+  const seen = new Set();
+  // Everything is re-read on every pass, never snapshotted across an await:
+  // the token (removing it mid-run must stop the run, not let a later course
+  // push anyway) and the course list (a course whose first edit is saved
+  // mid-run gets picked up now rather than waiting for the next run).
+  for (;;) {
+    const store = loadEdits(storage);
+    if (!store.token) break;
+    const courseId = Object.keys(store.edits).find((c) => !seen.has(c));
+    if (!courseId) break;
+    seen.add(courseId);
+    const pending = pendingList(store, courseId);
     if (!pending.length) continue;
-    const result = await commitEdits(token, courseId, pending, fetchFn);
+    const result = await commitEdits(store.token, courseId, pending, fetchFn);
     if (!result.ok) continue;
     // markSettled re-reads AFTER the await, so anything written to storage
     // during the round-trip (a save, a prune, a token removal) survives.
     retried += markSettled(storage, courseId, pending, result.results);
+    conflicts += result.results.filter((r) => r.reason === APPLY_CONFLICT).length;
   }
-  return { retried, pending: pendingCount(loadEdits(storage)) };
+  return { retried, conflicts, pending: pendingCount(loadEdits(storage)) };
 }

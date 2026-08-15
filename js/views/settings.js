@@ -6,6 +6,8 @@ import { loadEdits, saveEdits, pendingCount } from '../edit/overlay.js';
 import { getFile } from '../edit/github.js';
 import { retryPendingAll } from '../edit/editor.js';
 
+const STORE_FULL = '⚠️ Δεν αποθηκεύτηκε (ο χώρος του προγράμματος περιήγησης είναι πλήρης).';
+
 export async function render(el, ctx) {
   const s = ctx.state.stats;
   el.innerHTML = `
@@ -142,7 +144,7 @@ export async function render(el, ctx) {
     if (!v) return;
     const store = loadEdits(window.localStorage);
     store.token = v;
-    saveEdits(window.localStorage, store);
+    if (!saveEdits(window.localStorage, store)) { tokenMsg.textContent = STORE_FULL; return; }
     document.getElementById('ghtoken').value = '';
     tokenMsg.textContent = '✅ Το token αποθηκεύτηκε σε αυτή τη συσκευή.';
     refreshTokenUi();
@@ -163,7 +165,7 @@ export async function render(el, ctx) {
   document.getElementById('removetoken').addEventListener('click', () => {
     const store = loadEdits(window.localStorage);
     store.token = '';
-    saveEdits(window.localStorage, store);
+    if (!saveEdits(window.localStorage, store)) { tokenMsg.textContent = STORE_FULL; return; }
     tokenMsg.textContent = 'Το token αφαιρέθηκε. Οι τοπικές αλλαγές παραμένουν.';
     refreshTokenUi();
   });
@@ -186,12 +188,16 @@ export async function render(el, ctx) {
 
   document.getElementById('retrypending').addEventListener('click', async () => {
     tokenMsg.textContent = 'Καταχώρηση εκκρεμών αλλαγών…';
-    const { retried, pending } = await retryPendingAll();
-    tokenMsg.textContent = !retried
-      ? '⚠️ Δεν καταχωρήθηκε τίποτα — έλεγξε token/σύνδεση.'
-      : pending
+    const { retried, pending, conflicts } = await retryPendingAll();
+    tokenMsg.textContent = retried
+      ? (pending
         ? '⚠️ Μερική καταχώρηση — κάποιες αλλαγές παραμένουν σε εκκρεμότητα.'
-        : `✅ Καταχωρήθηκαν ${retried} αλλαγές.`;
+        : `✅ Καταχωρήθηκαν ${retried} αλλαγές.`)
+      // Nothing went through. A baseline conflict is not a token/network
+      // problem and must not be reported as one — the material moved on.
+      : conflicts
+        ? '⚠️ Οι αλλαγές δεν ταιριάζουν πια με την ύλη στο GitHub — άνοιξε το θέμα και ξαναγράψ\' τες.'
+        : '⚠️ Δεν καταχωρήθηκε τίποτα — έλεγξε token/σύνδεση.';
     refreshTokenUi();
   });
 }

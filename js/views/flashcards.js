@@ -59,7 +59,7 @@ export async function render(el, ctx) {
         </div>`;
       wireEditing(document.getElementById('actions'), { courseId, content });
       const grade = (correct) => {
-        if (!confirmLeaveEdit()) return; // grading replaces the whole view
+        if (!confirmLeaveEdit(el)) return; // show/finish replace all of el
         const prev = prog(topicId);
         if (correct) { knew++; xpEarned += XP[prev.difficulty] ?? 10; }
         ctx.state.topics[topicId] = recordAnswer(prev, {

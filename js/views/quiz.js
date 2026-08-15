@@ -80,7 +80,7 @@ export async function render(el, ctx) {
           <button class="btn btn-gold btn-block" id="next">${i + 1 < questions.length ? 'Επόμενη' : 'Ολοκλήρωση'}</button>`;
         wireEditing(document.getElementById('feedback'), { courseId, content });
         document.getElementById('next').addEventListener('click', () => {
-          if (!confirmLeaveEdit()) return; // advancing replaces the whole view
+          if (!confirmLeaveEdit(el)) return; // showQuestion/finish replace all of el
           i++;
           if (i < questions.length) showQuestion(); else finish();
         });

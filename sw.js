@@ -20,6 +20,7 @@ const CORE = [
   './js/edit/github.js',
   './js/edit/overlay.js',
   './js/edit/serialize.js',
+  './js/edit/sessions.js',
   './js/views/analysis.js',
   './js/views/chaptertest.js',
   './js/views/course.js',
