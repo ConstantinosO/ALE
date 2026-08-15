@@ -1,6 +1,7 @@
 import { parseRoute } from './router.js';
 import { loadState, saveState } from './core/store.js';
 import { loadCourses, loadContent, loadAnalysis } from './core/content.js';
+import { escapeHtml } from './ui.js';
 import * as dashboard from './views/dashboard.js';
 
 const VIEWS = { dashboard };
@@ -41,7 +42,7 @@ async function render() {
   try {
     courses ??= await loadCourses();
   } catch (e) {
-    container.innerHTML = `<div class="card"><h2>Σφάλμα</h2><p>${e.message}</p>
+    container.innerHTML = `<div class="card"><h2>Σφάλμα</h2><p>${escapeHtml(e.message)}</p>
       <button onclick="location.reload()">Δοκιμή ξανά</button></div>`;
     return;
   }

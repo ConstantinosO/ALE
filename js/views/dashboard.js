@@ -60,6 +60,5 @@ export async function render(el, ctx) {
         <span class="grow">${escapeHtml(w.topic.title)}</span><span class="pill pill-bad">αδύναμο</span></a>`).join('')}
       ${active.map((c) => `<a class="btn btn-block" href="#/quiz/${c.id}/weak">Εξάσκηση αδύναμων — ${escapeHtml(c.title)}</a>`).join('')}
     </div>` : ''}
-    ${passed.length && !weak.length ? '' : ''}
   `;
 }
