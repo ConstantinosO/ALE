@@ -8,6 +8,7 @@ export function parseRoute(hash) {
     case 'quiz': return (a && b) ? { view: 'quiz', params: { courseId: a, mode: b } } : { view: 'dashboard', params: {} };
     case 'flashcards': return a ? { view: 'flashcards', params: { courseId: a } } : { view: 'dashboard', params: {} };
     case 'exam': return a ? { view: 'exam', params: { courseId: a } } : { view: 'dashboard', params: {} };
+    case 'chaptertest': return (a && b) ? { view: 'chaptertest', params: { courseId: a, chapterId: b } } : { view: 'dashboard', params: {} };
     case 'analysis': return a ? { view: 'analysis', params: { courseId: a } } : { view: 'dashboard', params: {} };
     case 'settings': return { view: 'settings', params: {} };
     default: return { view: 'dashboard', params: {} };

@@ -35,6 +35,9 @@ export async function render(el, ctx) {
             <span class="pill">${Number(p.mastery) || 0}%</span>
           </a>`;
         }).join('') || '<p class="muted">Χωρίς θέματα ακόμη.</p>'}
+        ${ch.topics.some((t) => (t.mcq || []).length)
+          ? `<a class="btn btn-block" style="margin-top:10px" href="#/chaptertest/${course.id}/${ch.id}">📋 Τεστ κεφαλαίου (10 ερωτήσεις)</a>`
+          : ''}
       </div>`).join('')}
   `;
 

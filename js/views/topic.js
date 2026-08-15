@@ -3,7 +3,7 @@ import { allTopics } from '../core/content.js';
 import { newTopicProgress, recordAnswer, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
 
-const CHECK_COUNT = 5;
+const CHECK_COUNT = 3;
 
 // Questions for the end-of-topic check: the tracked difficulty first, then the rest.
 function checkQuestions(topic, prog) {
@@ -24,6 +24,7 @@ export async function render(el, ctx) {
   if (!topic) { ctx.navigate(`#/course/${courseId}`); return; }
   const prev = idx > 0 ? topics[idx - 1] : null;
   const next = idx >= 0 && idx < topics.length - 1 ? topics[idx + 1] : null;
+  const isLastOfChapter = !next || next.chapterId !== topic.chapterId;
   const p = ctx.state.topics[topicId] || newTopicProgress();
   const questions = checkQuestions(topic, p);
 
@@ -146,8 +147,12 @@ export async function render(el, ctx) {
           </div>
           <p class="muted">Κυριαρχία θέματος: ${mastery}%</p>
           ${pct < 80 ? '<button class="btn btn-ghost btn-block" id="retry">Ξανά</button>' : ''}
-          ${next ? `<a class="btn btn-gold btn-block" href="#/topic/${courseId}/${next.id}">Επόμενο θέμα →</a>`
-                 : `<a class="btn btn-gold btn-block" href="#/course/${courseId}">Τέλος ύλης — πίσω στα κεφάλαια</a>`}
+          ${isLastOfChapter
+            ? `<p class="muted">Ολοκλήρωσες το κεφάλαιο «${escapeHtml(topic.chapterTitle)}».</p>
+               <a class="btn btn-gold btn-block" href="#/chaptertest/${courseId}/${topic.chapterId}">📋 Τεστ κεφαλαίου (10 ερωτήσεις)</a>
+               ${next ? `<a class="btn btn-ghost btn-block" href="#/topic/${courseId}/${next.id}">Επόμενο θέμα →</a>` : ''}`
+            : next ? `<a class="btn btn-gold btn-block" href="#/topic/${courseId}/${next.id}">Επόμενο θέμα →</a>`
+                   : `<a class="btn btn-gold btn-block" href="#/course/${courseId}">Τέλος ύλης — πίσω στα κεφάλαια</a>`}
         </div>`;
       const retry = document.getElementById('retry');
       if (retry) retry.addEventListener('click', () => { ctx.navigate(`#/topic/${courseId}/${topicId}`); });

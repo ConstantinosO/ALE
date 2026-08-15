@@ -22,6 +22,12 @@ test('quiz route carries mode', () => {
     { view: 'quiz', params: { courseId: 'klados-zois', mode: 'weak' } });
 });
 
+test('chapter test route carries courseId and chapterId', () => {
+  assert.deepEqual(parseRoute('#/chaptertest/klados-zois/z-ch03'),
+    { view: 'chaptertest', params: { courseId: 'klados-zois', chapterId: 'z-ch03' } });
+  assert.equal(parseRoute('#/chaptertest/klados-zois').view, 'dashboard');
+});
+
 test('unknown or incomplete routes fall back to dashboard', () => {
   assert.equal(parseRoute('#/nonsense').view, 'dashboard');
   assert.equal(parseRoute('#/course').view, 'dashboard');

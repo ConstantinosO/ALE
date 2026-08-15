@@ -10,8 +10,9 @@ import * as flashcards from './views/flashcards.js';
 import * as exam from './views/exam.js';
 import * as analysis from './views/analysis.js';
 import * as settings from './views/settings.js';
+import * as chaptertest from './views/chaptertest.js';
 
-const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, analysis, settings };
+const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, analysis, settings, chaptertest };
 
 const container = document.getElementById('view');
 const state = loadState(window.localStorage);
