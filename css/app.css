@@ -1,0 +1,95 @@
+:root {
+  --navy: #111228; --gold: #F5B818;
+  --bg: #f6f7fb; --card: #ffffff; --text: #1a1c2e; --muted: #6a6f85;
+  --border: #e3e5ee; --ok: #1f9d55; --bad: #d64545;
+  --radius: 14px; --shadow: 0 1px 4px rgba(17, 18, 40, .08);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d0e1c; --card: #191b30; --text: #eceef8; --muted: #9aa0b8;
+    --border: #2a2d47; --shadow: 0 1px 4px rgba(0, 0, 0, .4);
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 76px;
+}
+.topbar {
+  position: sticky; top: 0; z-index: 10; display: flex; align-items: center;
+  justify-content: space-between; padding: 12px 16px; background: var(--navy);
+  color: #fff; padding-top: max(12px, env(safe-area-inset-top));
+}
+.brand { color: var(--gold); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: 1px; }
+.countdown { font-size: 13px; color: #cfd2e4; }
+.countdown b { color: var(--gold); }
+.view { max-width: 720px; margin: 0 auto; padding: 16px; }
+.bottomnav {
+  position: fixed; bottom: 0; left: 0; right: 0; display: flex; z-index: 10;
+  background: var(--card); border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottomnav a {
+  flex: 1; text-align: center; padding: 12px 0; text-decoration: none;
+  color: var(--muted); font-size: 14px; font-weight: 600;
+}
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 16px; margin-bottom: 12px;
+}
+.card h2 { margin: 0 0 8px; font-size: 17px; }
+.card h3 { margin: 12px 0 6px; font-size: 15px; }
+.muted { color: var(--muted); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.grow { flex: 1; }
+button, .btn {
+  display: inline-block; border: 0; border-radius: 10px; padding: 10px 16px;
+  background: var(--navy); color: #fff; font-weight: 700; font-size: 15px;
+  cursor: pointer; text-decoration: none; text-align: center;
+}
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-block { display: block; width: 100%; margin-bottom: 8px; }
+.bar { height: 8px; border-radius: 4px; background: var(--border); overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--gold); }
+.bar.hi > span { background: var(--ok); }
+.pill {
+  display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px;
+  font-weight: 700; background: var(--border); color: var(--muted);
+}
+.pill-gold { background: var(--gold); color: var(--navy); }
+.pill-bad { background: var(--bad); color: #fff; }
+.pill-ok { background: var(--ok); color: #fff; }
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { text-align: center; padding: 10px 4px; }
+.stat b { display: block; font-size: 22px; }
+.stat span { font-size: 12px; color: var(--muted); }
+.qopt {
+  display: block; width: 100%; text-align: left; margin-bottom: 8px;
+  background: var(--card); color: var(--text); border: 1px solid var(--border);
+  font-weight: 500;
+}
+.qopt.correct { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--card)); }
+.qopt.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, var(--card)); }
+.flashcard {
+  min-height: 220px; display: flex; align-items: center; justify-content: center;
+  text-align: center; font-size: 18px; padding: 24px; cursor: pointer;
+}
+.list-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--border); text-decoration: none; color: var(--text);
+}
+.list-item:last-child { border-bottom: 0; }
+input[type="date"], input[type="file"] {
+  padding: 8px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--card); color: var(--text); font-size: 15px;
+}
+.timer { font-variant-numeric: tabular-nums; font-weight: 800; font-size: 18px; }
+.badgegrid { display: flex; gap: 10px; flex-wrap: wrap; }
+.badge { text-align: center; width: 84px; opacity: .35; }
+.badge.earned { opacity: 1; }
+.badge .icon { font-size: 30px; }
+.badge .name { font-size: 11px; }
+table.freq { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--border); text-align: left; }
