@@ -9,6 +9,16 @@ import {
 } from './overlay.js';
 import { commitEdits } from './github.js';
 
+const QUOTA_MSG = 'Προσοχή: η αλλαγή δεν αποθηκεύτηκε τοπικά '
+  + '(ο χώρος του προγράμματος περιήγησης είναι πλήρης).';
+
+// saveEdits returns false on a full quota — never report success in that case.
+function persist(storage, data) {
+  if (saveEdits(storage, data)) return true;
+  globalThis.alert?.(QUOTA_MSG);
+  return false;
+}
+
 export function canEdit() {
   return !!loadEdits(window.localStorage).token;
 }
@@ -126,19 +136,31 @@ function enterEditMode(container, courseId, content, topic, btn) {
   });
 }
 
-export async function retryPendingAll() {
-  const store = loadEdits(window.localStorage);
-  if (!store.token) return { retried: 0 };
+// storage/fetchFn are injectable for tests; the app always uses the defaults.
+export async function retryPendingAll(storage = window.localStorage, fetchFn = undefined) {
+  const token = loadEdits(storage).token;
+  if (!token) return { retried: 0 };
   let retried = 0;
-  for (const courseId of Object.keys(store.edits)) {
-    const pending = pendingList(store, courseId);
+  // Re-read the course list too: it must not come from a pre-await snapshot.
+  for (const courseId of Object.keys(loadEdits(storage).edits)) {
+    const pending = pendingList(loadEdits(storage), courseId);
     if (!pending.length) continue;
-    const result = await commitEdits(store.token, courseId, pending);
-    if (result.ok) {
-      for (const p of pending) store.edits[courseId][p.topicId][p.path].committed = true;
-      retried += pending.length;
+    const result = await commitEdits(token, courseId, pending, fetchFn);
+    if (!result.ok) continue;
+    // AFTER the await: re-read, and mark only the entries we actually sent
+    // that still hold the text we sent. Anything written to storage during
+    // the round-trip (a save, a prune, a token removal) survives untouched.
+    const fresh = loadEdits(storage);
+    let changed = false;
+    for (const p of pending) {
+      const entry = fresh.edits[courseId]?.[p.topicId]?.[p.path];
+      if (entry && !entry.committed && entry.text === p.text) {
+        entry.committed = true;
+        changed = true;
+        retried++;
+      }
     }
+    if (changed) persist(storage, fresh);
   }
-  saveEdits(window.localStorage, store);
   return { retried };
 }
