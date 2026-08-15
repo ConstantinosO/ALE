@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { loadCourses, loadContent, loadAnalysis, validateContent, allTopics } from '../js/core/content.js';
 import { FIXTURE_CONTENT } from './fixtures/content.js';
 
@@ -41,4 +42,12 @@ test('allTopics flattens and respects exclusions', () => {
   assert.equal(allTopics(FIXTURE_CONTENT).length, 3);
   assert.equal(allTopics(FIXTURE_CONTENT)[0].chapterTitle, 'Κεφάλαιο 1');
   assert.deepEqual(allTopics(FIXTURE_CONTENT, ['ch1']).map((t) => t.id), ['t3']);
+});
+
+test('generated data files pass validation', () => {
+  for (const id of ['klados-zois', 'basikes-arxes']) {
+    const c = JSON.parse(readFileSync(`data/${id}/content.json`, 'utf8'));
+    assert.equal(validateContent(c), null, id);
+    assert.ok(allTopics(c).length > 0, id);
+  }
 });

@@ -1,0 +1,2554 @@
+{
+  "courseId": "basikes-arxes",
+  "chapters": [
+    {
+      "id": "698f3af9669a764f4df4bbbd",
+      "title": "Λοιπά θέματα",
+      "order": 0,
+      "topics": [
+        {
+          "id": "698f3b10ff0fe8236b31d7c7",
+          "title": "Βασικές ασφαλιστικές ανάγκες κατά την αρχαιότητα:",
+          "order": 1,
+          "summary": "The study of basic insurance needs in antiquity reveals vital aspects of economic and social practices in ancient civilizations. It focuses on the necessities for the protection of shipowners and traders, emphasizing maritime insurance established by Rhodian merchants around 916 BC. The discussion extends to the funeral expenses of deceased individuals across different cultures, where in ancient Egypt and Greece, specific groups bore the costs of burial. During the Roman era, burial societies emerged, and tax funds were set up for retired soldiers. The Byzantine period saw the establishment of legal frameworks under Justinian, while the medieval period introduced the 'poor laws'. By the 15th century, bankers and moneylenders ensured debt payments, and the modern concept of insurance began in the 17th century. In Cyprus, insurance practices started to evolve in the 20th century, marking a transition from ancient agreements to contemporary systems.",
+          "keyDefinitions": [
+            {
+              "term": "Maritime Insurance",
+              "definition": "A form of insurance that protects against the loss of ships and cargo during sea transportation, established by Rhodian merchants."
+            },
+            {
+              "term": "Funeral Expenses",
+              "definition": "Costs associated with burial and funerary rites, which were shared among religious or community groups in ancient societies."
+            },
+            {
+              "term": "Burial Societies",
+              "definition": "Groups formed in the Roman era to collect contributions for members to ensure decent funerals."
+            },
+            {
+              "term": "Poor Laws",
+              "definition": "Regulations established in the medieval period aimed at assisting the poor and regulating economic support."
+            },
+            {
+              "term": "Insurance Agreement",
+              "definition": "A contract where one party provides financial protection against potential losses in exchange for premium payments."
+            }
+          ],
+          "killerFacts": [
+            "Maritime insurance was first established by Rhodian merchants in 916 BC.",
+            "Ancient Egyptians and Greeks had unique customs for handling funeral expenses.",
+            "Roman burial societies set a precedent for modern insurance practices.",
+            "The 'poor laws' of the Middle Ages regulated charity and assistance among the needy.",
+            "Byzantine legal reforms under Justinian significantly influenced medieval insurance practices.",
+            "The concept of insurance as understood today began developing in the 17th century.",
+            "In Cyprus, insurance began to develop significantly in the latter half of the 20th century.",
+            "The first insurance agreement recorded in ancient Idalion dates back to the 5th century BC."
+          ],
+          "mcq": [
+            {
+              "question": "Who established the first recorded maritime insurance?",
+              "options": [
+                "The Egyptians",
+                "Rhodian merchants",
+                "Roman traders",
+                "Byzantine merchants"
+              ],
+              "correctIndex": 1,
+              "explanation": "Rhodian merchants are credited with establishing the first recorded maritime insurance around 916 BC.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "What were funeral expenses in ancient societies typically associated with?",
+              "options": [
+                "Military fees",
+                "Religious groups",
+                "Tax rebates",
+                "Trade agreements"
+              ],
+              "correctIndex": 1,
+              "explanation": "Funeral expenses in ancient societies were typically borne by religious groups or community members, ensuring a decent burial.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "During which era did burial societies emerge?",
+              "options": [
+                "Ancient Greece",
+                "Roman era",
+                "Byzantine period",
+                "Middle Ages"
+              ],
+              "correctIndex": 1,
+              "explanation": "Burial societies emerged prominently during the Roman era to provide financial support for funerals.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "What significant legal reforms in the Byzantine era influenced insurance practices?",
+              "options": [
+                "The Code of Hammurabi",
+                "The Twelve Tables",
+                "Justinian's Pandects",
+                "The Magna Carta"
+              ],
+              "correctIndex": 2,
+              "explanation": "Justinian's Pandects introduced significant legal structures that influenced later insurance practices in the Byzantine Empire.",
+              "difficulty": "hard"
+            },
+            {
+              "question": "When did the modern concept of insurance begin to develop?",
+              "options": [
+                "15th century",
+                "17th century",
+                "19th century",
+                "20th century"
+              ],
+              "correctIndex": 1,
+              "explanation": "The modern concept of insurance as it is known today began to develop in the 17th century, marking a transformation in risk management.",
+              "difficulty": "hard"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "What role did Rhodian merchants play in the development of insurance?",
+              "modelAnswer": "Rhodian merchants are credited with establishing the first form of maritime insurance around 916 BC, which protected shipowners and traders against losses at sea, setting the precedent for future insurance practices.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "How did funeral practices vary in ancient Egypt and Greece compared to later Roman traditions?",
+              "modelAnswer": "In ancient Egypt and Greece, funeral costs were typically borne by religious communities or family groups, reflecting their cultural beliefs in afterlife and burial. In contrast, Roman traditions initiated burial societies that pooled resources from members to cover funeral costs, emphasizing community support.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Who established maritime insurance?",
+              "back": "Rhodian merchants in 916 BC."
+            },
+            {
+              "front": "What was the function of burial societies in ancient Rome?",
+              "back": "They collected contributions to ensure decent funerals for members."
+            },
+            {
+              "front": "What were the poor laws of the Middle Ages?",
+              "back": "Regulations designed to assist the poor and manage economic charity."
+            },
+            {
+              "front": "When did the modern concept of insurance begin to develop?",
+              "back": "In the 17th century."
+            },
+            {
+              "front": "What expenses did ancient Egyptians cover for funerals?",
+              "back": "Costs associated with burial, led by religious or community groups."
+            }
+          ],
+          "examQuestion": {
+            "question": "Discuss the evolution of insurance from ancient practices to the modern era, highlighting key developments and their implications. Provide examples from different civilizations.",
+            "modelAnswer": "The evolution of insurance from ancient practices to the modern era reflects the changing economic structures and societal needs throughout history. Initially, the concept of maritime insurance was established by Rhodian merchants in 916 BC, which allowed for the protection of shipowners and traders on perilous sea voyages. In ancient Egypt and Greece, funeral expenses were significant, covered by family or religious groups, indicating the importance of burial customs in these societies. The Roman era introduced burial societies wherein members contributed to a fund for funeral costs, showcasing an early form of community risk management.\n\nDuring the Byzantine period, legal reforms under Emperor Justinian, particularly in his 'Pandects', further structured these practices, influencing medieval insurance dynamics. The Middle Ages saw the implementation of 'poor laws', regulating charity and support for the needy. By the 15th century, banking activities and moneylender roles emerged, focusing on securing debt payments, leading to a better-defined insurance model.\n\nThe modern insurance framework began to take shape in the 17th century, marking a pivotal shift toward systemic risk management. In Cyprus, insurance practices began in the 20th century, evolving significantly by its latter half, aligning with global insurance practices. Overall, these developments reflect a progressive adaptation to societal needs, economic changes, and technological advancements throughout history.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Mixing up the timeline of the emergence of different insurance forms; for example, confusing maritime insurance with burial societies.",
+            "Overlooking the roles of community versus individual in ancient funeral practices can lead to incorrect conclusions about societal structures.",
+            "Assuming that all funeral costs were uniformly managed across cultures instead of recognizing specific local customs and structures."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "698f3b32c7c5a8ccd561e84f",
+      "title": "Κεφάλαιο 2 - Ασφαλιστική Αγορά",
+      "order": 2,
+      "topics": [
+        {
+          "id": "698f3b4895592a2eed0ac041",
+          "title": "1. Προμηθευτές ασφαλίσεων:",
+          "order": 1,
+          "summary": "The study of insurance suppliers includes various entities such as the state, insurance companies, Lloyd's, and reinsurance companies. Insurance companies engage in providing coverage across multiple sectors, addressing gaps in protection and ensuring that certain demographics like public vehicle operators receive necessary insurance despite general industry refusals. The state plays a vital role through social insurance programs and agricultural insurance, while Lloyd's operates as a market for specialized insurance risks. Reinsurance companies are significant in safeguarding the assets of primary insurance companies, allowing for risk distribution and financial stability in the insurance sector. Each of these entities contributes uniquely to the insurance landscape, influencing policyholder protection and market dynamics.",
+          "keyDefinitions": [
+            {
+              "term": "Insurance Companies",
+              "definition": "Organizations that engage in the business of providing insurance coverage in various sectors as outlined by law."
+            },
+            {
+              "term": "Lloyd's",
+              "definition": "An insurance market consisting of syndicates that specialize in underwriting risks in specific categories."
+            },
+            {
+              "term": "Reinsurance Companies",
+              "definition": "Companies that provide insurance to insurance companies, helping them mitigate risk."
+            },
+            {
+              "term": "Social Insurance",
+              "definition": "Government-provided insurance programs designed to protect citizens from economic hazards."
+            },
+            {
+              "term": "Agricultural Insurance",
+              "definition": "Insurance that covers losses in the agricultural sector, often provided by the government."
+            },
+            {
+              "term": "Specialized Risk Syndicates",
+              "definition": "Groups within Lloyd's that focus on specific categories of insurance risks."
+            },
+            {
+              "term": "Public Use Vehicle Coverage",
+              "definition": "Insurance coverage mandated for vehicles used for public transportation, typically under specific regulation."
+            }
+          ],
+          "killerFacts": [
+            "Insurance companies must comply with regulations that govern acceptable practices and mandated coverages.",
+            "Lloyd's provides a unique platform for specialized risks that are often too complex for traditional insurers.",
+            "Reinsurance is crucial for insurance companies to manage risk effectively, facilitating greater stability in the market.",
+            "The state plays a pivotal role in providing social security and ensuring certain groups get access to insurance.",
+            "Compulsory insurance for public usage vehicles helps protect both owners and passengers."
+          ],
+          "mcq": [
+            {
+              "question": "What is the primary function of an insurance company?",
+              "options": [
+                "To provide investment services",
+                "To offer various types of insurance coverage",
+                "To lobby for insurance regulations",
+                "To supervise financial institutions"
+              ],
+              "correctIndex": 1,
+              "explanation": "Insurance companies exist to offer coverage for various risks as defined by law, rather than providing investment or financial supervision services.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "What is one main purpose of reinsurance?",
+              "options": [
+                "To cover agricultural losses",
+                "To ensure insurance companies' financial stability",
+                "To provide social insurance",
+                "To eliminate all risks for insurers"
+              ],
+              "correctIndex": 1,
+              "explanation": "Reinsurance helps insurance companies to spread risk and maintain financial stability by providing extra coverage for large claims.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "How does Lloyd's operate?",
+              "options": [
+                "As a single insurance company",
+                "As a collective of syndicates specializing in risks",
+                "As a regulatory body",
+                "As a government institution"
+              ],
+              "correctIndex": 1,
+              "explanation": "Lloyd's is a market where various syndicates come together to provide specialized insurance coverage for different risks.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Which type of insurance is typically provided by the government for agricultural risks?",
+              "options": [
+                "Private insurance",
+                "Health insurance",
+                "Agricultural insurance",
+                "Homeowners insurance"
+              ],
+              "correctIndex": 2,
+              "explanation": "Government agricultural insurance programs are designed to protect farmers and agricultural businesses from losses.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "What gap does the consortium of insurers fill according to the provided material?",
+              "options": [
+                "Enhance insured rates",
+                "Expand capital reserves",
+                "Provide coverage where other insurers refuse",
+                "Eliminate the need for consumer insurance"
+              ],
+              "correctIndex": 2,
+              "explanation": "The consortium of insurers was established to offer necessary coverage where insurance companies typically decline to provide it, such as for public use vehicles.",
+              "difficulty": "hard"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "What role does the state play in the insurance sector?",
+              "modelAnswer": "The state provides various forms of social insurance, including social security and agricultural insurance, which helps to cover citizens against economic hardship, particularly in sectors that may be underserved by commercial insurers.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Explain the significance of reinsurance companies in the insurance market.",
+              "modelAnswer": "Reinsurance companies are essential as they provide risk coverage for insurance firms, allowing them to take on larger risks and stabilize their reserve funds. This arrangement helps ensure that insurance companies can meet claims without jeopardizing their financial health.",
+              "difficulty": "hard"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is the primary function of an insurance company?",
+              "back": "To offer various types of insurance coverage."
+            },
+            {
+              "front": "Define Lloyd's in the insurance market.",
+              "back": "A market for specialized risks where syndicates underwrite specific categories of insurance."
+            },
+            {
+              "front": "What is reinsurance?",
+              "back": "Insurance that is sold to insurance companies to spread risk."
+            },
+            {
+              "front": "What does agricultural insurance cover?",
+              "back": "Losses and risks specifically in the agricultural sector, often provided by the government."
+            },
+            {
+              "front": "What challenge does the consortium of insurers address?",
+              "back": "Provides coverage for public use vehicles and cases where traditional insurers would decline."
+            }
+          ],
+          "examQuestion": {
+            "question": "Discuss the various roles of insurance suppliers including the state, insurance companies, Lloyd's, and reinsurance firms in the overall insurance landscape. Illustrate with examples how these entities contribute to risk management and the protection of policyholders.",
+            "modelAnswer": "In the insurance landscape, several entities work together to provide essential coverage and mitigate risks. Insurance companies are primarily responsible for offering policies to individuals and businesses across various sectors, ensuring compliance with legal standards. For example, they provide mandatory insurance coverage for public transport vehicles to protect both operators and passengers.\n\nThe state plays a significant role by offering social insurance programs, such as unemployment benefits or healthcare coverage, which cater to citizens whose needs may not be fully addressed by private insurers. Agricultural insurance is another government initiative designed to safeguard farmers from economic losses due to unforeseen risks like natural disasters.\n\nLloyd's of London operates as a marketplace where syndicates specialize in underwriting unique and complex risks. This allows for tailored insurance solutions that standard insurance companies might not provide. Lastly, reinsurance companies are essential for maintaining the stability of the insurance market. They allow primary insurers to share their risks, ensuring that they can cover claims without financial strain. By spreading risk across different entities, these insurance suppliers contribute significantly to a robust and reliable insurance system.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Confusing the roles of different types of insurance entities (e.g., insurers vs. reinsurers).",
+            "Assuming that Lloyd's is an insurance company rather than a marketplace for insurance syndicates.",
+            "Overlooking the importance of government-provided insurance programs in the overall safety net for citizens."
+          ]
+        },
+        {
+          "id": "698f3b5fe7c5b3c70c96a8cd",
+          "title": "2. Διαμεσολαβητές",
+          "order": 2,
+          "summary": "The topic of Διαμεσολαβητές focuses on intermediaries in the insurance sector, highlighting key roles such as insurance agents, brokers, and consultants. Each type of intermediary operates under specific legal obligations and compensation structures. This includes obtaining a certificate of registration, submitting applications, and renewing licenses every three years. Agents represent one or multiple insurance companies while brokers act on behalf of clients. Insurance consultants provide advice and may or may not have exclusive agreements. Additionally, connected and secondary activity intermediaries work under the responsibility of an insurance company, often introducing clients but not signing contracts themselves. Understanding these distinctions is crucial for compliance and ethical operation within the insurance industry.",
+          "keyDefinitions": [
+            {
+              "term": "Διαμεσολαβητές",
+              "definition": "Intermediaries in the insurance sector that facilitate the connection between clients and insurance providers."
+            },
+            {
+              "term": "Ασφαλιστικός πράκτορας",
+              "definition": "Legal or natural person representing one or more insurance companies, compensated through commission or fees."
+            },
+            {
+              "term": "Μεσίτης ασφαλίσεων",
+              "definition": "Legal or natural person representing clients rather than insurance companies, also compensated via commission or fees."
+            },
+            {
+              "term": "Ασφαλιστικός σύμβουλος",
+              "definition": "Legal or natural person providing insurance advice, potentially under an exclusive contract, and also compensated through commission or fees."
+            },
+            {
+              "term": "Συνδεδεμένος Ασφάλιστικός Σύμβουλος",
+              "definition": "A consultant operating under the full responsibility of an insurance company, presenting contracts but not signing them."
+            },
+            {
+              "term": "Δευτερεύουσας δραστηριότητας διαμεσολαβητής",
+              "definition": "An intermediary who is not a credit institution but engages in intermediation beyond their primary activity, presenting contracts without signing."
+            }
+          ],
+          "killerFacts": [
+            "Registration as an insurance intermediary is mandatory and must be renewed every three years.",
+            "Insurance agents represent insurance companies, while brokers represent the clients' interests.",
+            "Each type of intermediary is compensated differently, usually through commissions from the insurance providers.",
+            "The connected insurance consultant is fully responsible to the insurance company and cannot negotiate contracts directly.",
+            "Intermediaries must report and maintain separate accounts for each insurance provider they represent."
+          ],
+          "mcq": [
+            {
+              "question": "What is a requirement for an insurance intermediary's registration?",
+              "options": [
+                "Must submit an application",
+                "Must hold an active insurance policy",
+                "Must represent multiple insurance companies",
+                "Must operate independently without a company"
+              ],
+              "correctIndex": 0,
+              "explanation": "Submitting an application is a fundamental step in registering as an insurance intermediary.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "How frequently must an insurance intermediary renew their registration?",
+              "options": [
+                "Every year",
+                "Every two years",
+                "Every three years",
+                "Every five years"
+              ],
+              "correctIndex": 2,
+              "explanation": "The registration of insurance intermediaries must be renewed every three years.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Who does an insurance broker represent?",
+              "options": [
+                "The insurance companies",
+                "The clients",
+                "The government",
+                "Compliance agencies"
+              ],
+              "correctIndex": 1,
+              "explanation": "An insurance broker represents the interests of the clients rather than the insurance companies.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Which of the following types of intermediaries has the exclusive right to sign contracts?",
+              "options": [
+                "Insurance agent",
+                "Insurance broker",
+                "Connected insurance consultant",
+                "Secondary activity intermediary"
+              ],
+              "correctIndex": 0,
+              "explanation": "Insurance agents can legally bind contracts on behalf of the insurance companies they represent.",
+              "difficulty": "hard"
+            },
+            {
+              "question": "What role does a connected insurance consultant play?",
+              "options": [
+                "They sign contracts on behalf of clients.",
+                "They provide exclusive contracts to clients.",
+                "They present contracts without the ability to sign them.",
+                "They act solely on behalf of insurance companies."
+              ],
+              "correctIndex": 2,
+              "explanation": "Connected insurance consultants can present contracts but do not have the authority to sign them.",
+              "difficulty": "hard"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "What are the main differences between an insurance agent and an insurance broker?",
+              "modelAnswer": "An insurance agent represents one or more insurance companies and sells their products, while an insurance broker acts on behalf of clients seeking the best insurance coverage across different providers. Agents are typically compensated by commissions from the companies, whereas brokers earn commissions based on client transactions.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Describe the responsibilities of a secondary activity intermediary.",
+              "modelAnswer": "A secondary activity intermediary operates under the full responsibility of an insurance company, engages in intermediation beyond their primary activity, presents insurance contracts but does not sign them, and cannot distribute investment products or reinsurance. They must adhere to the regulations set by the insurance provider they represent.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Ασφαλιστικός πράκτορας",
+              "back": "Legal or natural person representing one or more insurance companies."
+            },
+            {
+              "front": "Μεσίτης ασφαλίσεων",
+              "back": "Legal or natural person representing clients and not companies."
+            },
+            {
+              "front": "Ασφαλιστικός σύμβουλος",
+              "back": "Provides insurance advice, may have exclusive agreements."
+            },
+            {
+              "front": "Δευτερεύουσας δραστηριότητας διαμεσολαβητής",
+              "back": "Non-credit institution intermediation without signing contracts."
+            },
+            {
+              "front": "Εγγραφή διαμεσολαβητή",
+              "back": "Mandatory registration and renewal every three years."
+            }
+          ],
+          "examQuestion": {
+            "question": "Explain the role and responsibilities of an insurance broker and how they differ from an insurance agent. Discuss the implications these roles have for clients and insurance companies.",
+            "modelAnswer": "An insurance broker acts as an advocate for the clients, analyzing their needs and presenting options from various insurance companies to find the most suitable coverage. Brokers are not tied to any specific insurance company and are compensated through commissions based on the policies procured. In contrast, an insurance agent directly represents one or more insurance companies, focusing on selling their products and being compensated by vendor commissions. Clients benefit from brokers' impartiality, as brokers must prioritize client needs, whereas agents may push for their company's products. Understanding these roles helps in navigating insurance purchases and ensuring clients receive optimal advice and service. Key implications include the potential for better pricing and more tailored policies facilitated by brokers, while agents might offer more limited choices but provide deeper insights into specific insurance products.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Confusing the roles of agents and brokers; students may not realize they represent different parties.",
+            "Misunderstanding the requirements for registration and the implications of renewal periods.",
+            "Overlooking the restrictions placed on connected insurance consultants and secondary activity intermediaries."
+          ]
+        },
+        {
+          "id": "698f3b83ca5e131ebad487ac",
+          "title": "3. Αγοραστικό / ασφαλιστικό κοινό -",
+          "order": 3,
+          "summary": "Η έννοια του αγοραστικού και ασφαλιστικού κοινού αναφέρεται σε όλο τον πληθυσμό μιας χώρας, συμπεριλαμβανομένων τόσο φυσικών προσώπων όσο και νομικών προσώπων. Το αγοραστικό κοινό αποτελεί την πηγή ζήτησης για προϊόντα και υπηρεσίες, ενώ το ασφαλιστικό κοινό αναφέρεται σε άτομα και οργανισμούς που επιδιώκουν να προστατευθούν οικονομικά μέσω ασφάλισης. Η κατανόηση του αγοραστικού και ασφαλιστικού κοινού είναι κρίσιμη για τις στρατηγικές μάρκετινγκ και τις πολιτικές ασφάλισης, καθώς τα χαρακτηριστικά αυτών των ομάδων επηρεάζουν τη διαμόρφωση προϊόντων και πολιτικών που ανταγωνίζονται στην αγορά.",
+          "keyDefinitions": [
+            {
+              "term": "Αγοραστικό κοινό",
+              "definition": "Το σύνολο των καταναλωτών που έχουν τη δυνατότητα και επιθυμία να αγοράσουν προϊόντα ή υπηρεσίες."
+            },
+            {
+              "term": "Ασφαλιστικό κοινό",
+              "definition": "Το σύνολο φυσικών και νομικών προσώπων που επιζητούν κάλυψη μέσω ασφαλιστικών προϊόντων."
+            },
+            {
+              "term": "Φυσικά πρόσωπα",
+              "definition": "Άτομα που έχουν νομική υπόσταση και μπορούν να συμμετάσχουν σε οικονομικές συναλλαγές."
+            },
+            {
+              "term": "Νομικά πρόσωπα",
+              "definition": "Οργανισμοί που έχουν τους δικούς τους νομικούς όρους και καταστάσεις, όπως επιχειρήσεις και ιδρύματα."
+            }
+          ],
+          "killerFacts": [
+            "Η κατανόηση του στοχευμένου κοινού είναι κρίσιμη για την επιτυχία των επιχειρηματικών στρατηγικών.",
+            "Οι ανάγκες του αγοραστικού κοινού επηρεάζουν την ανάπτυξη προϊόντων.",
+            "Το ασφαλιστικό κοινό συμπεριλαμβάνει και τους επιχειρηματίες, καθώς και τους καταναλωτές.",
+            "Οι δημογραφικές μεταβλητές σχετίζονται άμεσα με τη συμπεριφορά του αγοραστικού κοινού.",
+            "Οι νομικές απαιτήσεις επηρεάζουν το πώς οι επιχειρήσεις προσεγγίζουν το ασφαλιστικό κοινό."
+          ],
+          "mcq": [
+            {
+              "question": "Τι εννοείται με το αγοραστικό κοινό;",
+              "options": [
+                "Συνολικός πληθυσμός μιας χώρας",
+                "Μόνο οι επιχειρήσεις",
+                "Μόνο οι καταναλωτές",
+                "Φυσικά και νομικά πρόσωπα"
+              ],
+              "correctIndex": 3,
+              "explanation": "Το αγοραστικό κοινό περιλαμβάνει τόσο φυσικά όσο και νομικά πρόσωπα, οι οποίοι είναι οι ενεργοί συμμετέχοντες στην αγορά.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Ποιο από τα παρακάτω ανήκει στο ασφαλιστικό κοινό;",
+              "options": [
+                "Μόνο φυσικά πρόσωπα",
+                "Μόνο νομικά πρόσωπα",
+                "Φυσικά και νομικά πρόσωπα",
+                "Καμία από τις παραπάνω επιλογές"
+              ],
+              "correctIndex": 2,
+              "explanation": "Το ασφαλιστικό κοινό περιλαμβάνει φυσικά άτομα και νομικές οντότητες που θέλουν να προστατευτούν μέσω ασφάλισης.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Πώς επηρεάζει η δημογραφία την στρατηγική μάρκετινγκ;",
+              "options": [
+                "Δεν έχει καμία επίδραση",
+                "Μπορεί να βοηθήσει στην περαιτέρω στόχευση κοινού",
+                "Επηρεάζει μόνο τους καταναλωτές",
+                "Επηρεάζει μόνο τις επιχειρήσεις"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η δημογραφία παρέχει πληροφορίες για τη στόχευση του κοινού και την εξατομίκευση των προϊόντων και υπηρεσιών.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποια είναι η βασική διαφορά μεταξύ φυσικών και νομικών προσώπων;",
+              "options": [
+                "Τα φυσικά πρόσωπα είμαι άνθρωποι",
+                "Τα νομικά πρόσωπα είναι οργανισμοί",
+                "Και τα δύο είναι μέλη του αγοραστικού κοινού",
+                "Μόνο τα νομικά πρόσωπα μπορούν να αγοράσουν προϊόντα"
+              ],
+              "correctIndex": 2,
+              "explanation": "Τα φυσικά πρόσωπα είναι άτομα, ενώ τα νομικά πρόσωπα είναι οργανισμοί που έχουν νομική υπόσταση.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες είναι οι συνέπειες της αναγνώρισης του αγοραστικού κοινού για μια επιχείρηση;",
+              "options": [
+                "Είναι αδιάφορο για τις στρατηγικές ασφάλισης",
+                "Σημειώνει αύξηση πωλήσεων",
+                "Μειώνει τις πιθανότητες χρήσης μάρκετινγκ",
+                "Διαταράσσει την αγορά"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η κατανόηση του αγοραστικού κοινού μπορεί να βοηθήσει στην αύξηση των πωλήσεων και της ανταγωνιστικότητας.",
+              "difficulty": "hard"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Τι είναι το αγοραστικό κοινό;",
+              "modelAnswer": "Το αγοραστικό κοινό περιλαμβάνει όλους τους καταναλωτές, φυσικά και νομικά πρόσωπα, που έχουν την ικανότητα και επιθυμία να αγοράσουν προϊόντα και υπηρεσίες.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Ποιες είναι οι κύριες ομάδες του ασφαλιστικού κοινού;",
+              "modelAnswer": "Οι κύριες ομάδες του ασφαλιστικού κοινού περιλαμβάνουν φυσικά πρόσωπα, νοικοκυριά και νομικά πρόσωπα όπως επιχειρήσεις και οργανισμούς.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Τι είναι το αγοραστικό κοινό;",
+              "back": "Το σύνολο των καταναλωτών που επιθυμούν να αγοράσουν προϊόντα ή υπηρεσίες."
+            },
+            {
+              "front": "Ποιες είναι οι βασικές ομάδες του ασφαλιστικού κοινού;",
+              "back": "Φυσικά και νομικά πρόσωπα."
+            },
+            {
+              "front": "Ποιες ανάγκες του αγοραστικού κοινού επηρεάζουν την ανάπτυξη προϊόντων;",
+              "back": "Καταναλωτική συμπεριφορά, προτιμήσεις και δημογραφικές μεταβλητές."
+            },
+            {
+              "front": "Διαφορά μεταξύ φυσικών και νομικών προσώπων;",
+              "back": "Φυσικά πρόσωπα είναι άτομα, νομικά πρόσωπα είναι οργανισμοί."
+            },
+            {
+              "front": "Σημασία ανάλυσης του αγοραστικού κοινού;",
+              "back": "Δημιουργεί στρατηγικές μάρκετινγκ και προϊόντα που ανταγωνίζονται στην αγορά."
+            }
+          ],
+          "examQuestion": {
+            "question": "Συζητήστε τη σημασία του αγοραστικού και ασφαλιστικού κοινού για τις επιχειρήσεις και πώς επηρεάζει τη στρατηγική τους.",
+            "modelAnswer": "Η σημασία του αγοραστικού και ασφαλιστικού κοινού για τις επιχειρήσεις έγκειται στην κατανόηση των αναγκών τους, που οδηγεί σε στοχευμένες στρατηγικές μάρκετινγκ. Οι επιχειρήσεις που αναγνωρίζουν τις δημογραφικές προτιμήσεις και τη συμπεριφορά του κοινού τους είναι σε θέση να αναπτύξουν προϊόντα που καλύπτουν πραγματικές ανάγκες και να εφαρμόσουν στρατηγικές που μεγιστοποιούν την επίδραση της αγοράς. Αυτό ενδυναμώνει την ανταγωνιστικότητα και δημιουργεί στέρεες σχέσεις πελατών, ενώ η αναγνώριση του ασφαλιστικού κοινού επιτρέπει την ανάπτυξη κατάλληλων ασφαλιστικών προϊόντων. Εν κατακλείδι, μια στατιστικά ορθά προσαρμοσμένη στρατηγική θα σηματοδοτήσει τη διαρκή επιτυχία στην αγορά.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Υποτίμηση της σημασίας των νομικών προσώπων στο αγοραστικό κοινό.",
+            "Αγνοία της διαφοροποίησης μεταξύ αγοραστικού και ασφαλιστικού κοινού.",
+            "Λάθος εκτίμηση για το πώς οι δημογραφικές μεταβλητές επηρεάζουν τη στρατηγική μάρκετινγκ."
+          ]
+        },
+        {
+          "id": "698f3ba33936dfb30680274e",
+          "title": "4. Εποπτεύουσα αρχή - Έφορος ασφαλίσεων",
+          "order": 4,
+          "summary": "Ο Έφορος Ασφαλίσεων είναι η εποπτεύουσα αρχή που ευθύνεται για τη ρύθμιση και την εποπτεία της λειτουργίας των ασφαλιστικών εταιριών. Η κύρια αποστολή του είναι να διασφαλίσει ότι οι ασφαλιστικές εταιρίες λειτουργούν σύμφωνα με τη νομοθεσία και τις κανονιστικές ρυθμίσεις, παρέχοντας προστασία στους ασφαλιζόμενους και προάγοντας τη διαφάνεια στην αγορά. Ο Έφορος έχει την εξουσία να χορηγεί και να ανακαλεί άδειες λειτουργίας ασφαλιστικών εταιριών, διασφαλίζοντας ότι μόνο οι αξιόπιστες και φερέγγυες εταιρίες παραμένουν στην αγορά.",
+          "keyDefinitions": [
+            {
+              "term": "Εποπτεύουσα αρχή",
+              "definition": "Η αρχή υπεύθυνη για τη ρύθμιση και εποπτεία ενός κλάδου, όπως είναι οι ασφαλιστικές εταιρίες."
+            },
+            {
+              "term": "Έφορος Ασφαλίσεων",
+              "definition": "Ο υπεύθυνος της εποπτεύουσας αρχής που εποπτεύει τις ασφαλιστικές εταιρίες."
+            },
+            {
+              "term": "Άδεια λειτουργίας",
+              "definition": "Η έγκριση που απαιτείται για μια ασφαλιστική εταιρία να λειτουργεί νόμιμα."
+            }
+          ],
+          "killerFacts": [
+            "Ο Έφορος Ασφαλίσεων είναι υπεύθυνος για την ευημερία των ασφαλιζόμενων.",
+            "Η διαδικασία χορήγησης άδειας περιλαμβάνει αυστηρούς ελέγχους.",
+            "Η αναστολή άδειας μπορεί να συμβεί αν μια εταιρία δεν πληρεί τις προϋποθέσεις.",
+            "Ο Έφορος έχει την εξουσία να επιβάλλει ποινές σε παραβάτες.",
+            "Η προστασία των ασφαλισμένων είναι η πρωταρχική προτεραιότητα της εποπτευόμενης αρχής."
+          ],
+          "mcq": [
+            {
+              "question": "Ποιος είναι ο ρόλος του Έφορου Ασφαλίσεων;",
+              "options": [
+                "Να οργανώνει ασφαλιστικά προϊόντα",
+                "Να εποπτεύει τη λειτουργία των ασφαλιστικών εταιριών",
+                "Να προσλαμβάνει προσωπικό",
+                "Να επενδύει σε μετοχές"
+              ],
+              "correctIndex": 1,
+              "explanation": "Ο Έφορος Ασφαλίσεων εποπτεύει τη λειτουργία των ασφαλιστικών εταιριών για να διασφαλίσει τη νομιμότητα και τη διαφάνεια.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες αποφάσεις έχει το δικαίωμα να πάρει ο Έφορος;",
+              "options": [
+                "Να συγχωνεύσει εταιρίες",
+                "Να χορηγεί και να ανακαλεί άδειες",
+                "Να αποφασίζει τις τιμές των ασφαλιστικών προϊόντων",
+                "Να αναλύει τις τάσεις της αγοράς"
+              ],
+              "correctIndex": 1,
+              "explanation": "Ο Έφορος έχει την εξουσία να χορηγεί και να ανακαλεί άδειες ασφαλιστικών εταιριών.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες είναι οι συνέπειες της ανάκλησης άδειας ενός ασφαλιστικού οργανισμού;",
+              "options": [
+                "Θα πρέπει να επανακαταθέσει αίτηση",
+                "Απαγορεύεται η λειτουργία της εταιρίας",
+                "Μπορεί να συνεχίσει προσωρινά",
+                "Για να κλείσει τις δραστηριότητές της"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η ανάκληση άδειας σημαίνει ότι η εταιρία δεν μπορεί πλέον να λειτουργεί νόμιμα.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Άδεια λειτουργίας μπορεί να χορηγηθεί μόνο σε ποια περίπτωση;",
+              "options": [
+                "Εάν η εταιρία έχει επαρκή κεφάλαια",
+                "Εάν η εταιρία έχει καλή φήμη",
+                "Εάν η εταιρία συμμορφώνεται με κανονισμούς",
+                "Όλες οι παραπάνω"
+              ],
+              "correctIndex": 3,
+              "explanation": "Όλες οι προϋποθέσεις πρέπει να πληρούνται ώστε να χορηγηθεί άδεια λειτουργίας.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιο είναι το κύριο όφελος για τους ασφαλισμένους από την εποπτεία του Εφόρου;",
+              "options": [
+                "Μειωμένα ασφάλιστρα",
+                "Μεγαλύτερη διαφάνεια",
+                "Περισσότερες επιλογές",
+                "Ταχύτερη αποζημίωση"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η εποπτεία του Εφόρου προσφέρει μεγαλύτερη διαφάνεια και προστασία στους ασφαλισμένους στην ασφαλιστική αγορά.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Ποιός είναι ο κύριος λόγος ύπαρξης του Εφόρου Ασφαλίσεων;",
+              "modelAnswer": "Ο κύριος λόγος ύπαρξης του Εφόρου Ασφαλίσεων είναι να διασφαλίσει τη νόμιμη και διαφανή λειτουργία των ασφαλιστικών εταιριών, προστατεύοντας τους ασφαλιζόμενους.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Τι μπορεί να οδηγήσει στην ανάκληση άδειας μιας ασφαλιστικής εταιρίας;",
+              "modelAnswer": "Η ανάκληση άδειας μπορεί να προκληθεί από παραβιάσεις νομοθεσίας, οικονομικά προβλήματα ή ανικανότητα της εταιρίας να πληροί τις κανονιστικές απαιτήσεις.",
+              "difficulty": "hard"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Εποπτεύουσα αρχή",
+              "back": "Η αρχή υπεύθυνη για τη ρύθμιση και εποπτεία του ασφαλιστικού τομέα."
+            },
+            {
+              "front": "Έφορος Ασφαλίσεων",
+              "back": "Ο υπεύθυνος της εποπτεύουσας αρχής που παρακολουθεί ασφαλιστικές εταιρίες."
+            },
+            {
+              "front": "Άδεια λειτουργίας",
+              "back": "Η έγκριση που απαιτείται για να λειτουργεί μια ασφαλιστική εταιρία."
+            },
+            {
+              "front": "Κανονιστικές ρυθμίσεις",
+              "back": "Νόμοι και κανόνες που διέπουν τη λειτουργία των ασφαλιστικών εταιριών."
+            },
+            {
+              "front": "Προστασία ασφαλισμένων",
+              "back": "Η διασφάλιση των δικαιωμάτων και του συμφέροντος των ασφαλισμένων."
+            }
+          ],
+          "examQuestion": {
+            "question": "Εξηγήστε τον ρόλο του Εφόρου Ασφαλίσεων στην ασφαλιστική αγορά και πώς συμβάλλει στην προστασία των καταναλωτών. Αναφερθείτε σε συγκεκριμένα καθήκοντα και εξουσίες.",
+            "modelAnswer": "Ο Έφορος Ασφαλίσεων είναι υπεύθυνος για τη ρύθμιση και παρακολούθηση των ασφαλιστικών εταιριών, διασφαλίζοντας την συμμόρφωση με καταστατικούς κανονισμούς. Ένα από τα βασικά καθήκοντά του περιλαμβάνει η χορήγηση και η ανάκληση των αδειών λειτουργίας ασφαλιστικών οργανισμών, κάτι που διασφαλίζει ότι μόνο οι αξιόπιστες και οικονομικά βιώσιμες εταιρίες παρέχουν ασφάλιση στους καταναλωτές. Η προστασία των συμφερόντων των ασφαλισμένων είναι επιτακτική ανάγκη, και γι' αυτό ο έφορος εκδίδει κανονισμούς που απαιτούν από τις ασφαλιστικές εταιρίες να πληρούν συγκεκριμένα κριτήρια διαφάνειας και χρηματοοικονομικής ευρωστίας. Η απαίτηση για αναφορές και λογιστικούς ελέγχους ενισχύει επιπλέον την εμπιστοσύνη του κοινού στην ασφάλιση.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Λάθος κατανόηση των καθηκόντων του Εφόρου Ασφαλίσεων (νομισματική πολιτική αντί ρύθμιση)",
+            "Περιορισμένος γνώση των προϋποθέσεων για χορήγηση άδειας",
+            "Σχέση μεταξύ εποπτείας και προστασίας των καταναλωτών δεν είναι σαφής."
+          ]
+        },
+        {
+          "id": "698f3bb82357386d4cb1b7d7",
+          "title": "5. Συμβουλευτική επιτροπή ασφαλίσεων",
+          "order": 5,
+          "summary": "The Συμβουλευτική Επιτροπή Ασφαλίσεων, or Insurance Advisory Committee, is a vital body consisting of key stakeholders tasked with the assessment and enhancement of insurance policies and practices. The committee's primary roles include providing expert opinions on current and proposed insurance frameworks and submitting proposals aimed at improving the overall efficiency and efficacy of the insurance sector. The committee’s input is crucial for ensuring that insurance products are aligned with market needs and regulatory requirements, fostering transparency, and protecting consumers.",
+          "keyDefinitions": [
+            {
+              "term": "Συμβουλευτική Επιτροπή Ασφαλίσεων",
+              "definition": "A committee that provides opinions and recommendations regarding insurance policies and practices."
+            },
+            {
+              "term": "μέλη",
+              "definition": "Members of the insurance advisory committee who represent various stakeholders in the insurance sector."
+            },
+            {
+              "term": "έργο",
+              "definition": "The tasks and responsibilities undertaken by the advisory committee."
+            },
+            {
+              "term": "παροχή γνώμης",
+              "definition": "Providing informed opinions on insurance-related issues."
+            },
+            {
+              "term": "υποβολή προτάσεων",
+              "definition": "Submitting suggestions aimed at improving insurance policies and practices."
+            }
+          ],
+          "killerFacts": [
+            "The Insurance Advisory Committee consists of diverse members, including industry experts and consumer representatives.",
+            "The committee plays a critical role in ensuring regulatory compliance in the insurance industry.",
+            "Their proposals often influence legislative changes affecting the insurance sector.",
+            "Transparency in the committee's operations builds public trust in the insurance system.",
+            "Regular assessments by the committee can identify gaps in coverage and consumer protection."
+          ],
+          "mcq": [
+            {
+              "question": "What is the primary role of the Συμβουλευτική Επιτροπή Ασφαλίσεων?",
+              "options": [
+                "To draft insurance policies",
+                "To provide opinions and recommendations",
+                "To issue insurance licenses",
+                "To conduct market research"
+              ],
+              "correctIndex": 1,
+              "explanation": "The primary role of the committee is to provide informed opinions and recommendations regarding insurance practices and policies.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Who can be a member of the Insurance Advisory Committee?",
+              "options": [
+                "Only government officials",
+                "Industry experts and consumer representatives",
+                "Only insurance company executives",
+                "Anyone interested in insurance"
+              ],
+              "correctIndex": 1,
+              "explanation": "Members include various stakeholders such as industry experts and consumer representatives to ensure diverse perspectives.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Which of the following is a task performed by the committee?",
+              "options": [
+                "Managing insurance claims",
+                "Conducting public surveys",
+                "Submitting proposals for insurance policy improvements",
+                "Setting insurance premiums"
+              ],
+              "correctIndex": 2,
+              "explanation": "One of the key tasks of the committee is to submit proposals aimed at improving insurance policy and practice.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "How does the committee contribute to consumer protection?",
+              "options": [
+                "By regulating the entire insurance market",
+                "By providing recommendations for better coverage options",
+                "By selling insurance products",
+                "By monitoring insurance companies' profit margins"
+              ],
+              "correctIndex": 1,
+              "explanation": "The committee contributes to consumer protection by providing recommendations that improve coverage options for consumers.",
+              "difficulty": "hard"
+            },
+            {
+              "question": "What is an important factor for the committee's effectiveness?",
+              "options": [
+                "Strict regulations from the government",
+                "Transparency in its operations",
+                "High fees for insurance products",
+                "Public advertising campaigns"
+              ],
+              "correctIndex": 1,
+              "explanation": "Transparency in the committee's operations builds trust and effectiveness in its role within the insurance sector.",
+              "difficulty": "hard"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "What are the two main functions of the Συμβουλευτική Επιτροπή Ασφαλίσεων?",
+              "modelAnswer": "The two main functions of the committee are to provide expert opinions on insurance policies and to submit proposals aimed at improving those policies.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Why is it important for the committee to include diverse members?",
+              "modelAnswer": "Including diverse members ensures that various stakeholder perspectives are represented, leading to more balanced and effective recommendations for the insurance sector.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is the Συμβουλευτική Επιτροπή Ασφαλίσεων?",
+              "back": "A committee that provides expert opinions and recommendations on insurance policies."
+            },
+            {
+              "front": "Who are the members of the Insurance Advisory Committee?",
+              "back": "Key stakeholders including industry experts, consumer representatives, and insurance regulators."
+            },
+            {
+              "front": "What is one of the main tasks of the committee?",
+              "back": "To submit proposals aimed at improving insurance policies and consumer protection."
+            },
+            {
+              "front": "Why is transparency important in the committee's operations?",
+              "back": "It builds public trust and enhances the effectiveness of the committee's recommendations."
+            },
+            {
+              "front": "What impact do the committee's proposals have?",
+              "back": "They can lead to changes in legislation and improvements in the insurance sector."
+            }
+          ],
+          "examQuestion": {
+            "question": "Discuss the roles and responsibilities of the Συμβουλευτική Επιτροπή Ασφαλίσεων and how they impact the insurance sector. Provide examples to support your discussion.",
+            "modelAnswer": "The Συμβουλευτική Επιτροπή Ασφαλίσεων, or Insurance Advisory Committee, plays a crucial role in shaping the insurance landscape by providing expert opinions and submitting proposals that improve policies. Its responsibilities include evaluating existing insurance frameworks, identifying gaps in consumer protection, and suggesting necessary regulatory changes. For example, if the committee identifies a lack of adequate coverage in a specific area, it can recommend changes to policy standards that address this issue. Furthermore, the diversity of its members allows the committee to consider multiple perspectives, ensuring that proposals meet the needs of both consumers and insurers. By fostering transparency in its operations, the committee builds public trust, which is essential for a robust insurance system. Overall, the committee's work directly influences legislation and enhances the quality of insurance products available to consumers, thereby impacting the efficiency of the insurance sector.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Confusing the roles of the advisory committee with regulatory bodies, which have different functions.",
+            "Failing to recognize the importance of member diversity in formulating effective recommendations.",
+            "Believing that the committee has regulatory power over the insurance market instead of advisory capacity only."
+          ]
+        },
+        {
+          "id": "698f3bce31a7f74bf274487e",
+          "title": "6. Επαγγελματικά σώματα",
+          "order": 6,
+          "summary": "The topic covers Professional Bodies in Cyprus related to the insurance industry. Notably, the Motor Insurers' Fund (Τ.Α.Μ.Ο. / Μ.Ι.F.) was established in 1969 as a limited liability company, primarily funded by motor vehicle insurance premiums. It provides compensation to victims of uninsured drivers and ensures a Green Card system for coverage across the EU. The Association of Insurance Companies in Cyprus (Σ.Α.Ε.Κ.) is a non-profit limited company supporting member insurance firms, while the Pancyprian Association of Insurance Intermediaries (ΠΣΕΑΔ) represents the interests of insurance agents since its foundation in 2003. Each organization plays a critical role in addressing issues within the insurance sector and maintaining standards.",
+          "keyDefinitions": [
+            {
+              "term": "Τ.Α.Μ.Ο. / Μ.Ι.F.",
+              "definition": "The Motor Insurers' Fund, established in 1969, compensates victims of uninsured drivers and operates on premiums from motor vehicle insurance."
+            },
+            {
+              "term": "Σ.Α.Ε.Κ.",
+              "definition": "The Association of Insurance Companies in Cyprus, a non-profit organization that aims to solve insurance-related issues and serve its members."
+            },
+            {
+              "term": "ΠΣΕΑΔ",
+              "definition": "The Pancyprian Association of Insurance Intermediaries, established in 2003, representing and protecting the interests of insurance intermediaries."
+            }
+          ],
+          "killerFacts": [
+            "The Motor Insurers' Fund was established to provide security against uninsured drivers in Cyprus.",
+            "The Green Card system allows coverage across all EU countries for vehicle insurance.",
+            "S.Α.Ε.Κ. members are exclusively insurance companies operating in Cyprus.",
+            "PΣEΑΔ advocates for insurance intermediaries and addresses their professional concerns.",
+            "The establishment of PΣEΑΔ in 2003 marked a significant development in the representation of insurance agents in Cyprus."
+          ],
+          "mcq": [
+            {
+              "question": "What year was the Motor Insurers' Fund established?",
+              "options": [
+                "1965",
+                "1969",
+                "1973",
+                "1980"
+              ],
+              "correctIndex": 1,
+              "explanation": "The Motor Insurers' Fund (Τ.Α.Μ.Ο. / Μ.Ι.F.) was established in 1969.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "What is the primary function of the Σ.Α.Ε.Κ.?",
+              "options": [
+                "Compensate motorists",
+                "Facilitate solutions for insurance-related issues",
+                "Provide insurance policies",
+                "Monitor insurance fraud"
+              ],
+              "correctIndex": 1,
+              "explanation": "The primary function of the Σ.Α.Ε.Κ. is to facilitate solutions for problems related to insurance among its members.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Which organization represents the interests of insurance intermediaries in Cyprus?",
+              "options": [
+                "Τ.Α.Μ.Ο.",
+                "Σ.Α.Ε.Κ.",
+                "ΠΣΕΑΔ",
+                "Cyprus Insurance Association"
+              ],
+              "correctIndex": 2,
+              "explanation": "The Pancyprian Association of Insurance Intermediaries (ΠΣΕΑΔ) represents the interests of insurance intermediaries in Cyprus.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "What does the Green Card system provide?",
+              "options": [
+                "Free insurance",
+                "Medical coverage",
+                "EU-wide vehicle insurance coverage",
+                "Unlimited pay-out coverage"
+              ],
+              "correctIndex": 2,
+              "explanation": "The Green Card system provides vehicle insurance coverage across all EU countries.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "What type of company is Σ.Α.Ε.Κ.?",
+              "options": [
+                "For-profit company",
+                "Non-profit limited company",
+                "Government agency",
+                "Private corporation"
+              ],
+              "correctIndex": 1,
+              "explanation": "The Σ.Α.Ε.Κ. is a non-profit limited company.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Describe the function of the Τ.Α.Μ.Ο.",
+              "modelAnswer": "The Motor Insurers' Fund (Τ.Α.Μ.Ο.) serves to provide compensation to victims of traffic accidents involving uninsured drivers and ensures coverage under the Green Card system for EU travel, facilitating accountability in motor insurance.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "What role does the ΠΣΕΑΔ play in the insurance sector?",
+              "modelAnswer": "The Pancyprian Association of Insurance Intermediaries (ΠΣΕΑΔ) represents and protects the rights and interests of insurance intermediaries, serving as a voice for insurance agents in Cyprus and addressing professional challenges in the industry.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "What is Τ.Α.Μ.Ο.?",
+              "back": "The Motor Insurers' Fund in Cyprus that compensates victims of uninsured drivers."
+            },
+            {
+              "front": "When was the ΠΣΕΑΔ established?",
+              "back": "The Pancyprian Association of Insurance Intermediaries was established on March 14, 2003."
+            },
+            {
+              "front": "What does Σ.Α.Ε.Κ. stand for?",
+              "back": "Σύνδεσμος Ασφαλιστικών Εταιριών Κύπρου (Association of Insurance Companies in Cyprus)."
+            },
+            {
+              "front": "What is the purpose of the Green Card system?",
+              "back": "It provides insurance coverage for vehicles when traveling across EU countries."
+            },
+            {
+              "front": "Who are the members of Σ.Α.Ε.Κ.?",
+              "back": "Insurance companies operating within Cyprus."
+            }
+          ],
+          "examQuestion": {
+            "question": "Discuss the roles and impacts of professional bodies in the insurance sector of Cyprus, highlighting the functions of Τ.Α.Μ.Ο., Σ.Α.Ε.Κ., and ΠΣΕΑΔ.",
+            "modelAnswer": "Professional bodies like Τ.Α.Μ.Ο., Σ.Α.Ε.Κ., and ΠΣΕΑΔ play crucial roles in the stability and functionality of the insurance sector in Cyprus. Τ.Α.Μ.Ο. ensures financial protection for victims of uninsured drivers, thereby promoting accountability in motor vehicle insurance. It also facilitates the Green Card system, enabling seamless cross-border insurance coverage for motorists throughout the EU. Meanwhile, Σ.Α.Ε.Κ. acts as a collective voice for insurance companies, helping to resolve industry-related problems and support member needs. Finally, ΠΣΕΑΔ represents the interests of insurance intermediaries, advocating for their professional standards and resolving issues they encounter in their roles. Together, these organizations contribute to a regulated and secure insurance framework that benefits policyholders and providers alike.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Confusing the roles between Τ.Α.Μ.Ο. and Σ.Α.Ε.Κ. regarding compensation and member support.",
+            "Misunderstanding the concept of the Green Card system as a form of insurance rather than coverage facilitation.",
+            "Overlooking the founding dates and the significance of each organization's establishment in relation to Cyprus's insurance landscape."
+          ]
+        },
+        {
+          "id": "698f3beab69cbdecdb464c08",
+          "title": "7. Εκπαιδευτικοί οργανισμοί",
+          "order": 7,
+          "summary": "The Educational Institute of Cyprus (Εκπαιδευτικοί οργανισμοί) is a significant educational body established in 1972, originally as a club, evolving into a non-profit organization in 1991. It serves as the central institution for insurance education in Cyprus, offering various educational activities including lectures, discussions, examinations, and seminars. The institute provides several academic programs, notably diplomas in Insurance Studies and Insurance Operations, certificates for financial advisors and basic insurance training, and master's degrees in management and financial services with a specialization in insurance. Through these programs, the institute aims to enhance the skills and knowledge of professionals in the insurance sector.",
+          "keyDefinitions": [
+            {
+              "term": "Ασφαλιστικό Ινστιτούτο Κύπρου (ΑΙΚ)",
+              "definition": "Ο κεντρικός φορέας εκπαίδευσης ασφαλίσεων στην Κύπρο που ιδρύθηκε το 1972."
+            },
+            {
+              "term": "Δίπλωμα Ασφαλιστικών Σπουδών (Δ.Α.Σ)",
+              "definition": "Ένα πρόγραμμα σπουδών που προσφέρει εκπαίδευση στους επαγγελματίες του τομέα των ασφαλίσεων."
+            },
+            {
+              "term": "Πιστοποιητικό Χρηματοικονομικού Συμβούλου (C.F.A.)",
+              "definition": "Πιστοποιητικό που επιβεβαιώνει την ειδίκευση στο χρηματοοικονομικό τομέα."
+            },
+            {
+              "term": "Μ.Sc. in Management",
+              "definition": "Μεταπτυχιακό πρόγραμμα στην Διοίκηση με ειδίκευση στην ασφάλιση."
+            },
+            {
+              "term": "Δίπλωμα Ανάπτυξης Διαμεσολαβητών Ασφάλισης (ΔΑΔΑ)",
+              "definition": "Εκπαιδευτικό πρόγραμμα για την ανάπτυξη επαγγελματιών στην διαμεσολάβηση ασφαλίσεων."
+            }
+          ],
+          "killerFacts": [
+            "Founded in 1972, originally as a club; now a non-profit since 1991.",
+            "Central institution for insurance education in Cyprus.",
+            "Offers a wide range of programs including diplomas and master's degrees.",
+            "Educational activities include lectures, discussions, exams, and seminars.",
+            "Partners with CIIM to provide master's programs in insurance management."
+          ],
+          "mcq": [
+            {
+              "question": "What year was the Educational Institute of Cyprus established?",
+              "options": [
+                "1970",
+                "1972",
+                "1980",
+                "1991"
+              ],
+              "correctIndex": 1,
+              "explanation": "The Educational Institute of Cyprus was established in 1972 as a club.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "What type of entity is the Educational Institute of Cyprus classified as since 1991?",
+              "options": [
+                "Government agency",
+                "For-profit organization",
+                "Non-profit organization",
+                "Private corporation"
+              ],
+              "correctIndex": 2,
+              "explanation": "Since 1991, the institute has operated as a non-profit organization.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Which of the following is a diploma offered by the institute?",
+              "options": [
+                "Diploma in Health Management",
+                "Diploma in Insurance Studies",
+                "Diploma in Mergers and Acquisitions",
+                "Diploma in Financial Analysis"
+              ],
+              "correctIndex": 1,
+              "explanation": "The institute offers a Diploma in Insurance Studies (Δ.Α.Σ).",
+              "difficulty": "medium"
+            },
+            {
+              "question": "What is the specialization of the M.Sc. program offered through CIIM?",
+              "options": [
+                "Finance",
+                "Marketing",
+                "Insurance Management",
+                "Human Resources"
+              ],
+              "correctIndex": 2,
+              "explanation": "The M.Sc. in Financial Services has a specialization in Insurance Management.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Which program is specifically designed for the development of insurance intermediaries?",
+              "options": [
+                "Diploma in Financial Advisory",
+                "Diploma in Insurance Operations",
+                "Diploma in Insurance Studies",
+                "Diploma in Development of Insurance Brokers (ΔΑΔΑ)"
+              ],
+              "correctIndex": 3,
+              "explanation": "The Diploma in Development of Insurance Brokers (ΔΑΔΑ) is aimed at developing insurance intermediaries.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Explain the role of the Educational Institute of Cyprus in the insurance industry.",
+              "modelAnswer": "The Educational Institute of Cyprus serves as the central body for insurance education in Cyprus, offering a variety of educational programs such as diplomas, certificates, and master's degrees. It aims to enhance the skills and knowledge of professionals in the insurance sector through activities like lectures, examinations, and seminars.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "List at least three programs offered by the Educational Institute of Cyprus.",
+              "modelAnswer": "The Educational Institute of Cyprus offers various programs including: 1. Diploma in Insurance Studies (Δ.Α.Σ) 2. Diploma in Insurance Operations 3. Certificate for Financial Advisors (C.F.A.) 4. Master's degree in Management with a specialization in Insurance (M.Sc. through CIIM)",
+              "difficulty": "easy"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Founded in 1972",
+              "back": "The Educational Institute of Cyprus (ΑΙΚ) was established as a club."
+            },
+            {
+              "front": "Non-profit status since 1991",
+              "back": "The institute operates as a non-profit organization."
+            },
+            {
+              "front": "Diploma in Insurance Studies (Δ.Α.Σ)",
+              "back": "One of the key educational programs offered by the institute."
+            },
+            {
+              "front": "M.Sc. programs",
+              "back": "Masters in Management and Financial Services with a specialization in Insurance."
+            },
+            {
+              "front": "Educational activities",
+              "back": "Includes lectures, discussions, exams, and seminars."
+            }
+          ],
+          "examQuestion": {
+            "question": "Discuss the significance of the Educational Institute of Cyprus in promoting insurance education and its impact on the industry.",
+            "modelAnswer": "The Educational Institute of Cyprus plays a crucial role in promoting insurance education in Cyprus. Established in 1972, it has been instrumental in providing a wide range of programs that cater to the educational needs of professionals in the insurance sector. By offering diplomas, certificates, and master’s degrees, the institute ensures that individuals acquire the necessary skills and knowledge to excel in their careers within the insurance industry. The variety of programs available, including the Diploma in Insurance Studies and the Diploma in Development of Insurance Brokers, directly addresses the challenges faced by the insurance sector. Furthermore, the institute's collaboration with CIIM to provide specialized master’s programs enhances its credibility and the quality of education provided. The educational activities such as lectures, discussions, and seminars serve to foster a strong community of professionals who are well-versed in current trends and practices. This not only elevates professional standards but also contributes to the overall development of the insurance market in Cyprus, making the institute a cornerstone of the industry.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Misunderstanding the role of the institute as a for-profit entity instead of a non-profit.",
+            "Confusing different diploma programs and their specific focuses.",
+            "Assuming the founding year incorrectly, often mixed up with the establishment of other institutions."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "698f3bebb4dadbbb658af628",
+      "title": "Κεφάλαιο 3 - Ασφάλιση – Έννοια και λειτουργίες",
+      "order": 3,
+      "topics": [
+        {
+          "id": "698f3c07bb3852f9dd03af07",
+          "title": "«Ασφάλιση είναι ένας μηχανισμός μεταβίβασης του κινδύνου...",
+          "order": 1,
+          "summary": "Η ασφάλιση αποτελεί έναν μηχανισμό που μεταβιβάζει τον κίνδυνο οικονομικής ζημίας σε ένα κοινό ταμείο, στο οποίο συνεισφέρουν πολλοί, προκειμένου να καλυφθούν οι ζημίες των ολίγων. Με αυτόν τον τρόπο, οι ασφαλισμένοι προστατεύονται από δυσάρεστες καταστάσεις, όπως ατυχήματα ή φυσικές καταστροφές, με τη συλλογική συμμετοχή να μειώνει την ατομική ευθύνη και τον κίνδυνο. Η ασφάλιση διευρύνει την οικονομική ασφάλεια των ατόμων και των οικογενειών, ενώ παράλληλα ενισχύει την κοινωνική συνοχή, καθώς η στήριξη προσφέρεται σε όσους το χρειάζονται περισσότερο. Τελικά, η ασφάλιση συμβάλλει στην οικονομική σταθερότητα ενός κράτους.",
+          "keyDefinitions": [
+            {
+              "term": "Ασφάλιση",
+              "definition": "Μηχανισμός μεταβίβασης του κινδύνου οικονομικής ζημιάς σε κοινό ταμείο."
+            },
+            {
+              "term": "Κίνδυνος",
+              "definition": "Πιθανότητα εμφάνισης ζημίας ή απώλειας."
+            },
+            {
+              "term": "Κοινό Ταμείο",
+              "definition": "Πόροι που συλλέγονται από πολλούς για την κάλυψη των ζημιών των λίγων."
+            },
+            {
+              "term": "Ασφαλισμένος",
+              "definition": "Άτομο που έχει συνάψει ασφάλιση και καλύπτεται από το ταμείο."
+            },
+            {
+              "term": "Οικονομική Ζημία",
+              "definition": "Χρηματική απώλεια που προκύπτει από απρόβλεπτες καταστάσεις."
+            }
+          ],
+          "killerFacts": [
+            "Ασφάλιση βοηθάει στη συλλογική διαχείριση κινδύνου.",
+            "Καλύπτει οικονομικές ζημίες που μπορεί να προκύψουν από ατυχήματα ή καταστροφές.",
+            "Οι εισφορές των ασφαλισμένων δημιουργούν ένα «ταμείο» που χρησιμοποιείται για αποζημίωση.",
+            "Η ασφάλιση προάγει την οικονομική σταθερότητα σε κοινωνικό επίπεδο.",
+            "Η μετάβαση του κινδύνου σε ένα κοινό ταμείο μειώνει την ατομική ευθύνη."
+          ],
+          "mcq": [
+            {
+              "question": "Ποιος είναι ο κύριος στόχος της ασφάλισης;",
+              "options": [
+                "Η αύξηση των κερδών",
+                "Η μεταβίβαση του κινδύνου",
+                "Η προστασία της ιδιωτικής ζωής",
+                "Η μείωση των φόρων"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η μεταβίβαση του κινδύνου είναι ο κύριος στόχος της ασφάλισης.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες είναι οι συνέπειες της ασφάλισης για τον ασφαλισμένο;",
+              "options": [
+                "Δημιουργία χρέους",
+                "Προστασία από οικονομικές απώλειες",
+                "Αυξημένο ρίσκο",
+                "Μείωση του εισοδήματος"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η ασφάλιση προσφέρει προστασία από οικονομικές απώλειες.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες είναι οι βασικές συμβολές της ασφάλισης σε μια κοινωνία;",
+              "options": [
+                "Λιγότερη αβεβαιότητα",
+                "Αύξηση του ανταγωνισμού",
+                "Μείωση των συνεργασιών",
+                "Δημιουργία ανισοτήτων"
+              ],
+              "correctIndex": 0,
+              "explanation": "Η ασφάλιση συμβάλλει στη μείωση της αβεβαιότητας για τα άτομα.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς λειτουργεί το Κοινό Ταμείο στην ασφάλιση;",
+              "options": [
+                "Είναι κρατική επιχορήγηση",
+                "Συλλογή από εισφορές πολλών",
+                "Προσωπικές αποταμιεύσεις",
+                "Επιδοτήσεις από επιχειρήσεις"
+              ],
+              "correctIndex": 1,
+              "explanation": "Το Κοινό Ταμείο χρηματοδοτείται από τις εισφορές των ασφαλισμένων.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιο είναι ένα από τα κύρια πλεονεκτήματα της ασφάλισης;",
+              "options": [
+                "Αύξηση του προσωπικού κινδύνου",
+                "Συσσώρευση χρεών",
+                "Μείωση του χρηματικού κινδύνου",
+                "Αύξηση των ασφαλίστρων"
+              ],
+              "correctIndex": 2,
+              "explanation": "Η ασφάλιση συμβάλλει στη μείωση του χρηματικού κινδύνου.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Ποιος είναι ο ρόλος των εισφορών στη λειτουργία ενός ασφαλιστικού ταμείου;",
+              "modelAnswer": "Οι εισφορές χρησιμεύουν ως πόροι για τη χρηματοδότηση των αποζημιώσεων στους ασφαλισμένους που υποφέρουν από οικονομικές ζημίες.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς η ασφάλιση επηρεάζει την ατομική ευθύνη;",
+              "modelAnswer": "Η ασφάλιση μειώνει την ατομική ευθύνη μεταφέροντας τον κίνδυνο οικονομικής ζημίας σε ένα κοινό ταμείο.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Τι είναι η ασφάλιση;",
+              "back": "Μηχανισμός μεταβίβασης του κινδύνου σε κοινό ταμείο."
+            },
+            {
+              "front": "Ποιος είναι ο κίνδυνος;",
+              "back": "Πιθανότητα εμφάνισης ζημίας ή απώλειας."
+            },
+            {
+              "front": "Τι σημαίνει κοινό ταμείο;",
+              "back": "Πόροι από πολλούς για την κάλυψη ζημιών των λίγων."
+            },
+            {
+              "front": "Ποιες είναι οι συνέπειες της ασφάλισης;",
+              "back": "Προστασία από οικονομικές ζημίες."
+            },
+            {
+              "front": "Ποιο είναι το πλεονέκτημα της ασφάλισης;",
+              "back": "Μείωση του χρηματικού κινδύνου."
+            }
+          ],
+          "examQuestion": {
+            "question": "Εξηγήστε πώς η ασφάλιση μεταβιβάζει τον κίνδυνο και ποια οφέλη απορρέουν από αυτή τη διαδικασία, αναφέροντας παραδείγματα.",
+            "modelAnswer": "Η ασφάλιση μεταβιβάζει τον κίνδυνο μέσω της συγκέντρωσης εισφορών από πολλούς ασφαλισμένους σε ένα κοινό ταμείο. Όταν συμβαίνει κάποια ζημία σε ένα μέλος του ταμείου, τα χρηματικά αποθέματα χρησιμοποιούνται για την αποζημίωση αυτού του ατόμου. Το όφελος αυτής της διαδικασίας είναι η μείωση της ατομικής οικονομικής ευθύνης και η προστασία από σοβαρές οικονομικές απώλειες. Για παράδειγμα, όταν κάποιος βλάψει άλλο άτομο σε τροχαίο, η ασφάλιση αυτοκινήτου τον προστατεύει από τις οικονομικές απαιτήσεις που μπορεί να προκύψουν λόγω του ατυχήματος. Αυτή η διαδικασία δημιουργεί επίσης μια αίσθηση ασφάλειας και εμπιστοσύνης στις οικονομικές σχέσεις.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Συγχέουν την ασφάλιση με την αποταμίευση.",
+            "Πιστεύουν ότι όλοι οι κίνδυνοι καλύπτονται από την ασφάλιση.",
+            "Δυσκολία στην κατανόηση του πώς οι εισφορές μεταφράζονται σε παροχές."
+          ]
+        },
+        {
+          "id": "698f3c2261ab1ee20e68bd8c",
+          "title": "Καταστροφικά γεγονότα -",
+          "order": 2,
+          "summary": "Καταστροφικά γεγονότα είναι φαινόμενα που προκαλούν σοβαρές επιπτώσεις σε ανθρώπους, κοινότητες ή περιουσίες. Αυτά περιλαμβάνουν φυσικές καταστροφές, όπως σεισμούς και πλημμύρες, καθώς και ανθρωπογενείς κακουχίες, όπως εκρήξεις και ατυχήματα. Ο θάνατος ή η ανικανότητα εργασίας, η ζημιά σε περιουσία και η αστική ευθύνη είναι σοβαρές συνέπειες που σχετίζονται με τις καταστροφές. Η κατανόηση αυτών των φαινομένων είναι κρίσιμη για τους τομείς της ασφάλειας και της ασφάλισης, καθώς τα καταστροφικά γεγονότα αποτελούν έναν από τους βασικούς παράγοντες κινδύνου στην ασφαλιστική αγορά.",
+          "keyDefinitions": [
+            {
+              "term": "Καταστροφικά γεγονότα",
+              "definition": "Φαινόμενα που προκαλούν σοβαρές αρνητικές επιπτώσεις σε ανθρώπους, κοινότητες, περιουσίες ή το περιβάλλον."
+            },
+            {
+              "term": "Φυσικές καταστροφές",
+              "definition": "Φαινόμενα όπως σεισμοί, τυφώνες, πλημμύρες και πυρκαγιές που προκαλούν καταστροφές."
+            },
+            {
+              "term": "Ανθρωπογενείς καταστροφές",
+              "definition": "Καταστροφές που προκαλούνται από ανθρώπινη δραστηριότητα, όπως εκρήξεις ή ατυχήματα."
+            },
+            {
+              "term": "Αστική ευθύνη",
+              "definition": "Η νομική ευθύνη που προκύπτει από ζημίες που προκαλούνται σε τρίτους."
+            },
+            {
+              "term": "Ευθύνη εργοδότη",
+              "definition": "Η υποχρέωση του εργοδότη να προστατεύει τους εργαζομένους του από επικίνδυνες καταστάσεις."
+            }
+          ],
+          "killerFacts": [
+            "Καταστροφικά γεγονότα μπορούν να προκαλέσουν θάνατο, ανικανότητα και σημαντικές ζημίες σε περιουσίες.",
+            "Η προετοιμασία και η πρόληψη είναι κρίσιμη για τη μείωση των επιπτώσεων των καταστροφών.",
+            "Φυσικές και ανθρωπογενείς καταστροφές απαιτούν διαφορετικούς μηχανισμούς αποκατάστασης.",
+            "Η ασφάλιση είναι σημαντική για την κάλυψη των κινδύνων από καταστροφικά γεγονότα.",
+            "Η αστική ευθύνη μπορεί να οδηγήσει σε νομικές επιπτώσεις για παραβάσεις."
+          ],
+          "mcq": [
+            {
+              "question": "Τι είναι καταστροφικά γεγονότα;",
+              "options": [
+                "Φυσικές καταστροφές",
+                "Πληρωμές ασφάλισης",
+                "Κοινωνικές εκδηλώσεις",
+                "Μικρές απώλειες"
+              ],
+              "correctIndex": 0,
+              "explanation": "Καταστροφικά γεγονότα είναι φαινόμενα που προκαλούν σοβαρές επιπτώσεις, όπως οι φυσικές καταστροφές.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Ποιες είναι οι συνέπειες των καταστροφικών γεγονότων;",
+              "options": [
+                "Οικονομική ανάπτυξη",
+                "Προβλήματα υγείας",
+                "Μείωση απασχόλησης",
+                "Αύξηση του τουρισμού"
+              ],
+              "correctIndex": 1,
+              "explanation": "Οι συνέπειες μπορεί να περιλαμβάνουν σοβαρά προβλήματα υγείας λόγω τραυματισμών και απωλειών.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποια είναι η έννοια της αστικής ευθύνης;",
+              "options": [
+                "Ευθύνη εργοδότη",
+                "Καταστροφή περιουσίας",
+                "Νομική ευθύνη για ζημίες",
+                "Ασφαλιστική κάλυψη"
+              ],
+              "correctIndex": 2,
+              "explanation": "Η αστική ευθύνη αναφέρεται στη νομική υποχρέωση να αποζημιωθούν οι ζημίες που προκαλούνται σε τρίτους.",
+              "difficulty": "hard"
+            },
+            {
+              "question": "Ποια είναι παραδείγματα ανθρωπογενών καταστροφών;",
+              "options": [
+                "Σεισμοί",
+                "Πλημμύρες",
+                "Έκρηξη σε εργοστάσιο",
+                "Πυρκαγιές"
+              ],
+              "correctIndex": 2,
+              "explanation": "Η έκρηξη σε εργοστάσιο είναι παράδειγμα ανθρωπογενούς καταστροφής.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες καταστροφές είναι συχνότερες;",
+              "options": [
+                "Ασθένειες",
+                "Πλημμύρες",
+                "Αυτοκινητιστικά ατυχήματα",
+                "Τυφώνες"
+              ],
+              "correctIndex": 1,
+              "explanation": "Οι πλημμύρες είναι συχνές φυσικές καταστροφές που προκαλούν σοβαρές ζημίες.",
+              "difficulty": "easy"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Ποιες είναι οι κύριες κατηγορίες καταστροφικών γεγονότων;",
+              "modelAnswer": "Οι κύριες κατηγορίες περιλαμβάνουν φυσικές καταστροφές (όπως σεισμούς και τυφώνες) και ανθρωπογενείς καταστροφές (όπως ατυχήματα και εκρήξεις).",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες οι επιπτώσεις των καταστροφικών γεγονότων στους ανθρώπους;",
+              "modelAnswer": "Οι επιπτώσεις περιλαμβάνουν πρόωρο θάνατο, ανικανότητα εργασίας και σοβαρές ψυχολογικές επιπτώσεις στους επιζώντες.",
+              "difficulty": "hard"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Καταστροφικά γεγονότα",
+              "back": "Φαινόμενα με σοβαρές επιπτώσεις σε ανθρώπους, κοινότητες, περιουσίες."
+            },
+            {
+              "front": "Φυσικές καταστροφές",
+              "back": "Σεισμοί, τυφώνες, πλημμύρες, πυρκαγιές."
+            },
+            {
+              "front": "Ανθρωπογενείς καταστροφές",
+              "back": "Ατυχήματα, εκρήξεις, βιομηχανικά ατυχήματα."
+            },
+            {
+              "front": "Αστική ευθύνη",
+              "back": "Νομική υποχρέωση αποζημίωσης για ζημίες."
+            },
+            {
+              "front": "Ευθύνη εργοδότη",
+              "back": "Υποχρέωση προστασίας εργαζομένων από κινδύνους."
+            }
+          ],
+          "examQuestion": {
+            "question": "Συζητήστε τις σοβαρές συνέπειες των καταστροφικών γεγονότων στην κοινωνία. Πώς μπορούν οι οργανώσεις και οι κυβερνήσεις να μειώσουν τον αντίκτυπό τους;",
+            "modelAnswer": "Οι σοβαρές συνέπειες περιλαμβάνουν πρόωρο θάνατο, ανικανότητα εργασίας και καταστροφές σε περιουσίες, προκαλώντας ψυχολογικά και οικονομικά προβλήματα. Οργανώσεις και κυβερνήσεις μπορούν να μειώσουν τον αντίκτυπο μέσω προγραμμάτων πρόληψης, εκπαίδευσης πολιτών και βελτιστών πρακτικών διαχείρισης κρίσεων, συμπεριλαμβανομένης της ενίσχυσης υποδομών και ανάπτυξης στρατηγικών εκτάκτου ανάγκης.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Οι φοιτητές συχνά μπερδεύουν τις φυσικές με τις ανθρωπογενείς καταστροφές.",
+            "Είναι σύνηθες να υποτιμούν την σημασία της ασφάλισης.",
+            "Πολλοί νομίζουν ότι η πρόληψη είναι προαιρετική και όχι κρίσιμη."
+          ]
+        },
+        {
+          "id": "698f3c3fe86fabc604724990",
+          "title": "Σκοπός της ασφάλισης",
+          "order": 3,
+          "summary": "Ο κύριος σκοπός της ασφάλισης είναι να αποκαταστήσει τους ασφαλισμένους στην οικονομική κατάσταση που βρίσκονταν πριν από ζημίες ή απώλειες. Οι διαχειριστές του Κοινού Ταμείου εργάζονται για την αποτελεσματική και δίκαιη υλοποίηση αυτού του στόχου. Έτσι, η κύρια λειτουργία της ασφάλισης εστιάζει στη δίκαιη κατανομή των ζημιών, εξασφαλίζοντας ότι οι επιπτώσεις των ζημιών αναδιανέμονται μεταξύ των ασφαλισμένων με τρόπο που διατηρεί την οικονομική τους ασφάλεια και σταθερότητα.",
+          "keyDefinitions": [
+            {
+              "term": "Ασφάλιση",
+              "definition": "Συμφωνία για την προστασία από οικονομικές απώλειες μέσω της καταβολής χρημάτων σε περίπτωση ζημιάς."
+            },
+            {
+              "term": "Δίκαιη Κατανομή",
+              "definition": "Η διαδικασία μέσω της οποίας οι ζημίες διανέμονται μεταξύ των ασφαλισμένων ώστε κανείς να μην επιβαρύνεται υπερβολικά."
+            },
+            {
+              "term": "Κοινό Ταμείο",
+              "definition": "Φορέας που συλλέγει ασφάλιστρα και διαχειρίζεται τους πόρους για την αποζημίωση ζημιών."
+            },
+            {
+              "term": "Επαναφορά",
+              "definition": "Η διαδικασία αποζημίωσης που αποκαθιστά την οικονομική θέση των ασφαλισμένων."
+            }
+          ],
+          "killerFacts": [
+            "Η ασφάλιση επιτρέπει την οικονομική ασφάλεια και προστασία από απρόβλεπτες ζημίες.",
+            "Η δίκαιη κατανομή της ζημιάς διασφαλίζει τη δικαιοσύνη για όλους τους ασφαλισμένους.",
+            "Οι διαχειριστές του Κοινού Ταμείου είναι υπεύθυνοι για την σωστή διαχείριση των πόρων.",
+            "Η επαναφορά την οικονομικής θέσης είναι ο θεμελιώδης σκοπός της ασφάλισης.",
+            "Η ασφάλιση λειτουργεί βάσει του принципu της αλληλεγγύης μεταξύ των ασφαλισμένων."
+          ],
+          "mcq": [
+            {
+              "question": "Ποιος είναι ο κύριος σκοπός της ασφάλισης;",
+              "options": [
+                "Η αύξηση του κέρδους",
+                "Η επαναφορά στην οικονομική θέση πριν τη ζημιά",
+                "Η μείωση των ζημιών",
+                "Η αύξηση των ασφαλίστρων"
+              ],
+              "correctIndex": 1,
+              "explanation": "Ο κύριος σκοπός της ασφάλισης είναι να αποκαταστήσει την οικονομική κατάσταση των ασφαλισμένων μετά από ζημίες.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Ποια είναι η κύρια λειτουργία της ασφάλισης;",
+              "options": [
+                "Η δίκαιη κατανομή της ζημιάς",
+                "Η αύξηση της πελατείας",
+                "Η μείωση των ασφαλίστρων",
+                "Η επένδυση των κεφαλαίων"
+              ],
+              "correctIndex": 0,
+              "explanation": "Η δίκαιη κατανομή των ζημιών μεταξύ ασφαλισμένων είναι η θεμελιώδης λειτουργία της ασφάλισης.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιοι εργαζόμενοι είναι υπεύθυνοι για την αποτελεσματική υλοποίηση της ασφάλισης;",
+              "options": [
+                "Οι ασφαλισμένοι",
+                "Οι διαχειριστές του Κοινού Ταμείου",
+                "Οι χρηματοοικονομικοί σύμβουλοι",
+                "Οι εποπτικές αρχές"
+              ],
+              "correctIndex": 1,
+              "explanation": "Οι διαχειριστές του Κοινού Ταμείου είναι υπεύθυνοι για την αποτελεσματική και δίκαιη υλοποίηση της ασφάλισης.",
+              "difficulty": "hard"
+            },
+            {
+              "question": "Ποιος είναι ο ρόλος του Κοινού Ταμείου στην ασφάλιση;",
+              "options": [
+                "Να επενδύει τα κεφάλαια",
+                "Να συλλέγει ασφαλίστρα και να διαχειρίζεται αποζημιώσεις",
+                "Να δημιουργεί νέα προϊόντα ασφάλισης",
+                "Να αυξάνει την κερδοφορία"
+              ],
+              "correctIndex": 1,
+              "explanation": "Το Κοινό Ταμείο είναι υπεύθυνο για τη συλλογή ασφαλίστρων και την αποζημίωση των ζημιών.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς συνδέεται η ασφάλιση με την οικονομική ασφάλεια;",
+              "options": [
+                "Αυξάνει τους κινδύνους",
+                "Προστατεύει από άγνωστες απώλειες",
+                "Επιβαρύνει τους ασφαλισμένους",
+                "Δημιουργεί υποχρεώσεις"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η ασφάλιση προστατεύει τους ασφαλισμένους από απλές και απρόβλεπτες οικονομικές ζημίες, εξασφαλίζοντας την οικονομική τους ασφάλεια.",
+              "difficulty": "easy"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Ποια είναι η διαφορά μεταξύ της αποζημίωσης και της επαναφοράς στην ασφάλιση;",
+              "modelAnswer": "Η αποζημίωση αναφέρεται στην καταβολή χρημάτων για ζημιά, ενώ η επαναφορά περιλαμβάνει την αποκατάσταση της οικονομικής θέσης του ασφαλισμένου στην κατάσταση που ήταν πριν τη ζημία.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Γιατί είναι σημαντική η δίκαιη κατανομή της ζημιάς;",
+              "modelAnswer": "Είναι σημαντική διότι διασφαλίζει ότι όλοι οι ασφαλισμένοι επιβαρύνονται δίκαια και ότι κανείς δεν θα υποβαθμιστεί οικονομικά από τις αντιξοότητες.",
+              "difficulty": "easy"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Κύριος σκοπός της ασφάλισης",
+              "back": "Επαναφορά στην οικονομική θέση πριν τη ζημιά."
+            },
+            {
+              "front": "Δίκαιη Κατανομή",
+              "back": "Διαδικασία δίκαιης διανομής ζημιών μεταξύ ασφαλισμένων."
+            },
+            {
+              "front": "Κοινό Ταμείο",
+              "back": "Φορέας που συλλέγει ασφαλίστρα και διαχειρίζεται αποζημιώσεις."
+            },
+            {
+              "front": "Ασφάλιση",
+              "back": "Συμφωνία προστασίας από οικονομικές απώλειες."
+            },
+            {
+              "front": "Επαναφορά",
+              "back": "Αποκατάσταση της οικονομικής θέσης του ασφαλισμένου."
+            }
+          ],
+          "examQuestion": {
+            "question": "Εξηγήστε τον κύριο σκοπό της ασφάλισης και τον ρόλο της δίκαιης κατανομής της ζημίας. Στηρίξτε την απάντησή σας με παραδείγματα.",
+            "modelAnswer": "Ο κύριος σκοπός της ασφάλισης είναι να αποκαθιστά την οικονομική κατάσταση των ασφαλισμένων, παρέχοντας αποζημιώσεις για ζημίες ή απώλειες. Η δίκαιη κατανομή της ζημίας εξασφαλίζει ότι οι οικονομικές επιπτώσεις διανέμονται ομοιόμορφα μεταξύ των ασφαλισμένων, έτσι ώστε ο καθένας να καταβάλλει ένα μερίδιο βάσει του κινδύνου του. Για παράδειγμα, εάν μία εταιρεία υποστεί ζημιά λόγω φυσική καταστροφής, η ασφάλισή της θα καλύψει τα κόστη επιδιορθώσεων, επιτρέποντάς της να επιστρέψει στην προηγούμενη οικονομική της θέση. Αν η ζημία ήταν να καλυφθεί μόνο από τον ασθενέστερο ασφαλισμένο, αυτό θα προκαλούσε έντονη αδικία και οικονομική αναστάτωση.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Μπέρδεμα μεταξύ αποζημίωσης και επαναφοράς στην ασφάλιση.",
+            "Αγνόηση του ρόλου του Κοινού Ταμείου στην ασφαλιστική διαδικασία.",
+            "Παράβλεψη της σημασίας της δίκαιης κατανομής των ζημιών."
+          ]
+        },
+        {
+          "id": "698f3c713ee73c671cd2b1c7",
+          "title": "Λειτουργίες της ασφάλισης",
+          "order": 4,
+          "summary": "Η ασφάλιση επιτελεί κύριες και δευτερεύουσες λειτουργίες θεμελιώδεις για την κοινωνία και την επιχειρηματικότητα. Η κύρια λειτουργία της είναι η δίκαιη κατανομή της ζημιάς, που επιτρέπει στους ασφαλισμένους να μοιράζονται τον κίνδυνο και τις συνέπειες οικονομικών ζημιών. Οι δευτερεύουσες λειτουργίες περιλαμβάνουν την ελαχιστοποίηση του κινδύνου, τη συμμετοχή στην ανάπτυξη επιχειρήσεων και την ευημερία της κοινωνίας, μέσω της συνεισφοράς ενός μεγάλου αριθμού ασφαλισμένων. Η δίκαιη κατανομή του κινδύνου εξασφαλίζει την βιωσιμότητα των αποθεματικών και ενισχύει την παρακίνηση των ασφαλισμένων να καταβάλουν τις ασφαλιστικές τους εισφορές.",
+          "keyDefinitions": [
+            {
+              "term": "Κύρια λειτουργία της ασφάλισης",
+              "definition": "Η δίκαιη κατανομή της ζημιάς μεταξύ των ασφαλισμένων."
+            },
+            {
+              "term": "Ελαχιστοποίηση του κινδύνου",
+              "definition": "Λειτουργία που αποσκοπεί στη μείωση των επιπτώσεων των κινδύνων στις επιχειρήσεις και τα άτομα."
+            },
+            {
+              "term": "Δευτερεύουσες λειτουργίες της ασφάλισης",
+              "definition": "Λειτουργίες που περιλαμβάνουν την ανάπτυξη επιχειρήσεων και την κοινωνική ευημερία."
+            },
+            {
+              "term": "Δίκαιη συνεισφορά",
+              "definition": "Η αναλογία του κινδύνου που μεταβιβάζει κάθε ασφαλισμένος στο κοινό ταμείο."
+            },
+            {
+              "term": "Αξιοπιστία αποθεματικών",
+              "definition": "Η ικανότητα των αποθεματικών να καλύπτουν τις απαιτήσεις αποζημιώσεων."
+            }
+          ],
+          "killerFacts": [
+            "Η ασφάλιση βοηθά στη διαχείριση οικονομικών κινδύνων.",
+            "Η δίκαιη κατανομή της ζημιάς προστατεύει τους αδύναμους.",
+            "Μια μεγάλη βάση ασφαλισμένων συμβάλλει στη βιωσιμότητα του συστήματος.",
+            "Οι ασφαλισμένοι ενθαρρύνονται να καταβάλουν τις εισφορές τους μέσω εγγυήσεων κινδύνου.",
+            "Οι δευτερεύουσες λειτουργίες της ασφάλισης ενισχύουν την κοινωνική δικαιοσύνη."
+          ],
+          "mcq": [
+            {
+              "question": "Ποια είναι η κύρια λειτουργία της ασφάλισης;",
+              "options": [
+                "Η αποφυγή κινδύνου",
+                "Η δίκαιη κατανομή της ζημιάς",
+                "Η ανάπτυξη επιχειρήσεων",
+                "Η λιτότητα"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η κύρια λειτουργία της ασφάλισης είναι η δίκαιη κατανομή της ζημιάς.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες είναι οι δευτερεύουσες λειτουργίες της ασφάλισης;",
+              "options": [
+                "Περιορισμός των επενδύσεων",
+                "Ελαχιστοποίηση του κινδύνου",
+                "Αποτροπή φυσικών καταστροφών",
+                "Αύξηση των εξόδων"
+              ],
+              "correctIndex": 1,
+              "explanation": "Οι δευτερεύουσες λειτουργίες περιλαμβάνουν την ελαχιστοποίηση του κινδύνου.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς συμβάλλει η ασφάλιση στην κοινωνία;",
+              "options": [
+                "Αυξάνει τον πλούτο των πλούσιων",
+                "Μειώνει τις ευθύνες των ασφαλισμένων",
+                "Συμμετέχει στην ανάπτυξη και στην ευημερία της κοινωνίας",
+                "Επιβραδύνει τις οικονομικές δραστηριότητες"
+              ],
+              "correctIndex": 2,
+              "explanation": "Η ασφάλιση συμβάλλει στην ανάπτυξη και στην ευημερία της κοινωνίας.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιό είναι ένα πλεονέκτημα της δίκαιης συνεισφοράς στην ασφάλιση;",
+              "options": [
+                "Δημιουργεί δυσκολίες στους ασφαλισμένους",
+                "Προστατεύει το κοινωνικό ταμείο",
+                "Επικεντρώνει τον κίνδυνο σε λίγους",
+                "Μειώνει την εμπιστοσύνη στο σύστημα"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η δίκαιη συνεισφορά προστατεύει το κοινωνικό ταμείο και διασφαλίζει την βιωσιμότητά του.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιό είναι το κύριο όφελος από την τακτική καταβολή ασφαλιστικών εισφορών;",
+              "options": [
+                "Η αύξηση των φόρων",
+                "Δημιουργία αξιόπιστων αποθεματικών",
+                "Μείωση των επιδοτήσεων",
+                "Η μείωση του πληθυσμού"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η τακτική καταβολή συμβάλλει στη δημιουργία αξιόπιστων αποθεματικών.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Ποιες είναι οι βασικές λειτουργίες της ασφάλισης;",
+              "modelAnswer": "Οι βασικές λειτουργίες της ασφάλισης περιλαμβάνουν την κύρια λειτουργία, που είναι η δίκαιη κατανομή της ζημιάς, και τις δευτερεύουσες λειτουργίες όπως η ελαχιστοποίηση του κινδύνου και η συμμετοχή στην κοινωνική ευημερία.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς οι ασφαλισμένοι ωφελούνται από τη δίκαιη συνεισφορά;",
+              "modelAnswer": "Οι ασφαλισμένοι ωφελούνται από τη δίκαιη συνεισφορά καθώς αυτή διασφαλίζει τη βιωσιμότητα του ταμείου, επιτρέποντας την αποζημίωση των ολίγων που έχουν υποστεί ζημιά.",
+              "difficulty": "hard"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Κύρια λειτουργία της ασφάλισης",
+              "back": "Η δίκαιη κατανομή της ζημιάς."
+            },
+            {
+              "front": "Ελαχιστοποίηση του κινδύνου",
+              "back": "Λειτουργία που αποσκοπεί στη μείωση των επιπτώσεων των κινδύνων."
+            },
+            {
+              "front": "Δευτερεύουσες λειτουργίες της ασφάλισης",
+              "back": "Συμβάλλουν στην ανάπτυξη και ευημερία της κοινωνίας."
+            },
+            {
+              "front": "Δίκαιη συνεισφορά",
+              "back": "Αναλογία κινδύνου που μεταβιβάζει ο ασφαλισμένος στο κοινό ταμείο."
+            },
+            {
+              "front": "Αξιοπιστία αποθεματικών",
+              "back": "Η ικανότητα των αποθεματικών να καλύπτουν τις απαιτήσεις αποζημιώσεων."
+            }
+          ],
+          "examQuestion": {
+            "question": "Να περιγράψετε τις κύριες και δευτερεύουσες λειτουργίες της ασφάλισης και να εξηγήσετε πώς αυτές ενισχύουν την οικονομία και την κοινωνία.",
+            "modelAnswer": "Οι κύριες λειτουργίες της ασφάλισης περιλαμβάνουν την δίκαιη κατανομή της ζημιάς, που επιτρέπει στους ασφαλισμένους να προστατευτούν από οικονομικές κρίσεις μοιράζοντας τον κίνδυνο. Οι δευτερεύουσες λειτουργίες επικεντρώνονται στην ελαχιστοποίηση του κινδύνου και συμβάλλουν στην ανάπτυξη και ευημερία της κοινωνίας, διευκολύνοντας τις επιχειρηματικές δραστηριότητες και ενισχύοντας την κοινωνική δικαιοσύνη μέσω δίκαιης συμμετοχής. Ως αποτέλεσμα, η κοινωνία χρειάζεται ένα αποτελεσματικό σύστημα ασφάλισης για να προάγει την ανάπτυξη και να υποστηρίξει τους πολίτες σε καταστάσεις κρίσης. Αυτές οι λειτουργίες, μαζί, δημιουργούν ένα οικονομικά υγιές περιβάλλον που συμβάλλει στην πρόοδο της κοινωνίας.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Οι ασφαλισμένοι συχνά συγχέουν τις κύριες και δευτερεύουσες λειτουργίες της ασφάλισης.",
+            "Πολλοί πιστεύουν ότι η ασφάλιση αποτυγχάνει να προσφέρει δίκαια αποδόσεις, ενώ οι στατιστικές το αναιρούν.",
+            "Η έννοια της δίκαιης συνεισφοράς μπορεί να παρανοηθεί ως αδικία από μέρους των ασφαλιστών."
+          ]
+        },
+        {
+          "id": "698f3c92691c60adff55b0aa",
+          "title": "Ελαχιστοποίηση του κινδύνου και περιορισμός των ζημιών - Δευτερεύουσα λειτουργία",
+          "order": 5,
+          "summary": "Η ελαχιστοποίηση του κινδύνου και ο περιορισμός των ζημιών είναι δευτερεύουσες λειτουργίες που αφορούν την προστασία των ασφαλισμένων από κινδύνους. Περιλαμβάνουν χειρισμούς που στοχεύουν στην πρόληψη ζημιών, καθώς και την υποβολή όρων και προϋποθέσεων που καθορίζουν την αποδοχή των κινδύνων. Οι ασφαλιστές προωθούν κίνητρα όπως χαμηλότερα ασφάλιστρα για καταστάσεις χαμηλού κινδύνου, ενώ παράλληλα εφαρμόζουν επιβαρύνσεις σε περιπτώσεις υψηλού κινδύνου. Ο στόχος αυτών των διαδικασιών είναι η βελτίωση της ασφαλιστικής κάλυψης και η ελαχιστοποίηση των οικονομικών ζημιών για όλους τους εμπλεκόμενους.",
+          "keyDefinitions": [
+            {
+              "term": "Ελαχιστοποίηση κινδύνου",
+              "definition": "Ενέργειες που αποσκοπούν στη μείωση των πιθανών ζημιών που προέρχονται από κινδύνους."
+            },
+            {
+              "term": "Περιορισμός ζημιών",
+              "definition": "Μέτρα που λαμβάνονται για να περιορίσουν τη ζημία που προκαλείται από ένα ήδη υπάρχον κίνδυνο."
+            },
+            {
+              "term": "Κίνητρα προστασίας από τον κίνδυνο",
+              "definition": "Στρατηγικές που ενθαρρύνουν τους πελάτες να αναλάβουν προληπτικά μέτρα κατά των κινδύνων."
+            },
+            {
+              "term": "Όροι και προϋποθέσεις αποδοχής του κινδύνου",
+              "definition": "Κανονισμοί που καθορίζουν πώς και πότε οι ασφαλιστές θα αποδεχτούν ή θα απορρίψουν κινδύνους."
+            },
+            {
+              "term": "Επιβαρύνσεις",
+              "definition": "Πρόσθετα κόστη που επιβάλλονται σε ασφαλισμένα πρόσωπα με υψηλότερο κίνδυνο."
+            }
+          ],
+          "killerFacts": [
+            "Η πρόληψη ζημιών είναι πιο αποτελεσματική και οικονομική από τις αποζημιώσεις.",
+            "Η εφαρμογή στενών όρων αποδοχής κινδύνων μπορεί να μειώσει την έκθεση των ασφαλιστών σε οικονομικά βάρη.",
+            "Η εξέταση των κινδύνων πριν από την ασφάλιση καθορίζει την εφικτότητα της ασφάλισής τους.",
+            "Χαμηλότερα ασφάλιστρα προσφέρονται σε πελάτες με αναγνωρίσιμες στρατηγικές προστασίας.",
+            "Η νομοθεσία μπορεί να υποχρεώνει τους ασφαλιστές να παρέχουν συγκεκριμένα κίνητρα για τη μείωση κινδύνων."
+          ],
+          "mcq": [
+            {
+              "question": "Ποιη είναι η κύρια εφαρμογή της ελαχιστοποίησης του κινδύνου;",
+              "options": [
+                "Να αυξήσει τις αποζημιώσεις",
+                "Να μειώσει τις πιθανότητες ζημιών",
+                "Να επενδύσει κεφάλαια",
+                "Να επιβάλει σκληρούς κανόνες"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η ελαχιστοποίηση του κινδύνου στοχεύει στη μείωση των πιθανών ζημιών που μπορεί να προκύψουν.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιο από τα παρακάτω αποτελεί κίνητρο προστασίας από τον κίνδυνο;",
+              "options": [
+                "Υψηλότερα ασφάλιστρα",
+                "Αυστηρότερες ποινές",
+                "Εκπτώσεις στις ασφαλίσεις",
+                "Μη διαφανείς όροι"
+              ],
+              "correctIndex": 2,
+              "explanation": "Οι εκπτώσεις στις ασφαλίσεις προωθούν τη λήψη προληπτικών μέτρων κατά των κινδύνων.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιο είναι το αποτέλεσμα της επιβολής επιβαρύνσεων στους ασφαλισμένους;",
+              "options": [
+                "Μείωση κινδύνου",
+                "Αύξηση συμφερόντων",
+                "Μείωση των ζημιών",
+                "Αύξηση του κόστους"
+              ],
+              "correctIndex": 3,
+              "explanation": "Οι επιβαρύνσεις αποσκοπούν στη διαχείριση υψηλού κινδύνου μέσω αύξησης του κόστους των ασφαλίστρων.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες είναι οι 2 κύριες λειτουργίες της ελαχιστοποίησης του κινδύνου;",
+              "options": [
+                "Πρόληψη και επιβολή",
+                "Εκτίμηση και υποβολή",
+                "Διασφάλιση και επένδυση",
+                "Αποζημίωση και ανάλυση"
+              ],
+              "correctIndex": 0,
+              "explanation": "Η ελαχιστοποίηση του κινδύνου περιλαμβάνει προληπτικά μέτρα και επιβολές για τη διαχείριση του κινδύνου.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιο είναι το πλεονέκτημα των όρων και προϋποθέσεων αποδοχής του κινδύνου;",
+              "options": [
+                "Αυξάνουν την ασφάλιση",
+                "Μειώνουν τους κινδύνους",
+                "Απαιτούν λιγότερη τεκμηρίωση",
+                "Προστατεύουν τους ασφαλιστές"
+              ],
+              "correctIndex": 3,
+              "explanation": "Οι όροι αποδοχής προσδιορίζουν τις συνθήκες που προστατεύουν τους ασφαλιστές από ανεπιθύμητους κινδύνους.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Ποιες είναι οι βασικές στρατηγικές για την ελαχιστοποίηση του κινδύνου;",
+              "modelAnswer": "Βασικές στρατηγικές περιλαμβάνουν την εκπαίδευση των ασφαλισμένων, την ενθάρρυνση προφυλακτικών μέτρων και την υποβολή ευνοϊκών όρων για ασφαλισμένους με χαμηλό κίνδυνο.",
+              "difficulty": "Medium"
+            },
+            {
+              "question": "Πώς επηρεάζει η εφαρμογή επιβαρύνσεων τους ασφαλισμένους;",
+              "modelAnswer": "Η εφαρμογή επιβαρύνσεων αυξάνει το κόστος για ασφαλισμένους με υψηλούς κινδύνους, ενθαρρύνοντας ταυτόχρονα τη λήψη μέτρων μείωσης των κινδύνων.",
+              "difficulty": "Hard"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Ελαχιστοποίηση κινδύνου",
+              "back": "Ενέργειες για τη μείωση των πιθανών ζημιών."
+            },
+            {
+              "front": "Περιορισμός ζημιών",
+              "back": "Μέτρα που περιορίζουν ήδη υπάρχουσες ζημιές."
+            },
+            {
+              "front": "Κίνητρα προστασίας",
+              "back": "Στρατηγικές για ενθάρρυνση προληπτικών μέτρων."
+            },
+            {
+              "front": "Όροι αποδοχής κινδύνου",
+              "back": "Κανονισμοί για την αποδοχή ή απόρριψη κινδύνων."
+            },
+            {
+              "front": "Επιβαρύνσεις",
+              "back": "Πρόσθετα κόστη για ασφαλισμένα πρόσωπα υψηλού κινδύνου."
+            }
+          ],
+          "examQuestion": {
+            "question": "Αναλύστε τη σημασία της ελαχιστοποίησης του κινδύνου και του περιορισμού των ζημιών για τους ασφαλιστές και τους ασφαλισμένους. Περιγράψτε τουλάχιστον τρεις στρατηγικές που χρησιμοποιούνται για αυτούς τους σκοπούς.",
+            "modelAnswer": "Η ελαχιστοποίηση του κινδύνου και ο περιορισμός των ζημιών είναι κρίσιμες διαδικασίες για την ασφαλιστική βιομηχανία. Για τους ασφαλιστές, αυτές οι διαδικασίες βοηθούν στη μείωση των πιθανών οικονομικών εκθέσεων και ενισχύουν τη βιωσιμότητα των συμβολαίων. Για τους ασφαλισμένους, η εφαρμογή στρατηγικών περιορισμού κινδύνων τους προσφέρει μεγαλύτερη οικονομική ασφάλεια. Τρεις στρατηγικές περιλαμβάνουν: 1) Εκπαίδευση ασφαλισμένων για ασφαλείς πρακτικές, 2) Παροχή εκπτώσεων για ασφαλισμένους που αποδεικνύουν χαμηλό κίνδυνο, και 3) Εφαρμογή επιβαρύνσεων σε ασφαλισμένα πρόσωπα με υψηλές επικινδυνότητες που ενθαρρύνει τη λήψη μέτρων πρόληψης.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Οι μαθητές συχνά μπερδεύουν την ελαχιστοποίηση κινδύνου με τον περιορισμό ζημιών.",
+            "Πολλοί δεν γνωρίζουν τη σημασία των κινήτρων και πιστεύουν ότι όλοι οι ασφάλειες είναι ίδιες.",
+            "Αγνοούν τη σημασία των όρων αποδοχής κινδύνου κατά την αξιολόγηση της πολιτικής ασφάλισης."
+          ]
+        },
+        {
+          "id": "698f3cb70eba641893b7bc75",
+          "title": "Υποβοήθηση ιδιωτικού τομέα - Δευτερεύουσα λειτουργία",
+          "order": 6,
+          "summary": "Η υποβοήθηση του ιδιωτικού τομέα, ως δευτερεύουσα λειτουργία, παίζει κρίσιμο ρόλο στην προστασία των κεφαλαίων των επιχειρήσεων μέσω της μεταβίβασης των κινδύνων και της ενίσχυσης της φερεγγυότητας. Οι επιχειρήσεις μπορούν να απελευθερώσουν εφεδρικά κεφάλαια και να ενισχύσουν τη σχέση τους με πιστωτές μέσω πιστώσεων και κεφαλαίων. Η αγοραπωλησία μετοχών ή χρεογράφων, καθώς και η αύξηση της δανειοδοτικής ικανότητας των εμπορικών τραπεζών μέσω καταθέσεων ασφαλιστικών εταιρειών, καταδεικνύουν τη σημασία της χρηματοδότησης. Τέλος, η ανάπτυξη του διεθνούς εμπορίου με την εξαγωγή προϊόντων και την επέκταση σε τρίτες χώρες είναι κρίσιμη για την ευημερία των επιχειρήσεων.",
+          "keyDefinitions": [
+            {
+              "term": "Υποβοήθηση ιδιωτικού τομέα",
+              "definition": "Στρατηγικές και διαδικασίες που υποστηρίζουν τις επιχειρήσεις στη διαχείριση κινδύνων και στη χρηματοδότηση."
+            },
+            {
+              "term": "Φερεγγυότητα",
+              "definition": "Η ικανότητα μιας επιχείρησης να εκπληρώσει τις χρηματοοικονομικές υποχρεώσεις της."
+            },
+            {
+              "term": "Μεταβίβαση κινδύνων",
+              "definition": "Η διαδικασία μεταφοράς των χρηματοοικονομικών κινδύνων από μια επιχείρηση σε τρίτους, συνήθως μέσω ασφαλίσεων."
+            },
+            {
+              "term": "Αύξηση δανειοδοτικής ικανότητας",
+              "definition": "Η ικανότητα των εμπορικών τραπεζών να παρέχουν πιστώσεις, ενισχυμένη από την κατάθεση κεφαλαίων."
+            },
+            {
+              "term": "Διεθνές εμπόριο",
+              "definition": "Η εμπορική δραστηριότητα που περιλαμβάνει ανταλλαγή προϊόντων και υπηρεσιών μεταξύ χωρών."
+            }
+          ],
+          "killerFacts": [
+            "Η υποβοήθηση του ιδιωτικού τομέα είναι θεμελιώδης για τη διαχείριση κινδύνων.",
+            "Η φερεγγυότητα των επιχειρήσεων επηρεάζεται άμεσα από τις πιστώσεις και τα κεφάλαια.",
+            "Η μεταβίβαση κινδύνων βοηθά στη διατήρηση εφεδρικών κεφαλαίων.",
+            "Η αύξηση της δανειοδοτικής ικανότητας των τραπεζών δίνει ώθηση στην οικονομία.",
+            "Το διεθνές εμπόριο επεκτείνει τις δυνατότητες ανάπτυξης για τις επιχειρήσεις. "
+          ],
+          "mcq": [
+            {
+              "question": "Τι είναι η φερεγγυότητα;",
+              "options": [
+                "Η ικανότητα για παραγωγή προϊόντων",
+                "Η ικανότητα εκπλήρωσης υποχρεώσεων",
+                "Η διαδικασία αποδοχής κινδύνων",
+                "Η δυνατότητα αύξησης μετοχών"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η φερεγγυότητα αναφέρεται στην ικανότητα μιας επιχείρησης να πληρώνει τους πιστωτές της.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς μπορεί να ενισχυθεί η κεφαλαιακή θέση μιας επιχείρησης;",
+              "options": [
+                "Οικονομική διαχείριση",
+                "Πώληση περιουσιακών στοιχείων",
+                "Μεταβίβαση κινδύνων",
+                "Περιορισμός παραγωγής"
+              ],
+              "correctIndex": 2,
+              "explanation": "Η μεταβίβαση κινδύνων μέσω ασφαλίσεων μπορεί να διασφαλίσει τη χρηματοοικονομική σταθερότητα.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιος είναι ένας τρόπος χρηματοδότησης των επιχειρήσεων μέσω αγορών;",
+              "options": [
+                "Αυξήσεις μετοχών",
+                "Πιστωτικές κάρτες",
+                "Αλλαγές νομισμάτων",
+                "Φοροαπαλλαγές"
+              ],
+              "correctIndex": 0,
+              "explanation": "Η αγορά μετοχών είναι μια κοινή μέθοδος χρηματοδότησης των επιχειρήσεων.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποια δήλωση για τη διεθνή εμπορική δραστηριότητα είναι σωστή;",
+              "options": [
+                "Μόνο χώρες της ΕΕ συμμετέχουν",
+                "Αυξάνει την πρόσβαση σε νέες αγορές",
+                "Περιορίζει τον ανταγωνισμό",
+                "Η πώληση προϊόντων δεν απαιτεί στρατηγική"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η διεθνής εμπορική δραστηριότητα διευρύνει τις δυνατότητες και την αγοραστική βάση των επιχειρήσεων.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιο από τα παρακάτω δεν είναι όφελος της υποβοήθησης ιδιωτικού τομέα;",
+              "options": [
+                "Αύξηση κεφαλαίων",
+                "Μείωση κινδύνων",
+                "Διεύρυνση των αγορών",
+                "Μεγαλύτερη απασχόληση"
+              ],
+              "correctIndex": 3,
+              "explanation": "Η υποβοήθηση του ιδιωτικού τομέα δεν είναι άμεσα υπεύθυνη για την αύξηση της απασχόλησης.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Ποιες είναι οι βασικές λειτουργίες της υποβοήθησης του ιδιωτικού τομέα;",
+              "modelAnswer": "Οι βασικές λειτουργίες περιλαμβάνουν τη μεταβίβαση κινδύνων, την προστασία των κεφαλαίων και την αύξηση της φερεγγυότητας των επιχειρήσεων.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς συμβάλλει η ανάπτυξη του διεθνούς εμπορίου στις επιχειρήσεις;",
+              "modelAnswer": "Η ανάπτυξη του διεθνούς εμπορίου ενισχύει την εμπορική δραστηριότητα, επιτρέπει την εξαγωγή προϊόντων και διευρύνει τις επιχειρηματικές δραστηριότητες σε νέες αγορές.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Υποβοήθηση ιδιωτικού τομέα",
+              "back": "Στρατηγικές για την υποστήριξη και προστασία των επιχειρήσεων."
+            },
+            {
+              "front": "Φερεγγυότητα",
+              "back": "Η ικανότητα της επιχείρησης να ανταποκριθεί σε χρηματοοικονομικές υποχρεώσεις."
+            },
+            {
+              "front": "Μεταβίβαση κινδύνων",
+              "back": "Διαδικασία μεταφοράς κινδύνων σε τρίτους μέσω ασφαλίσεων."
+            },
+            {
+              "front": "Διεθνές Εμπόριο",
+              "back": "Εμπορικές δραστηριότητες μεταξύ χωρών."
+            },
+            {
+              "front": "Δανειοδοτική ικανότητα",
+              "back": "Η ικανότητα των χρηματοπιστωτικών ιδρυμάτων να παρέχουν πιστώσεις."
+            }
+          ],
+          "examQuestion": {
+            "question": "Εξηγήστε τη σημασία της υποβοήθησης του ιδιωτικού τομέα για τις επιχειρήσεις, προσδιορίζοντας τις κύριες λειτουργίες και την επίδρασή της στη χρηματοοικονομική σταθερότητα.",
+            "modelAnswer": "Η υποβοήθηση του ιδιωτικού τομέα είναι πολύ σημαντική καθώς παρέχει μια σειρά από στρατηγικές και διαδικασίες για τη διαχείριση των κινδύνων που αντιμετωπίζουν οι επιχειρήσεις. Μέσω της μεταβίβασης κινδύνων, οι επιχειρήσεις μπορούν να προστατεύσουν τα κεφάλαιά τους, απελευθερώνοντας έτσι εφεδρικά κεφάλαια για άλλες επενδύσεις. Επίσης, η ενίσχυση της φερεγγυότητας τους επιτρέπει να διατηρούν σχέσεις εμπιστοσύνης με τους πιστωτές τους και να εξασφαλίζουν καλλίτερες πιστώσεις. Η υποβοήθηση του ιδιωτικού τομέα ενισχύει τη δανειοδοτούμενη ικανότητα των εμπορικών τραπεζών μέσα από τις καταθέσεις ασφαλιστικών εταιρειών, γεγονός που διευκολύνει την αύξηση των πιστώσεων προς τις επιχειρήσεις. Συνολικά, αυτές οι διαδικασίες ενισχύουν τη χρηματοοικονομική σταθερότητα και την ανάπτυξή τους στις διεθνείς αγορές.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Περίπλοκες διατυπώσεις που συνδέουν τις διαδικασίες με τον κίνδυνο.",
+            "Λάθος ερμηνείες των όρων φερεγγυότητα και ικανότητα δανειοδότησης.",
+            "Υποτονική κατανόηση της σημασίας της διεθνούς εμπορικής δραστηριότητας."
+          ]
+        },
+        {
+          "id": "698f3cdb0a409c0924685155",
+          "title": "Υποβοήθηση δημόσιου τομέα - Δευτερεύουσα λειτουργία",
+          "order": 7,
+          "summary": "Η υποβοήθηση του δημόσιου τομέα ως δευτερεύουσα λειτουργία περιλαμβάνει τη μεταβίβαση κεφαλαίων στο κράτος κυρίως μέσω επενδύσεων σε αγορές χρεογράφων και μέσω της φορολογίας ασφαλιστικών επιχειρήσεων. Αυτές οι διαδικασίες αποσκοπούν στη χρηματοδότηση δημόσιων δαπανών για έργα ανάπτυξης, συμβάλλοντας στη δημιουργία νέων θέσεων εργασίας και στη βελτίωση της οικονομικής ευρωστίας του κράτους. Η υποβοήθηση του δημόσιου τομέα οδηγεί στη μείωση του κοινωνικού κόστους, καθώς μειώνει τα προβλήματα που προκύπτουν από την επέλευση του κινδύνου στρεβλώνοντας έτσι τις εργασιακές αγορές και τα κοινωνικά συστήματα.",
+          "keyDefinitions": [
+            {
+              "term": "Υποβοήθηση δημόσιου τομέα",
+              "definition": "Η διαδικασία χρηματοδότησης και στήριξης του δημόσιου τομέα μέσω κρατικών επενδύσεων και φορολογικών εσόδων."
+            },
+            {
+              "term": "Μεταβίβαση κεφαλαίων",
+              "definition": "Η διαδικασία μεταφοράς χρημάτων από μία οντότητα σε μία άλλη, όπως από ιδιώτες ή εταιρείες στο κράτος."
+            },
+            {
+              "term": "Χρεόγραφα",
+              "definition": "Επενδυτικά προϊόντα που αντιπροσωπεύουν μια δανειακή υποχρέωση, όπως ομόλογα και έντοκα γραμμάτια."
+            },
+            {
+              "term": "Δημόσιες δαπάνες",
+              "definition": "Τα έξοδα που πραγματοποιεί το κράτος για υπηρεσίες και έργα προς όφελος της κοινωνίας."
+            },
+            {
+              "term": "Οικονομική Ευρωστία",
+              "definition": "Η κατάσταση κατά την οποία η οικονομία είναι ανθεκτική και ικανή να αντεπεξέλθει σε εξωτερικούς ή εσωτερικούς κραδασμούς."
+            },
+            {
+              "term": "Κοινωνικό κόστος",
+              "definition": "Το κόστος που προκύπτει από κοινωνικά προβλήματα και κινδύνους, συμπεριλαμβανομένων οικονομικών, ψυχολογικών και περιβαλλοντικών επιπτώσεων."
+            }
+          ],
+          "killerFacts": [
+            "Η υποβοήθηση δημόσιου τομέα είναι κρίσιμη για τη χρηματοδότηση δημόσιων έργων.",
+            "Οι επενδύσεις σε χρεόγραφα είναι μία σημαντική πηγή εσόδων για το κράτος.",
+            "Οι δημόσιες δαπάνες χρηματοδοτούν έργα που επηρεάζουν άμεσα την οικονομική ανάπτυξη.",
+            "Η δημιουργία νέων θέσεων εργασίας μέσω δημοσίων δαπανών μειώνει την ανεργία.",
+            "Η μείωση του κοινωνικού κόστους βελτιώνει την ποιότητα ζωής των πολιτών."
+          ],
+          "mcq": [
+            {
+              "question": "Ποιες είναι οι βασικές πηγές υποβοήθησης του δημόσιου τομέα;",
+              "options": [
+                "Μεταβίβαση κεφαλαίων",
+                "Ξένες επενδύσεις",
+                "Δευτερογενείς λειτουργίες",
+                "Ιδιωτικές δαπάνες"
+              ],
+              "correctIndex": 0,
+              "explanation": "Η υποβοήθηση του δημόσιου τομέα βασίζεται κυρίως στη μεταβίβαση κεφαλαίων στο κράτος.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Ποιος είναι ο ρόλος των δημόσιων δαπανών στην οικονομία;",
+              "options": [
+                "Επιβραδύνουν την ανάπτυξη",
+                "Στηρίζουν μόνο κερδοφόρες επιχειρήσεις",
+                "Χρηματοδοτούν έργα ανάπτυξης",
+                "Αυξάνουν τη φορολογία"
+              ],
+              "correctIndex": 2,
+              "explanation": "Οι δημόσιες δαπάνες χρηματοδοτούν έργα ανάπτυξης που οδηγούν στην οικονομική πρόοδο.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιό είναι το κοινωνικό κόστος που αναφέρεται στην υποβοήθηση του δημόσιου τομέα;",
+              "options": [
+                "Δημόσιες υπηρεσίες",
+                "Ανεργία και κοινωνικά προβλήματα",
+                "Φορολογικές ελαφρύνσεις",
+                "Υποδομές"
+              ],
+              "correctIndex": 1,
+              "explanation": "Το κοινωνικό κόστος σχετίζεται με τα προβλήματα που προκύπτουν από κινδύνους στην κοινωνία.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πες ένα πλεονέκτημα της μεταβίβασης κεφαλαίων στο κράτος μέσω χρεογράφων.",
+              "options": [
+                "Αυξάνει την ανεργία",
+                "Ενισχύει την οικονομική ευρωστία",
+                "Μειώνει τα δημόσια έξοδα",
+                "Δημιουργεί χρέη"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η μεταβίβαση κεφαλαίων μέσω χρεογράφων ενισχύει την οικονομική σταθερότητα του κράτους.",
+              "difficulty": "hard"
+            },
+            {
+              "question": "Γιατί είναι σημαντική η δημιουργία νέων θέσεων εργασίας από δημόσιες δαπάνες;",
+              "options": [
+                "Για τη μείωση κοινωνικών προβλημάτων",
+                "Για την αύξηση της φορολογίας",
+                "Για την αυξημένη κατανάλωση καυσίμων",
+                "Για την ταχύτητα της ανάπτυξης"
+              ],
+              "correctIndex": 0,
+              "explanation": "Η δημιουργία θέσεων εργασίας συμβάλλει στη μείωση κοινωνικών προβλημάτων και στην ευημερία.",
+              "difficulty": "hard"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Τι είναι οι δημόσιες δαπάνες και ποιος ο ρόλος τους στην οικονομία;",
+              "modelAnswer": "Οι δημόσιες δαπάνες είναι τα έξοδα που πραγματοποιεί το κράτος για την παροχή υπηρεσιών και έργων, και παίζουν κρίσιμο ρόλο στην οικονομία, καθώς χρηματοδοτούν ανάπτυξη, δημιουργούν θέσεις εργασίας και ενισχύουν τη σταθερότητα της οικονομίας.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς επηρεάζει η υποβοήθηση του δημόσιου τομέα την κοινωνική διάρθρωση;",
+              "modelAnswer": "Η υποβοήθηση του δημόσιου τομέα βελτιώνει τη κοινωνική διάρθρωση μειώνοντας την ανεργία και τα κοινωνικά προβλήματα, καθώς οι κρατικές δαπάνες δημιουργούν ευκαιρίες και αυξάνουν τη ποιότητα ζωής των πολιτών.",
+              "difficulty": "hard"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Υποβοήθηση δημόσιου τομέα",
+              "back": "Η διαδικασία χρηματοδότησης και στήριξης του δημόσιου τομέα."
+            },
+            {
+              "front": "Δημόσιες δαπάνες",
+              "back": "Έξοδα κράτους για υπηρεσίες και έργα."
+            },
+            {
+              "front": "Κοινωνικό κόστος",
+              "back": "Κόστος που προκύπτει από κοινωνικά προβλήματα."
+            },
+            {
+              "front": "Χρεόγραφα",
+              "back": "Επενδυτικά προϊόντα που αντιπροσωπεύουν δανειακή υποχρέωση."
+            },
+            {
+              "front": "Οικονομική Ευρωστία",
+              "back": "Κατάσταση ανθεκτικής και σταθερής οικονομίας."
+            }
+          ],
+          "examQuestion": {
+            "question": "Αναλύστε τη σημασία της υποβοήθησης του δημόσιου τομέα και πώς συμβάλλει στην οικονομική ευρωστία και στη δημιουργία νέων θέσεων εργασίας.",
+            "modelAnswer": "Η υποβοήθηση του δημόσιου τομέα είναι κρίσιμη για την οικονομία καθώς παρέχει τους απαραίτητους πόρους για τη χρηματοδότηση δημόσιων έργων και υπηρεσιών. Αυτές οι δαπάνες ενισχύουν την ανάπτυξη της οικονομίας και δημιουργούν θέσεις εργασίας, που με τη σειρά τους συμβάλλουν στη μείωση της ανεργίας και της φτώχειας. Επιπλέον, η υποβοήθηση οδηγεί σε μια πιο ευσταθή οικονομική κατάσταση, μειώνοντας το κοινωνικό κόστος μέσω της αποφυγής κοινωνικών προβλημάτων. Επίσης, η επένδυση σε χρεόγραφα αντλεί κεφάλαια για δημόσιες δαπάνες, καθιστώντας την υποβοήθηση απαραίτητη για την οικονομική πρόοδο.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Μη κατανόηση της σχέσης μεταξύ δημόσιων δαπανών και οικονομικής ανάπτυξης.",
+            "Υποτίμηση της σημασίας της κοινωνικής σταθερότητας στην οικονομία.",
+            "Λάθος στην αναγνώριση των πηγών χρηματοδότησης του δημόσιου τομέα."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "698f3cdb82efc89f961226d6",
+      "title": "Κεφάλαιο 4 - Ο Κίνδυνος (hazard)",
+      "order": 4,
+      "topics": [
+        {
+          "id": "698f3cfa13c03d1cc338dc4d",
+          "title": "Η έννοια του κινδύνου (hazard)",
+          "order": 1,
+          "summary": "Η έννοια του κινδύνου (hazard) αναφέρεται στις πιθανότητες εμφάνισης κινδύνου καθώς και στην επανεμφάνιση αυτού με συγκεκριμένη συχνότητα. Πιο συγκεκριμένα, οι κίνδυνοι αξιολογούνται με βάση τον τρόπο που μπορούν να εμφανιστούν και την έντασή τους, δηλαδή πόσο δριμύς ή καταστροφικός μπορεί να είναι ένας κίνδυνος όταν συμβαίνει. Ο κίνδυνος μπορεί να περιλαμβάνει φυσικούς, χημικούς ή βιολογικούς παράγοντες και είναι θεμελιώδης στην εκτίμηση κινδύνου και τη διαχείριση της ασφάλειας. Η κατανόηση του κινδύνου είναι κρίσιμη για την πρόληψη ατυχημάτων και την προστασία των ανθρώπων και του περιβάλλοντος.",
+          "keyDefinitions": [
+            {
+              "term": "Κίνδυνος (Hazard)",
+              "definition": "Η πιθανότητα εμφάνισης ενός επικίνδυνου γεγονότος και η ένταση των επιπτώσεών του."
+            },
+            {
+              "term": "Επανεμφάνιση (Recurrence)",
+              "definition": "Η συχνότητα με την οποία ένας συγκεκριμένος κίνδυνος μπορεί να παρουσιαστεί ξανά."
+            },
+            {
+              "term": "Συχνότητα (Frequency)",
+              "definition": "Ο αριθμός των φορών που αναμένεται να συμβεί ένας κίνδυνος σε καθορισμένο χρονικό διάστημα."
+            },
+            {
+              "term": "Καταστροφικότητα (Catastrophic potential)",
+              "definition": "Η ικανότητα ενός κινδύνου να προκαλέσει σοβαρές ή θανατηφόρες συνέπειες."
+            },
+            {
+              "term": "Πρόληψη (Prevention)",
+              "definition": "Μέτρα που λαμβάνονται ώστε να μειωθεί η πιθανότητα εμφάνισης ενός κινδύνου."
+            }
+          ],
+          "killerFacts": [
+            "Η κατανόηση του κινδύνου είναι κεντρική στη διαχείριση ασφάλειας.",
+            "Οι κίνδυνοι μπορούν να είναι φυσικοί, χημικοί ή βιολογικοί.",
+            "Η συχνότητα επανεμφάνισης είναι κρίσιμη για την αξιολόγηση κινδύνων.",
+            "Η αξιολόγηση της καταστροφικότητας βοηθά στην εκτίμηση σχετικών κινδύνων.",
+            "Η πρόληψη μπορεί να μειώσει τα περιστατικά που σχετίζονται με κινδύνους."
+          ],
+          "mcq": [
+            {
+              "question": "Ποιός είναι ο ορισμός του κινδύνου;",
+              "options": [
+                "Η πιθανότητα μόνο",
+                "Η πιθανότητα και η ένταση του κινδύνου",
+                "Μόνο η ένταση του κινδύνου",
+                "Η διάρκεια του κινδύνου"
+              ],
+              "correctIndex": 1,
+              "explanation": "Ο ορισμός του κινδύνου περιλαμβάνει τόσο την πιθανότητα όσο και την ένταση του κινδύνου.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιοι είναι οι τύποι κινδύνων;",
+              "options": [
+                "Μόνο φυσικοί",
+                "Φυσικοί, χημικοί και βιολογικοί",
+                "Μόνο χημικοί",
+                "Μόνο βιολογικοί"
+              ],
+              "correctIndex": 1,
+              "explanation": "Οι κίνδυνοι μπορεί να είναι φυσικοί, χημικοί ή βιολογικοί, επηρεάζοντας την ασφάλεια.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Τι προσδιορίζει τη συχνότητα ενός κινδύνου;",
+              "options": [
+                "Πόσο συχνά επαναλαμβάνεται",
+                "Πόσο καταστροφικός είναι",
+                "Πόσο επικίνδυνος είναι",
+                "Πόσες επιπτώσεις έχει"
+              ],
+              "correctIndex": 0,
+              "explanation": "Η συχνότητα αναφέρεται στο πόσο συχνά μπορεί να συμβεί ένας κίνδυνος.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιά είναι η σημασία της πρόληψης;",
+              "options": [
+                "Μηδενίζει τον κίνδυνο",
+                "Ελαχιστοποιεί την πιθανότητα εμφάνισης κινδύνου",
+                "Είναι άσχετη με τον κίνδυνο",
+                "Αυξάνει την πιθανότητα ενός κινδύνου"
+              ],
+              "correctIndex": 1,
+              "explanation": "Η πρόληψη είναι σημαντική γιατί μειώνει την πιθανότητα εμφάνισης κινδύνων.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιοί παράγοντες επηρεάζουν την αξιολόγηση κινδύνων;",
+              "options": [
+                "Μόνο ο χρόνος",
+                "Μόνο η τοποθεσία",
+                "Η πιθανότητα και η ένταση",
+                "Η ποσότητα του κινδύνου"
+              ],
+              "correctIndex": 2,
+              "explanation": "Η αξιολόγηση κινδύνων στηρίζεται στην πιθανότητα και την ένταση των κινδύνων.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Ποιές είναι οι βασικές παράμετροι στην αξιολόγηση ενός κινδύνου;",
+              "modelAnswer": "Οι βασικές παράμετροι περιλαμβάνουν την πιθανότητα εμφάνισης, την επανεμφάνιση, την καταστροφικότητα και τις πιθανές επιπτώσεις του κινδύνου.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Γιατί είναι σημαντική η πρόληψη στον τομέα της ασφάλειας;",
+              "modelAnswer": "Η πρόληψη είναι σημαντική γιατί μειώνει την πιθανότητα εμφάνισης κινδύνων και τις σοβαρές επιπτώσεις που μπορεί να προκύψουν από αυτούς, προστατεύοντας έτσι τους ανθρώπους και το περιβάλλον.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Τι είναι ο κίνδυνος;",
+              "back": "Η πιθανότητα εμφάνισης ενός επικίνδυνου γεγονότος και οι έντονοι αντίκτυποί του."
+            },
+            {
+              "front": "Ποιες είναι οι κύριες κατηγορίες κινδύνων;",
+              "back": "Φυσικοί, χημικοί και βιολογικοί κίνδυνοι."
+            },
+            {
+              "front": "Περισσότεροι κίνδυνοι οδηγούν σε...;",
+              "back": "Αυξημένες πιθανότητες για ατυχήματα και καταστροφές."
+            },
+            {
+              "front": "Ποιο είναι το σημαντικότερο μέτρο πρόληψης;",
+              "back": "Η εκτίμηση και η κατανόηση των πιθανών κινδύνων."
+            },
+            {
+              "front": "Πώς επηρεάζεται η καταστροφικότητα ενός κινδύνου;",
+              "back": "Από την ένταση και την πιθανότητα εμφάνισης."
+            }
+          ],
+          "examQuestion": {
+            "question": "Εξηγήστε την έννοια του κινδύνου (hazard) και αναλύστε τις βασικές παραμέτρους που πρέπει να ληφθούν υπόψη κατά την αξιολόγησή του. Δώστε παραδείγματα.",
+            "modelAnswer": "Η έννοια του κινδύνου (hazard) αναφέρεται στην πιθανότητα εμφάνισης ενός επικίνδυνου γεγονότος, καθώς και στην ένταση των επιπτώσεών του. Οι βασικές παράμετροι περιλαμβάνουν την πιθανότητα, την επαναλαμβανόμενη εμφάνιση, την καταστροφικότητα και τις επιπτώσεις. Στην αξιολόγηση ενός κινδύνου, είναι σημαντικό να εκτιμηθεί η συχνότητα επανεμφάνισης καθώς και οι επιπτώσεις που μπορεί να έχει στη ζωή και την υγεία των ανθρώπων, αλλά και στο περιβάλλον. Για παράδειγμα, οι φυσικοί κίνδυνοι όπως οι σεισμοί ή οι καταστροφές από καιρικά φαινόμενα είναι αρκετές φορές προβλέψιμοι και αποδεδειγμένα πιο επικίνδυνοι σε ιδιαίτερα γεωγραφικά σημεία. Η πρόληψη κινδύνων περιλαμβάνει δασικές και οδικές υποδομές, δημόσια ενημέρωση και την εφαρμογή κανονισμών.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Περίπου οι μαθητές συγχέουν την έννοια του κινδύνου με την πιθανότητα μόνο, αγνοώντας την ένταση.",
+            "Αγνοούν τους βιολογικούς κινδύνους, εστιάζοντας κυρίως στους φυσικούς και χημικούς.",
+            "Δυσκολεύονται να περιγράψουν τη συχνότητα και την επαναλαμβανόμενη εμφάνιση, παραλείποντας να συνδέσουν αυτές τις έννοιες."
+          ]
+        },
+        {
+          "id": "698f3d109da2f13c384ed03f",
+          "title": "Κατηγορίες κινδύνου (hazard)",
+          "order": 2,
+          "summary": "The topic of 'Κατηγορίες κινδύνου' (categories of risk) covers two main types of hazards in the context of insurance: physical risk and moral hazard. Physical risk pertains to the tangible aspects of an insurance object's characteristics, such as the quality of materials or the health status of an individual, and is measurable statistically. On the other hand, moral hazard revolves around human behavior and attitude, including factors like dishonesty, apathy, or recklessness which can influence risk and insurance costs. Understanding these hazards is crucial for effective risk assessment and management in the insurance industry.",
+          "keyDefinitions": [
+            {
+              "term": "Φυσικός κίνδυνος",
+              "definition": "Αναφέρεται στις φυσικές όψεις του αντικειμένου της ασφάλισης, όπως το υλικό κατασκευής ή η κατάσταση υγείας."
+            },
+            {
+              "term": "Ηθικός κίνδυνος",
+              "definition": "Σχετίζεται με τη στάση και τη συμπεριφορά των ανθρώπων, όπως η δολιότητα ή η αδιαφορία."
+            }
+          ],
+          "killerFacts": [
+            "Physical risk is easier to quantify statistically compared to moral hazards.",
+            "Moral hazard can lead to increased claims due to irresponsible behavior.",
+            "Understanding risk categories helps in setting appropriate insurance premiums.",
+            "Insurance companies often use both physical and moral risk assessments.",
+            "Effective risk management reduces potential loss for both insurers and insured parties."
+          ],
+          "mcq": [
+            {
+              "question": "What does 'Φυσικός κίνδυνος' primarily refer to in insurance?",
+              "options": [
+                "Human behavior",
+                "Material characteristics",
+                "Statistical analysis",
+                "Premium calculation"
+              ],
+              "correctIndex": 1,
+              "explanation": "'Φυσικός κίνδυνος' refers to the material characteristics of the insured object, making other options incorrect.",
+              "difficulty": "easy"
+            },
+            {
+              "question": "Which of the following is a characteristic of 'Ηθικός κίνδυνος'?",
+              "options": [
+                "Statistical measurement",
+                "Recklessness",
+                "Quality of materials",
+                "Health status"
+              ],
+              "correctIndex": 1,
+              "explanation": "'Ηθικός κίνδυνος' is associated with human behavior such as recklessness.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "How can insurance companies mitigate the effects of moral hazard?",
+              "options": [
+                "Increased premiums",
+                "Better customer service",
+                "Strict policy terms",
+                "Focus on physical risk"
+              ],
+              "correctIndex": 2,
+              "explanation": "Strict policy terms can help manage moral hazards by reducing irresponsible behavior.",
+              "difficulty": "hard"
+            },
+            {
+              "question": "Why is physical risk easier to manage compared to moral hazard?",
+              "options": [
+                "It is predictable",
+                "It involves less human interaction",
+                "It can be quantified",
+                "It requires less data"
+              ],
+              "correctIndex": 2,
+              "explanation": "Physical risk can be quantified with statistical measures, making it easier to manage.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Which factor does NOT contribute to moral hazard?",
+              "options": [
+                "Apathy",
+                "Fraudulent claims",
+                "Material defects",
+                "Irresponsible behavior"
+              ],
+              "correctIndex": 2,
+              "explanation": "Material defects are related to physical risk, not moral hazard.",
+              "difficulty": "easy"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Explain the difference between physical risk and moral hazard in insurance.",
+              "modelAnswer": "Physical risk refers to tangible aspects of an insured object, such as material quality or health, that can be statistically measured. In contrast, moral hazard relates to subjective human behaviors and attitudes that increase risk, such as dishonesty or recklessness.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Why is it important for insurance companies to assess both physical and moral risks?",
+              "modelAnswer": "Assessing both risks allows insurance providers to accurately evaluate potential losses and set premiums accordingly. It ensures comprehensive understanding of risk factors that can affect claims and financial stability.",
+              "difficulty": "medium"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Φυσικός κίνδυνος",
+              "back": "Αναφέρεται στις φυσικές όψεις του αντικειμένου της ασφάλισης."
+            },
+            {
+              "front": "Ηθικός κίνδυνος",
+              "back": "Σχετίζεται με τη στάση και συμπεριφορά του ανθρώπου."
+            },
+            {
+              "front": "Παράδειγμα φυσικού κινδύνου",
+              "back": "Ποιότητα κατασκευής ενός κτιρίου."
+            },
+            {
+              "front": "Παράδειγμα ηθικού κινδύνου",
+              "back": "Δολιότητα στη δήλωση ενός ζητήματος."
+            },
+            {
+              "front": "Σημασία αξιολόγησης κινδύνων",
+              "back": "Βοηθά στη σωστή εκτίμηση ασφαλιστικών αποζημιώσεων."
+            }
+          ],
+          "examQuestion": {
+            "question": "Discuss the significance of distinguishing between physical risk and moral hazard in the insurance sector. Provide examples to support your points.",
+            "modelAnswer": "Distinguishing between physical risk and moral hazard is critical for insurance companies to effectively assess and manage risk. Physical risk, which involves measurable factors like the quality of materials or health conditions, allows insurers to determine premiums based on statistical analysis. For instance, a building's construction materials can predict its likelihood of sustaining damage. On the other hand, moral hazard, which is rooted in human behavior, can lead to increased risk of claims due to factors like apathy or deceit. An example is when a policyholder neglects safety measures leading to accidents. By recognizing these distinctions, insurance companies can tailor their policies and pricing strategies to minimize potential losses and promote responsible behavior among insured parties. Overall, effective risk assessment improves the financial stability of insurance providers and ensures that premiums are fair and reflective of actual risk.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Confusing physical risk with moral hazard: Students often mix up these terms due to their related concepts.",
+            "Overlooking the impact of human behavior on insurance claims.",
+            "Failing to provide specific examples when asked to discuss risk categories."
+          ]
+        },
+        {
+          "id": "698f3d2fd36103a1fb472f34",
+          "title": "Χαρακτηριστικά του κινδύνου",
+          "order": 3,
+          "summary": "Τα χαρακτηριστικά του κινδύνου αναφέρονται σε δύο βασικές κατηγορίες: τα καλά και τα κακά χαρακτηριστικά. Τα καλά χαρακτηριστικά του κινδύνου λειτουργούν αποτρεπτικά, διευκολύνουν την αποδοχή τους από το ασφαλιστικό ταμείο και μπορούν να οδηγήσουν σε εκπτώσεις στα ασφάλιστρα. Αντίθετα, τα κακά χαρακτηριστικά θεωρούνται ανεπιθύμητοι κίνδυνοι και προκαλούν απόρριψη, αυξημένα ασφάλιστρα ή την άρνηση κάλυψης ορισμένων κινδύνων. Για την αποτελεσματική διαχείριση του κινδύνου, είναι κρίσιμο να αναγνωρίζονται τα χαρακτηριστικά αυτά και οι επιπτώσεις τους στην ασφαλιστική διαδικασία.",
+          "keyDefinitions": [
+            {
+              "term": "Καλά χαρακτηριστικά",
+              "definition": "Χαρακτηριστικά που διευκολύνουν την αποδοχή του κινδύνου από τα ασφαλιστικά ταμεία και μπορεί να οδηγήσουν σε εκπτώσεις στα ασφάλιστρα."
+            },
+            {
+              "term": "Κακά χαρακτηριστικά",
+              "definition": "Χαρακτηριστικά που οδηγούν σε απόρριψη του κινδύνου και ενδέχεται να αυξήσουν τα ασφάλιστρα."
+            },
+            {
+              "term": "Ανεπιθύμητοι κίνδυνοι",
+              "definition": "Κίνδυνοι που δεν γίνονται αποδεκτοί λόγω των κακών χαρακτηριστικών τους."
+            },
+            {
+              "term": "Ασφάλιστρο",
+              "definition": "Το ποσό που καταβάλλεται για την κάλυψη ενός κινδύνου."
+            },
+            {
+              "term": "Αντιστάθμιση",
+              "definition": "Τα μέτρα που απαιτούνται για να μειωθεί ο κίνδυνος πριν από την αποδοχή του από την ασφαλιστική εταιρεία."
+            }
+          ],
+          "killerFacts": [
+            "Καλά χαρακτηριστικά διευκολύνουν την αποδοχή του κινδύνου.",
+            "Κακά χαρακτηριστικά οδηγούν σε απόρριψη ή υψηλότερα ασφάλιστρα.",
+            "Ο δημόσιος τομέας αποδέχεται εύκολα τους βελτιωμένους κινδύνους.",
+            "Τα κακά χαρακτηριστικά ενδέχεται να προκαλέσουν απαίτηση για αντισταθμιστικά μέτρα.",
+            "Η αναγνώριση των χαρακτηριστικών του κινδύνου είναι κρίσιμη για τη διαχείριση του ασφαλιστικού κινδύνου."
+          ],
+          "mcq": [
+            {
+              "question": "Τι είναι τα καλά χαρακτηριστικά του κινδύνου;",
+              "options": [
+                "Οδηγούν σε απόρριψη του κινδύνου",
+                "Είναι αποδεκτά από το δημόσιο ταμείο",
+                "Αυξάνουν τα ασφάλιστρα",
+                "Δημιουργούν ανεπιθύμητους κινδύνους"
+              ],
+              "correctIndex": 1,
+              "explanation": "Τα καλά χαρακτηριστικά του κινδύνου διευκολύνουν την αποδοχή τους από τις ασφαλιστικές εταιρείες.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιος είναι ο αντίκτυπος των κακών χαρακτηριστικών στον κίνδυνο;",
+              "options": [
+                "Οδήγηση σε εκπτώσεις στα ασφάλιστρα",
+                "Αύξηση αποδοχής κινδύνου",
+                "Αύξηση ασφάλιστρων",
+                "Καλή αποδοχή από το κοινό"
+              ],
+              "correctIndex": 2,
+              "explanation": "Τα κακά χαρακτηριστικά οδηγούν συχνά σε αύξηση των ασφαλίστρων που απαιτούνται.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιο από τα παρακάτω δεν είναι χαρακτηριστικό κακού κινδύνου;",
+              "options": [
+                "Απόρριψη του κινδύνου",
+                "Αυξημένα ασφάλιστρα",
+                "Καλή αποδοχή από το ταμείο",
+                "Απαιτήσεις αντιστάθμισης"
+              ],
+              "correctIndex": 2,
+              "explanation": "Η καλή αποδοχή από το ταμείο δεν είναι χαρακτηριστικό κακού κινδύνου.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες είναι οι συνέπειες των κακών χαρακτηριστικών του κινδύνου;",
+              "options": [
+                "Ευνοϊκά επιτόκια",
+                "Αυξημένα ασφάλιστρα",
+                "Αύξηση ανταγωνισμού",
+                "Μείωση του κινδύνου"
+              ],
+              "correctIndex": 1,
+              "explanation": "Τα κακά χαρακτηριστικά συνήθως με οδηγούν σε αυξημένα ασφάλιστρα λόγω της αύξησης του κινδύνου.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Πώς αντιμετωπίζουν τα ασφαλιστικά ταμεία τους ανεπιθύμητους κινδύνους;",
+              "options": [
+                "Αποδέχονται την κάλυψη",
+                "Αυξάνουν ασφάλιστρα",
+                "Απορρίπτουν τον κίνδυνο",
+                "Προβλέπουν εκπτώσεις"
+              ],
+              "correctIndex": 2,
+              "explanation": "Οι ανεπιθύμητοι κίνδυνοι συνήθως απορρίπτονται από τα ασφαλιστικά ταμεία.",
+              "difficulty": "medium"
+            }
+          ],
+          "shortAnswers": [
+            {
+              "question": "Τι χαρακτηριστικά έχουν οι καλοί κίνδυνοι;",
+              "modelAnswer": "Οι καλοί κίνδυνοι έχουν χαρακτηριστικά που διευκολύνουν την αποδοχή τους από τα ασφαλιστικά ταμεία και οδηγούν σε δυνατές εκπτώσεις στα ασφάλιστρα.",
+              "difficulty": "medium"
+            },
+            {
+              "question": "Ποιες είναι οι συνέπειες των κακών κινδύνων στις ασφαλιστικές εταιρείες;",
+              "modelAnswer": "Οι κακοί κίνδυνοι οδηγούν σε απόρριψη, αυξημένα ασφάλιστρα και ζητήσεις για αντισταθμιστικά μέτρα από τους αιτούντες ασφάλισης.",
+              "difficulty": "hard"
+            }
+          ],
+          "flashcards": [
+            {
+              "front": "Καλά χαρακτηριστικά του κινδύνου",
+              "back": "Διευκολύνουν την αποδοχή τους από τα ασφαλιστικά ταμεία και μπορεί να οδηγούν σε εκπτώσεις."
+            },
+            {
+              "front": "Κακά χαρακτηριστικά του κινδύνου",
+              "back": "Οδηγούν σε απόρριψη ή σε αυξημένα ασφάλιστρα."
+            },
+            {
+              "front": "Ασφάλιστρο",
+              "back": "Το ποσό που πληρώνεται για την κάλυψη ενός κινδύνου."
+            },
+            {
+              "front": "Αντιστάθμιση",
+              "back": "Μέτρα που απαιτούνται για να μειωθούν οι κίνδυνοι πριν από την αποδοχή τους."
+            },
+            {
+              "front": "Ανεπιθύμητοι κίνδυνοι",
+              "back": "Κίνδυνοι που απορρίπτονται λόγω κακών χαρακτηριστικών."
+            }
+          ],
+          "examQuestion": {
+            "question": "Αναλύστε πώς τα χαρακτηριστικά του κινδύνου επηρεάζουν την αποδοχή του από ασφαλιστικά ταμεία. Δώστε παραδείγματα καλών και κακών χαρακτηριστικών και τις επιπτώσεις τους στην ασφαλιστική διαδικασία.",
+            "modelAnswer": "Τα χαρακτηριστικά του κινδύνου παίζουν κρίσιμο ρόλο στην αποδοχή τους από τις ασφαλιστικές εταιρείες. Τα καλά χαρακτηριστικά, όπως η χαμηλή συχνότητα ζημιών, οδηγούν σε ελκυστικές πολιτικές ασφάλισης και ενδεχομένως σε εκπτώσεις στα ασφάλιστρα. Αντίθετα, τα κακά χαρακτηριστικά, όπως υψηλή συχνότητα ζημιών, προκαλούν απορρίψεις ή αυξήσεις ασφάλιστρων. Οι εταιρείες χρησιμοποιούν τις πληροφορίες αυτές για να καθορίσουν εάν θα αποδεχθούν τον κίνδυνο και σε ποιες συνθήκες. Η καλή διαχείριση αποτρέπει την αύξηση της υποχρέωσης και διασφαλίζει τη βιωσιμότητα του ασφαλιστικού ταμείου.",
+            "marks": 10
+          },
+          "commonTraps": [
+            "Μη αναγνώριση των κακών χαρακτηριστικών του κινδύνου.",
+            "Λάθος συσχετισμός καλών και κακών κινδύνων.",
+            "Υποεκτίμηση της σημασίας της αποδοχής κινδύνου από τα ασφαλιστικά ταμεία."
+          ]
+        }
+      ]
+    }
+  ]
+}
