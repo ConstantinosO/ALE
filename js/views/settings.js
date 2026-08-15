@@ -27,7 +27,8 @@ export async function render(el, ctx) {
     </div>
     <div class="card">
       <h2>🔄 Συγχρονισμός συσκευών</h2>
-      <p class="muted">Η πρόοδος αποθηκεύεται μόνο σε αυτή τη συσκευή. Για μεταφορά: Εξαγωγή εδώ → Εισαγωγή στην άλλη συσκευή.</p>
+      <p class="muted">Η πρόοδος αποθηκεύεται μόνο σε αυτή τη συσκευή. Για μεταφορά: Κοινοποίηση (π.χ. AirDrop) ή Εξαγωγή εδώ → Εισαγωγή στην άλλη συσκευή.</p>
+      ${'share' in navigator ? '<button class="btn btn-gold btn-block" id="share">📤 Κοινοποίηση προόδου (AirDrop κ.ά.)</button>' : ''}
       <button class="btn btn-block" id="export">⬇️ Εξαγωγή προόδου</button>
       <label class="btn btn-ghost btn-block" style="cursor:pointer">⬆️ Εισαγωγή προόδου
         <input type="file" id="import" accept=".json,application/json" style="display:none"></label>
@@ -42,6 +43,28 @@ export async function render(el, ctx) {
   document.getElementById('savedate').addEventListener('click', () => {
     const v = document.getElementById('examdate').value;
     if (v) { ctx.state.settings.examDate = v; ctx.save(); ctx.navigate('#/'); }
+  });
+
+  const snapshotFile = () => new File(
+    [JSON.stringify({ ...ctx.state, exportedAt: new Date().toISOString() }, null, 2)],
+    `ale-progress-${dateStr(new Date())}.json`, { type: 'application/json' });
+
+  const shareBtn = document.getElementById('share');
+  if (shareBtn) shareBtn.addEventListener('click', async () => {
+    const msg = document.getElementById('syncmsg');
+    try {
+      const file = snapshotFile();
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'Πρόοδος ALE' });
+        msg.textContent = '✅ Η πρόοδος στάλθηκε — άνοιξέ την στην άλλη συσκευή με «Εισαγωγή προόδου».';
+      } else {
+        msg.textContent = 'ℹ️ Η κοινοποίηση αρχείων δεν υποστηρίζεται σε αυτό το πρόγραμμα περιήγησης — χρησιμοποίησε την Εξαγωγή.';
+      }
+    } catch (e) {
+      if (e.name !== 'AbortError') {
+        document.getElementById('syncmsg').textContent = '⚠️ Η κοινοποίηση απέτυχε — χρησιμοποίησε την Εξαγωγή.';
+      }
+    }
   });
 
   document.getElementById('export').addEventListener('click', () => {
