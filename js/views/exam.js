@@ -1,6 +1,6 @@
 import { escapeHtml } from '../ui.js';
 import { pickExamQuestions } from '../core/picker.js';
-import { recordAnswer, newTopicProgress } from '../core/progress.js';
+import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
 
 const EXAM_MINUTES = 30;
@@ -37,6 +37,7 @@ export async function render(el, ctx) {
     const startedAt = Date.now();
     const deadline = startedAt + EXAM_MINUTES * 60 * 1000;
     let timerId = null;
+    let done = false;
 
     const tick = () => {
       const left = Math.max(0, deadline - Date.now());
@@ -86,6 +87,7 @@ export async function render(el, ctx) {
     };
 
     const finish = () => {
+      if (done) return; done = true; clearInterval(timerId);
       const nowIso = new Date().toISOString();
       const timeSeconds = Math.round((Date.now() - startedAt) / 1000);
       let correctCount = 0;
@@ -93,7 +95,7 @@ export async function render(el, ctx) {
       const perTopic = {};
       questions.forEach(({ topicId, topicTitle, q }, idx) => {
         const correct = answers[idx] === q.correctIndex;
-        if (correct) { correctCount++; xpEarned += 20; }
+        if (correct) { correctCount++; xpEarned += XP[q.difficulty] ?? 10; }
         const prev = ctx.state.topics[topicId] || newTopicProgress();
         ctx.state.topics[topicId] = recordAnswer(prev, { correct, questionDifficulty: q.difficulty, now: nowIso });
         perTopic[topicTitle] ??= { correct: 0, total: 0 };
@@ -128,6 +130,7 @@ export async function render(el, ctx) {
     };
 
     timerId = setInterval(tick, 500);
+    ctx.onCleanup(() => clearInterval(timerId));
     show();
   }
 }

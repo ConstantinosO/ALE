@@ -16,6 +16,7 @@ const state = loadState(window.localStorage);
 let courses = null;
 const contentCache = {};
 const analysisCache = {};
+let viewCleanup = null;
 
 function save() {
   if (!saveState(state, window.localStorage)) {
@@ -44,6 +45,7 @@ function renderCountdown() {
 }
 
 async function render() {
+  if (viewCleanup) { try { viewCleanup(); } catch {} viewCleanup = null; }
   try {
     courses ??= await loadCourses();
   } catch (e) {
@@ -56,7 +58,8 @@ async function render() {
   const view = VIEWS[route.view] || VIEWS.dashboard;
   const ctx = {
     state, save, courses, getContent, getAnalysis,
-    navigate: (h) => { location.hash = h; },
+    navigate: (h) => { if (location.hash === h) render(); else location.hash = h; },
+    onCleanup: (fn) => { viewCleanup = fn; },
     params: route.params, examDateIso,
   };
   container.innerHTML = '<p class="muted">Φόρτωση…</p>';
@@ -69,4 +72,8 @@ async function render() {
 }
 
 window.addEventListener('hashchange', render);
+container.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (a && a.getAttribute('href') === location.hash) { e.preventDefault(); render(); }
+});
 render();
