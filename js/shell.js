@@ -146,6 +146,16 @@ export function sidebarRailItems(courses, hash) {
 import { escapeHtml } from './ui.js';
 
 let built = false;
+// The most recent {courses, state, save, hash} mountShell/refreshShell was
+// called with. The click/keydown listeners below are attached once (behind
+// `built`) but must always act on the CURRENT render's data, not whatever
+// object happened to be in scope the first time mountShell ran — a plain
+// closure over that first call's argument previously left `courses` frozen
+// at whatever it was on mount (permanently null if the very first load
+// failed), which made a later toggleGroup() see an empty course list and
+// skip materialising the passed course's collapsed default. refreshShell
+// runs on every render, so reassigning it there keeps it current.
+let ctx = null;
 
 // The collapse toggle's accessible name and state have to describe the
 // sidebar as it is right now: a screen reader on a collapsed sidebar was
@@ -163,11 +173,17 @@ function sidebarLinkHtml(i) {
 // tabbable anchors) but `hidden` until a rail badge click reveals it. Reusing
 // COURSE_LINKS keeps its five destinations/labels/icons in lockstep with the
 // expanded sidebar's — one list, two renderings.
+//
+// Plain div/anchors, not role="menu"/"menuitem": that pairing requires
+// arrow-key navigation between items and only menuitem children (the title
+// is a <p>), and half-honouring an ARIA widget role is worse for a screen
+// reader than not claiming it — Tab already reaches every link in document
+// order, which is all this needs.
 function courseFlyoutHtml(courseId, title, passed) {
   return `
-    <div class="course-flyout" id="flyout-${escapeHtml(courseId)}" role="menu" hidden>
+    <div class="course-flyout" id="flyout-${escapeHtml(courseId)}" hidden>
       <p class="course-flyout-title">${escapeHtml(title)}${passed ? ' ✓' : ''}</p>
-      ${COURSE_LINKS.map((l) => `<a role="menuitem" href="${escapeHtml(l.suffix(courseId))}">
+      ${COURSE_LINKS.map((l) => `<a href="${escapeHtml(l.suffix(courseId))}">
         <span class="sidebar-icon">${l.icon}</span>${escapeHtml(l.label)}</a>`).join('')}
     </div>`;
 }
@@ -244,8 +260,25 @@ function closeAllFlyouts(except) {
   for (const flyout of document.querySelectorAll('.course-flyout:not([hidden])')) {
     if (flyout === except) continue;
     flyout.hidden = true;
-    document.querySelector(`.course-badge[aria-controls="${flyout.id}"]`)?.setAttribute('aria-expanded', 'false');
+    // The badge is always the flyout's immediately-preceding sibling (see
+    // railHtml) — cheaper and safer than building a `[aria-controls="…"]`
+    // selector out of an id that is, in the end, still a course id we don't
+    // fully control the shape of.
+    flyout.previousElementSibling?.setAttribute('aria-expanded', 'false');
   }
+}
+
+// Shared by setDrawer's initial focus and trapDrawerFocus's wrap-around, so
+// the two can never disagree about what counts as reachable. offsetParent is
+// null for anything display:none (itself or an ancestor) — needed because
+// the drawer's markup also contains #collapsetoggle (always display:none
+// below 1024px) and the whole .sidebar-rail subtree (display:none below
+// 768px, where the drawer lives): both match "button:not([disabled])" but
+// neither is actually focusable.
+function drawerFocusables() {
+  const sidebar = document.getElementById('sidebar');
+  return [...(sidebar?.querySelectorAll('a[href], button:not([disabled])') || [])]
+    .filter((el) => el.offsetParent !== null);
 }
 
 // Shared by the click/Escape handlers below (drawer opening) and by
@@ -270,7 +303,7 @@ function setDrawer(open) {
   if (open) {
     sidebar?.setAttribute('role', 'dialog');
     sidebar?.setAttribute('aria-modal', 'true');
-    sidebar?.querySelector('a[href], button:not([disabled])')?.focus();
+    drawerFocusables()[0]?.focus();
   } else {
     sidebar?.removeAttribute('role');
     sidebar?.removeAttribute('aria-modal');
@@ -290,15 +323,7 @@ function setDrawer(open) {
 function trapDrawerFocus(e) {
   if (e.key !== 'Tab' || !document.body.classList.contains('drawer-open')) return;
   const sidebar = document.getElementById('sidebar');
-  // offsetParent is null for anything display:none (itself or an ancestor) —
-  // needed because the drawer's markup now also contains #collapsetoggle
-  // (always display:none below 1024px) and the whole .sidebar-rail subtree
-  // (display:none below 768px, where the drawer lives): both match
-  // "button:not([disabled])" but neither is actually reachable, so without
-  // this filter Shift+Tab from the first link called .focus() on an invisible
-  // button and backward wrap-around was dead.
-  const focusables = [...(sidebar?.querySelectorAll('a[href], button:not([disabled])') || [])]
-    .filter((el) => el.offsetParent !== null);
+  const focusables = drawerFocusables();
   if (!focusables.length) return;
   const first = focusables[0];
   const last = focusables[focusables.length - 1];
@@ -321,16 +346,18 @@ export function mountShell(ctxLike) {
   // replaces on every navigation) so it keeps working for markup that does
   // not exist yet at mount time — every group button, badge and flyout link
   // rendered by a later sidebarHtml() call is still a descendant of this
-  // same element, and clicks on it still bubble up here.
+  // same element, and clicks on it still bubble up here. Reads `ctx` (kept
+  // current by refreshShell on every render), never the `ctxLike` argument
+  // this call happened to receive — see the comment on `let ctx` above.
   document.getElementById('sidebar')?.addEventListener('click', (e) => {
     if (e.target.closest('a')) setDrawer(false);
 
     const groupBtn = e.target.closest('.sidebar-group');
     if (groupBtn) {
       const courseId = groupBtn.dataset.courseId;
-      const next = toggleGroup(courseId, ctxLike.courses, ctxLike.state.settings.collapsedGroups);
-      ctxLike.state.settings.collapsedGroups = next;
-      ctxLike.save();
+      const next = toggleGroup(courseId, ctx.courses, ctx.state.settings.collapsedGroups);
+      ctx.state.settings.collapsedGroups = next;
+      ctx.save();
       // Toggled in place (no full re-render) so the button keeps focus; the
       // state is already persisted, so the next refreshShell (any
       // navigation) will render every group from this same array anyway.
@@ -352,9 +379,16 @@ export function mountShell(ctxLike) {
         // the rail band — an absolutely-positioned child anchored inside it
         // would be clipped the moment it needs to extend past that width.
         const rect = badge.getBoundingClientRect();
-        flyout.style.top = `${Math.round(rect.top)}px`;
         flyout.style.left = `${Math.round(rect.right + 8)}px`;
+        // Unhide before reading offsetHeight (a hidden element measures 0),
+        // then clamp top into the viewport — in the rail band the flyout is
+        // the only route to its five links, so one going off the bottom
+        // edge of a short viewport (a split-view tablet, a shallow desktop
+        // window) made those links completely unreachable, and position:
+        // fixed means no amount of page scrolling could bring them back.
         flyout.hidden = false;
+        const maxTop = window.innerHeight - flyout.offsetHeight - 8;
+        flyout.style.top = `${Math.round(Math.max(8, Math.min(rect.top, maxTop)))}px`;
         badge.setAttribute('aria-expanded', 'true');
       }
       return;
@@ -365,11 +399,27 @@ export function mountShell(ctxLike) {
   // Closes an open flyout on any click that lands outside the sidebar
   // entirely (choosing a flyout link, and clicks inside the sidebar that
   // aren't a badge, are both handled by the listener above already).
+  // Capture phase (not bubble): a click on a view's .editbtn calls
+  // e.stopPropagation() in js/edit/editor.js, which would otherwise stop
+  // this click from ever reaching document during the bubble phase and
+  // leave a flyout open over a freshly-opened editor. Capture-phase
+  // listeners on an ancestor run on the way down, before that stopPropagation
+  // is even called, so they see the click regardless.
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#sidebar')) closeAllFlyouts();
-  });
+  }, true);
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { setDrawer(false); closeAllFlyouts(); return; }
+    if (e.key === 'Escape') {
+      setDrawer(false);
+      // Return focus to the badge that owned the flyout Escape just closed,
+      // rather than letting it fall back to <body> — closeAllFlyouts()
+      // itself doesn't know which flyout (if any) was actually open.
+      const openFlyout = document.querySelector('.course-flyout:not([hidden])');
+      const owningBadge = openFlyout?.previousElementSibling;
+      closeAllFlyouts();
+      owningBadge?.focus();
+      return;
+    }
     trapDrawerFocus(e);
   });
   // Crossing into the rail band retires the drawer. Rotating a phone from
@@ -390,12 +440,20 @@ export function mountShell(ctxLike) {
     // has to be updated here as well as in sidebarHtml.
     btn.setAttribute('aria-expanded', String(!next));
     btn.setAttribute('aria-label', COLLAPSE_LABEL(next));
-    ctxLike.state.settings.sidebarCollapsed = next;
-    ctxLike.save();
+    ctx.state.settings.sidebarCollapsed = next;
+    ctx.save();
+    // Collapsing swaps the rail in for the expanded nav (CSS, display:none)
+    // without a re-render, so a flyout that was open a moment ago is now
+    // sitting over display:none content with its aria-expanded/hidden state
+    // still saying "open" — expanding again would make it reappear with no
+    // badge click to explain it.
+    closeAllFlyouts();
   });
 }
 
-export function refreshShell({ courses, state, hash }) {
+export function refreshShell(ctxLike) {
+  ctx = ctxLike;
+  const { courses, state, hash } = ctxLike;
   const el = document.getElementById('sidebar');
   if (el) el.innerHTML = sidebarHtml(courses, state, hash);
   const collapsed = !!state.settings.sidebarCollapsed;
