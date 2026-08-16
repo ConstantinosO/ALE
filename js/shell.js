@@ -82,3 +82,66 @@ export function readinessPct(courses, topicsByCourse, progressByTopicId) {
   }
   return count ? Math.round(sum / count) : 0;
 }
+
+// --- rendering (appended to js/shell.js) ---
+import { escapeHtml } from './ui.js';
+
+let built = false;
+
+function sidebarHtml(courses, state, hash) {
+  const items = sidebarNavItems(courses, hash);
+  const groups = [];
+  for (const i of items) {
+    const key = i.group || '';
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) last.items.push(i);
+    else groups.push({ key, title: i.groupTitle, passed: i.passed, items: [i] });
+  }
+  return `
+    <div class="sidebar-brand">
+      <span class="sidebar-logo">🎓</span>
+      <span class="sidebar-brandtext"><b>ALE</b><small>ΠΡΟΣΑΡΜΟΣΤΙΚΗ ΜΑΘΗΣΗ</small></span>
+    </div>
+    <div class="sidebar-chips">
+      <span class="chip">⚡ ${Number(state.stats.totalXp) || 0} XP</span>
+      <span class="chip">🔥 ${Number(state.stats.currentStreak) || 0}</span>
+    </div>
+    <nav class="sidebar-nav">
+      ${groups.map((g) => `
+        ${g.key ? `<p class="sidebar-group">${escapeHtml(g.title)}${g.passed ? ' ✓' : ''}</p>` : ''}
+        ${g.items.map((i) => `<a class="sidebar-link${i.active ? ' active' : ''}" href="${i.href}">
+          <span class="sidebar-icon">${i.icon}</span><span class="sidebar-label">${escapeHtml(i.label)}</span>
+        </a>`).join('')}`).join('')}
+    </nav>
+    <div class="sidebar-foot">
+      <span id="countdown" class="countdown"></span>
+      <button id="collapsetoggle" class="iconbtn" aria-label="Σύμπτυξη">⟨⟩</button>
+    </div>`;
+}
+
+export function mountShell(ctxLike) {
+  refreshShell(ctxLike);
+  if (built) return;
+  built = true;
+  const scrim = document.getElementById('scrim');
+  const openDrawer = (open) => {
+    document.body.classList.toggle('drawer-open', open);
+    scrim.hidden = !open;
+    document.getElementById('drawertoggle')?.setAttribute('aria-expanded', String(open));
+  };
+  document.getElementById('drawertoggle')?.addEventListener('click', () => {
+    openDrawer(!document.body.classList.contains('drawer-open'));
+  });
+  scrim.addEventListener('click', () => openDrawer(false));
+  document.getElementById('sidebar').addEventListener('click', (e) => {
+    if (e.target.closest('a')) openDrawer(false);
+  });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') openDrawer(false); });
+}
+
+export function refreshShell({ courses, state, hash }) {
+  const el = document.getElementById('sidebar');
+  if (el) el.innerHTML = sidebarHtml(courses, state, hash);
+  const collapsed = !!state.settings.sidebarCollapsed;
+  document.body.classList.toggle('sidebar-collapsed', collapsed);
+}

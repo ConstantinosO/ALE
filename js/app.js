@@ -2,6 +2,7 @@ import { parseRoute } from './router.js';
 import { loadState, saveState } from './core/store.js';
 import { loadCourses, loadContent, loadAnalysis } from './core/content.js';
 import { escapeHtml } from './ui.js';
+import { mountShell } from './shell.js';
 import * as dashboard from './views/dashboard.js';
 import * as course from './views/course.js';
 import * as topic from './views/topic.js';
@@ -68,6 +69,7 @@ async function render() {
       <button onclick="location.reload()">Δοκιμή ξανά</button></div>`;
     return;
   }
+  mountShell({ courses, state, hash: location.hash });
   renderCountdown();
   const route = parseRoute(location.hash);
   const view = VIEWS[route.view] || VIEWS.dashboard;

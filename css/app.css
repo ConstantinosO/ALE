@@ -3,6 +3,10 @@
   --bg: #f6f7fb; --card: #ffffff; --text: #1a1c2e; --muted: #6a6f85;
   --border: #e3e5ee; --ok: #1f9d55; --bad: #d64545;
   --radius: 14px; --shadow: 0 1px 4px rgba(17, 18, 40, .08);
+  --sidebar-w: 260px; --sidebar-rail-w: 72px; --topbar-h: 56px; --bottomnav-h: 76px;
+  --content-max: 1100px;
+  --sidebar-bg: #111228; --sidebar-text: #e8eaf6; --sidebar-muted: #8f96b8;
+  --sidebar-active: rgba(245, 184, 24, .14);
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -14,12 +18,73 @@
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  padding-bottom: 76px;
+  padding-bottom: calc(var(--bottomnav-h) + env(safe-area-inset-bottom));
 }
+
+/* --- shell layout --- */
+.shell { display: flex; align-items: stretch; min-height: 100vh; min-height: 100dvh; }
+.shell-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.sidebar {
+  position: fixed; top: 0; left: 0; z-index: 30;
+  width: var(--sidebar-w); height: 100vh; height: 100dvh;
+  background: var(--sidebar-bg); color: var(--sidebar-text);
+  display: flex; flex-direction: column; overflow-y: auto;
+  padding: max(12px, env(safe-area-inset-top)) 0 12px;
+  transform: translateX(-100%);
+  transition: transform .2s ease;
+}
+body.drawer-open .sidebar { transform: translateX(0); }
+
+.scrim { position: fixed; inset: 0; background: rgba(0, 0, 0, .45); z-index: 20; }
+
+.iconbtn {
+  background: transparent; color: inherit; border: 0; border-radius: 8px;
+  padding: 6px 10px; font-size: 20px; line-height: 1; font-weight: 400;
+  cursor: pointer;
+}
+.iconbtn:hover { background: rgba(255, 255, 255, .08); }
+
+.sidebar-brand { display: flex; align-items: center; gap: 10px; padding: 0 16px 16px; }
+.sidebar-logo { font-size: 26px; line-height: 1; }
+.sidebar-brandtext { display: flex; flex-direction: column; line-height: 1.35; }
+.sidebar-brandtext b { color: var(--gold); font-size: 17px; letter-spacing: .5px; }
+.sidebar-brandtext small { color: var(--sidebar-muted); font-size: 9.5px; letter-spacing: .06em; }
+
+.sidebar-chips { display: flex; gap: 8px; padding: 0 16px 16px; }
+.chip {
+  background: rgba(255, 255, 255, .07); color: var(--sidebar-text);
+  font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+  white-space: nowrap;
+}
+
+.sidebar-nav { flex: 1; padding: 0 10px; }
+.sidebar-group {
+  margin: 16px 10px 4px; font-size: 10px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--sidebar-muted); font-weight: 700;
+}
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px; padding: 9px 10px; margin: 1px 0;
+  border-radius: 10px; color: var(--sidebar-text); text-decoration: none;
+  font-size: 14px; font-weight: 600; border-left: 3px solid transparent;
+}
+.sidebar-link:hover { background: rgba(255, 255, 255, .06); }
+.sidebar-link.active {
+  background: var(--sidebar-active); border-left-color: var(--gold); color: #fff;
+}
+.sidebar-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+.sidebar-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.sidebar-foot {
+  margin-top: auto; display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 12px 16px 4px; border-top: 1px solid rgba(255, 255, 255, .08);
+}
+.sidebar-foot .countdown { font-size: 12px; }
+
 .topbar {
-  position: sticky; top: 0; z-index: 10; display: flex; align-items: center;
-  justify-content: space-between; padding: 12px 16px; background: var(--navy);
-  color: #fff; padding-top: max(12px, env(safe-area-inset-top));
+  position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px;
+  padding: 0 16px; background: var(--navy); box-sizing: border-box; height: var(--topbar-h);
+  color: #fff; padding-top: max(0px, env(safe-area-inset-top));
 }
 .brand { color: var(--gold); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: 1px; }
 .countdown { font-size: 13px; color: #cfd2e4; }
@@ -102,6 +167,51 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
 .editbtn { background: none; border: none; cursor: pointer; font-size: 15px; opacity: .55; padding: 2px 6px; }
 .editbtn:hover { opacity: 1; }
 .editing { outline: 2px dashed var(--gold); outline-offset: 4px; border-radius: 4px; min-height: 1.4em; }
-.edittoolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; position: sticky; top: 0; z-index: 5; padding: 6px 0; background: var(--card); }
+.edittoolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; position: sticky; top: var(--topbar-h); z-index: 5; padding: 6px 0; background: var(--card); }
 .edittoolbar [data-cmd] { min-width: 38px; padding: 6px 8px; }
 .editstatus:empty { display: none; }
+
+/* --- tablet (>=768px): icon rail, no bottom nav --- */
+@media (min-width: 768px) {
+  body { padding-bottom: 0; }
+
+  .sidebar { position: sticky; top: 0; transform: none; width: var(--sidebar-rail-w); }
+  .sidebar-label, .sidebar-brandtext, .sidebar-group, .sidebar-chips { display: none; }
+  .sidebar-brand { justify-content: center; padding: 0 0 16px; }
+  .sidebar-link { justify-content: center; padding: 10px 0; border-left: none; }
+  .sidebar-foot { flex-direction: column; gap: 10px; padding: 12px 8px 4px; }
+  .sidebar-foot .countdown { display: none; }
+
+  #drawertoggle { display: none; }
+  .scrim { display: none; }
+  .bottomnav { display: none; }
+}
+
+/* --- desktop (>=1024px): full sidebar, collapsible, no top bar --- */
+@media (min-width: 1024px) {
+  .topbar { display: none; }
+  .edittoolbar { top: 0; }
+  .view { max-width: var(--content-max); padding: 24px 32px; }
+
+  .sidebar { width: var(--sidebar-w); }
+  .sidebar-link { justify-content: flex-start; padding: 9px 10px; }
+  .sidebar-brand { justify-content: flex-start; padding: 0 16px 16px; }
+  /* the >=768px rail rules still apply here too (min-width queries stack), so the
+     expanded desktop state must explicitly restore what the rail hid. */
+  .sidebar-label { display: inline; }
+  .sidebar-brandtext { display: flex; }
+  .sidebar-group { display: block; }
+  .sidebar-chips { display: flex; }
+  .sidebar-foot { flex-direction: row; }
+  .sidebar-foot .countdown { display: inline; }
+
+  body.sidebar-collapsed .sidebar { width: var(--sidebar-rail-w); }
+  body.sidebar-collapsed .sidebar-label,
+  body.sidebar-collapsed .sidebar-brandtext,
+  body.sidebar-collapsed .sidebar-group,
+  body.sidebar-collapsed .sidebar-chips { display: none; }
+  body.sidebar-collapsed .sidebar-brand { justify-content: center; padding: 0 0 16px; }
+  body.sidebar-collapsed .sidebar-link { justify-content: center; padding: 10px 0; border-left: none; }
+  body.sidebar-collapsed .sidebar-foot { flex-direction: column; gap: 10px; padding: 12px 8px 4px; }
+  body.sidebar-collapsed .sidebar-foot .countdown { display: none; }
+}
