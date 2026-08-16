@@ -8,7 +8,7 @@ export function freshState() {
     topics: {},
     stats: newStats(),
     sessions: [],
-    settings: { examDate: null, excludedChapters: {} },
+    settings: { examDate: null, excludedChapters: {}, sidebarCollapsed: false },
   };
 }
 
