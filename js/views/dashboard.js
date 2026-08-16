@@ -1,17 +1,22 @@
-import { escapeHtml, fmtDate } from '../ui.js';
+import { escapeHtml, fmtDate, pageHeader } from '../ui.js';
 import { allTopics } from '../core/content.js';
 import { isDue } from '../core/srs.js';
 import { newTopicProgress } from '../core/progress.js';
 import { recentActivity, readinessPct } from '../shell.js';
 
 function ring(pct) {
+  // Clamped at the render boundary, not upstream: a corrupted or hand-edited
+  // import can carry any number, and an out-of-range one becomes a negative
+  // or overlong stroke-dashoffset — an arc drawn the wrong way round rather
+  // than a full or empty ring.
+  const clamped = Math.min(100, Math.max(0, Number(pct) || 0));
   const r = 26; const c = 2 * Math.PI * r;
-  const off = c * (1 - (Number(pct) || 0) / 100);
+  const off = c * (1 - clamped / 100);
   return `<svg class="ring" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
     <circle class="ring-track" cx="32" cy="32" r="${r}"></circle>
     <circle class="ring-fill" cx="32" cy="32" r="${r}"
       style="stroke-dasharray:${c.toFixed(1)};stroke-dashoffset:${off.toFixed(1)}"></circle>
-    <text class="ring-text" x="32" y="37" text-anchor="middle">${Number(pct) || 0}%</text>
+    <text class="ring-text" x="32" y="37" text-anchor="middle">${clamped}%</text>
   </svg>`;
 }
 
@@ -47,8 +52,7 @@ export async function render(el, ctx) {
   const activity = recentActivity(ctx.state.sessions, 5);
 
   el.innerHTML = `
-    <h1>Πίνακας ελέγχου</h1>
-    <p class="dash-subtitle muted">Η μελέτη σου με μια ματιά</p>
+    ${pageHeader({ title: 'Πίνακας ελέγχου', subtitle: 'Η μελέτη σου με μια ματιά' })}
     <div class="statgrid">
       <div class="statcard"><div class="statcard-icon">⚡</div><div><b>${Number(s.totalXp) || 0}</b><span>Συνολικό XP</span></div></div>
       <div class="statcard"><div class="statcard-icon">🔥</div><div><b>${Number(s.currentStreak) || 0}</b><span>Σερί ημερών</span></div></div>

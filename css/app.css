@@ -188,7 +188,6 @@ button, .btn {
 
 /* --- dashboard --- */
 .view h1 { margin: 4px 0 2px; font-size: 24px; }
-.dash-subtitle { margin: 0 0 16px; }
 
 .statgrid { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); margin-bottom: 12px; }
 .statcard {
@@ -316,7 +315,10 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
     display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
     gap: 16px; align-items: start;
   }
-  .dash-cols .card:last-child { margin-bottom: 0; }
+  /* Direct child only: as a descendant selector this also matched the last
+     course card inside .dash-courses and beat the .dash-courses rule above
+     on source order alone. */
+  .dash-cols > .card:last-child { margin-bottom: 0; }
 }
 
 /* --- reduced motion --- */

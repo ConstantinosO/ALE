@@ -543,7 +543,7 @@ All interpolated content keeps `escapeHtml` exactly as today.
 
 Run the full suite (green).
 
-Browser: at 1280px the four stat cards sit in one row, courses and activity are side by side, and each ring's arc visually matches its percentage (check `Κλάδος Ζωής` against the number in its counts line). At 768px stats are 2×2 and the columns stack. At 375px everything is a single readable column with no horizontal scroll. Complete a micro quiz and confirm a new row appears at the top of the activity panel with the right label and XP. Confirm the ring shows `0%` correctly (a course with no progress) — the arc should be an empty track, not a full circle.
+Browser: at 1280px the four stat cards sit in one row, courses and activity are side by side, and each ring's arc visually matches its percentage (check `Κλάδος Ζωής` against the number in its counts line). At 768px stats are 4-up (per the Step 2 rule) and the columns stack. At 375px everything is a single readable column with no horizontal scroll. Complete a micro quiz and confirm a new row appears at the top of the activity panel with the right label and XP. Confirm the ring shows `0%` correctly (a course with no progress) — the arc should be an empty track, not a full circle.
 
 - [ ] **Step 4: Commit**
 

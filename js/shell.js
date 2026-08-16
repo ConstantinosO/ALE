@@ -88,8 +88,15 @@ import { escapeHtml } from './ui.js';
 
 let built = false;
 
+// The collapse toggle's accessible name and state have to describe the
+// sidebar as it is right now: a screen reader on a collapsed sidebar was
+// being told the button was «Σύμπτυξη» (collapse) with no expanded state at
+// all. Kept in one place so the markup and the click handler cannot drift.
+const COLLAPSE_LABEL = (collapsed) => (collapsed ? 'Ανάπτυξη' : 'Σύμπτυξη');
+
 function sidebarHtml(courses, state, hash) {
   const items = sidebarNavItems(courses, hash);
+  const collapsed = !!state.settings.sidebarCollapsed;
   const groups = [];
   for (const i of items) {
     const key = i.group || '';
@@ -115,7 +122,8 @@ function sidebarHtml(courses, state, hash) {
     </nav>
     <div class="sidebar-foot">
       <span class="countdown"></span>
-      <button id="collapsetoggle" class="iconbtn" aria-label="Σύμπτυξη">⟨⟩</button>
+      <button id="collapsetoggle" class="iconbtn" aria-controls="sidebar"
+        aria-expanded="${!collapsed}" aria-label="${COLLAPSE_LABEL(collapsed)}">⟨⟩</button>
     </div>`;
 }
 
@@ -197,9 +205,14 @@ export function mountShell(ctxLike) {
   // replaces #sidebar's innerHTML — and therefore #collapsetoggle — on
   // every navigation, which would detach any handler bound directly to it.
   document.body.addEventListener('click', (e) => {
-    if (!e.target.closest('#collapsetoggle')) return;
+    const btn = e.target.closest('#collapsetoggle');
+    if (!btn) return;
     const next = !document.body.classList.contains('sidebar-collapsed');
     document.body.classList.toggle('sidebar-collapsed', next);
+    // The sidebar is not re-rendered on a toggle, so the button's own aria
+    // has to be updated here as well as in sidebarHtml.
+    btn.setAttribute('aria-expanded', String(!next));
+    btn.setAttribute('aria-label', COLLAPSE_LABEL(next));
     ctxLike.state.settings.sidebarCollapsed = next;
     ctxLike.save();
   });
