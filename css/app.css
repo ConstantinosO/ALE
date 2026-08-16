@@ -80,11 +80,28 @@ body.drawer-open { overflow: hidden; }
   white-space: nowrap;
 }
 
-.sidebar-nav { flex: 1; padding: 0 10px; }
+/* .sidebar-nav (the expanded groups+links list) and .sidebar-rail (the
+   badges-only band) are two renderings of the same data that must never both
+   be keyboard-reachable at once — see the per-band display toggles below.
+   Both default to visible here; every band overrides one or the other. */
+.sidebar-nav { display: block; flex: 1; padding: 0 10px; }
+.sidebar-rail { display: none; }
+
 .sidebar-group {
-  margin: 16px 10px 4px; font-size: 10px; letter-spacing: .08em;
+  /* Reset button chrome (border/background/font/etc.) back to the plain
+     text label this used to be (a <p>), then re-apply that label's look. */
+  all: unset;
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  box-sizing: border-box; width: 100%; cursor: pointer; text-align: left;
+  margin: 16px 10px 4px; padding: 2px 6px; border-radius: 6px;
+  font-size: 10px; letter-spacing: .08em;
   text-transform: uppercase; color: var(--sidebar-muted); font-weight: 700;
 }
+.sidebar-group:hover { background: rgba(255, 255, 255, .06); color: var(--sidebar-text); }
+.sidebar-group:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.sidebar-chevron { transition: transform .15s ease; }
+.sidebar-group[aria-expanded="false"] .sidebar-chevron { transform: rotate(-90deg); }
+
 .sidebar-link {
   display: flex; align-items: center; gap: 10px; padding: 9px 10px; margin: 1px 0;
   border-radius: 10px; color: var(--sidebar-text); text-decoration: none;
@@ -96,6 +113,50 @@ body.drawer-open { overflow: hidden; }
 }
 .sidebar-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
 .sidebar-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* --- rail: one circular badge per course instead of five repeated icons --- */
+.rail-item { display: flex; }
+.rail-link {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sidebar-text); text-decoration: none; font-size: 18px;
+}
+.rail-link:hover { background: rgba(255, 255, 255, .08); }
+.rail-link.active { background: var(--sidebar-active); box-shadow: inset 0 0 0 2px var(--gold); }
+
+.rail-course { position: relative; }
+.course-badge {
+  width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255, 255, 255, .09); color: var(--sidebar-text);
+  font-size: 13px; font-weight: 800; letter-spacing: .02em;
+  display: flex; align-items: center; justify-content: center;
+}
+.course-badge:hover, .course-badge[aria-expanded="true"] { background: rgba(255, 255, 255, .18); }
+.course-badge.active { background: var(--sidebar-active); box-shadow: inset 0 0 0 2px var(--gold); color: #fff; }
+.course-badge.passed { opacity: .65; }
+.course-badge:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* position: fixed and positioned via JS (see js/shell.js) rather than
+   position: absolute + CSS, because .sidebar scrolls (overflow-y: auto) and
+   is only --sidebar-rail-w wide in every band this can open in — an
+   absolutely-positioned child anchored inside it would be clipped the
+   moment it extends past that width. */
+.course-flyout {
+  position: fixed; z-index: 40; min-width: 190px;
+  background: var(--sidebar-bg); color: var(--sidebar-text);
+  border: 1px solid rgba(255, 255, 255, .14); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 8px; display: flex; flex-direction: column; gap: 1px;
+}
+.course-flyout[hidden] { display: none; }
+.course-flyout-title {
+  margin: 0 0 4px; padding: 4px 8px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em; color: var(--sidebar-muted);
+}
+.course-flyout a {
+  display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 8px;
+  color: var(--sidebar-text); text-decoration: none; font-size: 14px; font-weight: 600;
+}
+.course-flyout a:hover { background: rgba(255, 255, 255, .08); }
 
 .sidebar-foot {
   margin-top: auto; display: flex; align-items: center; justify-content: space-between;
@@ -267,11 +328,21 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
   body.drawer-open .sidebar { transform: none; }
 
   .sidebar { position: sticky; top: 0; transform: none; width: var(--sidebar-rail-w); }
-  .sidebar-label, .sidebar-brandtext, .sidebar-group, .sidebar-chips { display: none; }
+  .sidebar-brandtext, .sidebar-chips { display: none; }
   .sidebar-brand { justify-content: center; padding: 0 0 16px; }
-  .sidebar-link { justify-content: center; padding: 10px 0; border-left: none; }
-  .sidebar-foot { flex-direction: column; gap: 10px; padding: 12px 8px 4px; }
-  .sidebar-foot .countdown { display: none; }
+
+  /* The expanded groups+links nav gives way entirely to the rail here — one
+     wholesale swap instead of hiding label/group/etc. piecemeal inside it,
+     which is also what used to leave two identical sets of five icon links
+     on screen with nothing to tell them apart. */
+  .sidebar-nav { display: none; }
+  .sidebar-rail { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 4px 0; }
+
+  /* Both of .sidebar-foot's children (.countdown, #collapsetoggle) are
+     hidden in this band — the countdown lives in the top bar here instead,
+     and the collapse toggle only does anything at >=1024px — so the foot
+     itself would otherwise be an empty 17px strip with a border. */
+  .sidebar-foot { display: none; }
 
   #drawertoggle { display: none; }
   .scrim { display: none; }
@@ -292,24 +363,21 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
   .sidebar-brand { justify-content: flex-start; padding: 0 16px 16px; }
   /* the >=768px rail rules still apply here too (min-width queries stack), so the
      expanded desktop state must explicitly restore what the rail hid. */
-  .sidebar-label { display: inline; }
   .sidebar-brandtext { display: flex; }
-  .sidebar-group { display: block; }
   .sidebar-chips { display: flex; }
-  .sidebar-foot { flex-direction: row; gap: 8px; padding: 12px 16px 4px; }
-  .sidebar-foot .countdown { display: inline; }
+  .sidebar-nav { display: block; }
+  .sidebar-rail { display: none; }
+  .sidebar-foot { flex-direction: row; gap: 8px; padding: 12px 16px 4px; display: flex; }
 
   #collapsetoggle { display: inline-flex; }
 
   body.sidebar-collapsed .sidebar { width: var(--sidebar-rail-w); }
-  body.sidebar-collapsed .sidebar-label,
   body.sidebar-collapsed .sidebar-brandtext,
-  body.sidebar-collapsed .sidebar-group,
   body.sidebar-collapsed .sidebar-chips { display: none; }
   body.sidebar-collapsed .sidebar-brand { justify-content: center; padding: 0 0 16px; }
-  body.sidebar-collapsed .sidebar-link { justify-content: center; padding: 10px 0; border-left: none; }
+  body.sidebar-collapsed .sidebar-nav { display: none; }
+  body.sidebar-collapsed .sidebar-rail { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 4px 0; }
   body.sidebar-collapsed .sidebar-foot { flex-direction: column; gap: 10px; padding: 12px 8px 4px; }
-  body.sidebar-collapsed .sidebar-foot .countdown { display: none; }
 
   .dash-cols {
     display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
@@ -325,4 +393,5 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
 @media (prefers-reduced-motion: reduce) {
   .sidebar { transition: none; }
   .ring-fill { transition: none; }
+  .sidebar-chevron { transition: none; }
 }
