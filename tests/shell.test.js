@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { sidebarNavItems, recentActivity, readinessPct, MODE_LABELS } from '../js/shell.js';
+import {
+  sidebarNavItems, recentActivity, readinessPct, MODE_LABELS,
+  courseInitials, isGroupOpen, toggleGroup, sidebarRailItems,
+} from '../js/shell.js';
 
 const COURSES = { examDate: '2026-10-03', courses: [
   { id: 'klados-zois', title: 'Κλάδος Ζωής', status: 'active' },
@@ -101,4 +104,94 @@ test('readinessPct treats untracked topics as zero and never divides by zero', (
   assert.equal(readinessPct(courses, { a: [] }, {}), 0);
   assert.equal(readinessPct({ courses: [] }, {}, {}), 0);
   assert.equal(readinessPct(null, null, null), 0);
+});
+
+test('courseInitials takes up to two uppercase initials from the first two words', () => {
+  assert.equal(courseInitials('Κλάδος Ζωής'), 'ΚΖ');
+  assert.equal(courseInitials('Βασικές Αρχές Ασφαλίσεων'), 'ΒΑ');
+  assert.equal(courseInitials('Ζωής'), 'Ζ');
+});
+
+test('courseInitials tolerates empty, null, whitespace-only and non-string input', () => {
+  for (const v of ['', null, undefined, '   ', 42, {}, []]) {
+    assert.equal(courseInitials(v), '?', String(v));
+  }
+});
+
+test('isGroupOpen defaults active open / passed closed when never toggled', () => {
+  assert.equal(isGroupOpen('klados-zois', 'active', undefined), true);
+  assert.equal(isGroupOpen('basikes-arxes', 'passed', null), false);
+  assert.equal(isGroupOpen('basikes-arxes', 'passed', 'not-an-array'), false);
+  assert.equal(isGroupOpen('klados-zois', 'active', {}), true);
+});
+
+test('isGroupOpen honours an explicit collapsedGroups array exactly, over status', () => {
+  assert.equal(isGroupOpen('klados-zois', 'active', ['klados-zois']), false);
+  assert.equal(isGroupOpen('basikes-arxes', 'passed', []), true);
+  assert.equal(isGroupOpen('basikes-arxes', 'passed', ['basikes-arxes']), false);
+});
+
+test('toggleGroup materialises the default effective state on the first toggle', () => {
+  const next = toggleGroup('klados-zois', COURSES, undefined);
+  assert.deepEqual([...next].sort(), ['basikes-arxes', 'klados-zois']);
+});
+
+test('toggleGroup on the already-collapsed passed course opens it without reopening the active one', () => {
+  const first = toggleGroup('klados-zois', COURSES, undefined);
+  const second = toggleGroup('basikes-arxes', COURSES, first);
+  assert.deepEqual(second, ['klados-zois']);
+});
+
+test('toggleGroup flips an id already in the explicit array back to open', () => {
+  assert.deepEqual(toggleGroup('klados-zois', COURSES, ['klados-zois']), []);
+});
+
+test('toggleGroup does not mutate the array it was given', () => {
+  const input = ['klados-zois'];
+  toggleGroup('klados-zois', COURSES, input);
+  assert.deepEqual(input, ['klados-zois']);
+});
+
+test('toggleGroup tolerates malformed courses', () => {
+  for (const c of [null, undefined, {}, { courses: null }]) {
+    assert.deepEqual(toggleGroup('x', c, undefined), ['x']);
+  }
+});
+
+test('sidebarRailItems returns home, one badge per course, then settings', () => {
+  const items = sidebarRailItems(COURSES, '#/');
+  assert.deepEqual(items.map((i) => i.kind), ['link', 'course', 'course', 'link']);
+  assert.equal(items[0].href, '#/');
+  assert.equal(items[items.length - 1].href, '#/settings');
+});
+
+test('sidebarRailItems gives each course badge its initials and passed flag', () => {
+  const items = sidebarRailItems(COURSES, '#/');
+  const zois = items.find((i) => i.kind === 'course' && i.id === 'klados-zois');
+  const arxes = items.find((i) => i.kind === 'course' && i.id === 'basikes-arxes');
+  assert.equal(zois.initials, 'ΚΖ');
+  assert.equal(zois.passed, false);
+  assert.equal(arxes.initials, 'ΒΑ');
+  assert.equal(arxes.passed, true);
+});
+
+test('sidebarRailItems marks a course badge active for any of its five routes', () => {
+  const hashes = [
+    '#/course/klados-zois', '#/quiz/klados-zois/micro', '#/flashcards/klados-zois',
+    '#/exam/klados-zois', '#/analysis/klados-zois',
+    '#/topic/klados-zois/z3-1', '#/chaptertest/klados-zois/z-ch03',
+  ];
+  for (const h of hashes) {
+    const items = sidebarRailItems(COURSES, h);
+    const active = items.filter((i) => i.active);
+    assert.equal(active.length, 1, h);
+    assert.equal(active[0].id, 'klados-zois', h);
+  }
+});
+
+test('sidebarRailItems tolerates malformed courses, keeping just home and settings', () => {
+  for (const c of [null, undefined, {}, { courses: null }]) {
+    const items = sidebarRailItems(c, '#/');
+    assert.deepEqual(items.map((i) => i.kind), ['link', 'link']);
+  }
 });

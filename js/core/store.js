@@ -8,7 +8,12 @@ export function freshState() {
     topics: {},
     stats: newStats(),
     sessions: [],
-    settings: { examDate: null, excludedChapters: {}, sidebarCollapsed: false },
+    // collapsedGroups stays null (not []) until the user's first sidebar
+    // group toggle: isGroupOpen/toggleGroup in js/shell.js treat "not an
+    // array" as "never touched, use the active/passed default" and an array
+    // as the user's explicit, fully-materialised choice — see the comments
+    // there. Seeding [] here would silently mean "everything expanded".
+    settings: { examDate: null, excludedChapters: {}, sidebarCollapsed: false, collapsedGroups: null },
   };
 }
 
