@@ -13,7 +13,7 @@ import * as analysis from './views/analysis.js';
 import * as settings from './views/settings.js';
 import * as chaptertest from './views/chaptertest.js';
 import { loadEdits, saveEdits, applyEdits, pruneDeployed } from './edit/overlay.js';
-import { retryPendingAll } from './edit/editor.js';
+import { retryPendingAll, confirmLeaveEdit } from './edit/editor.js';
 
 const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, analysis, settings, chaptertest };
 
@@ -64,7 +64,31 @@ function renderCountdown() {
   for (const el of document.querySelectorAll('.countdown')) el.innerHTML = html;
 }
 
+// The hash #view currently reflects, and therefore the one a refused
+// navigation has to go back to.
+let renderedHash = location.hash;
+// Reverting location.hash fires a second hashchange, which re-enters
+// render() and would prompt again — and refusing that prompt would revert
+// again, forever. This swallows exactly that one re-entry.
+let revertingHash = false;
+
 async function render() {
+  if (revertingHash) { revertingHash = false; return; }
+  // Global guard on every route change. Before this, confirmLeaveEdit() was
+  // wired only into the views' own next-buttons, so the sidebar's 12 links,
+  // the drawer, the bottom nav and the body-level same-hash listener could
+  // all replace #view with an open editor inside it: typed text gone, nothing
+  // written to ale.edits.v1, no prompt. Runs before anything is torn down —
+  // view cleanup, the shell refresh and the container all have to survive a
+  // refusal untouched.
+  if (!confirmLeaveEdit(container)) {
+    if (location.hash !== renderedHash) {
+      revertingHash = true;
+      location.hash = renderedHash;
+    }
+    return;
+  }
+  renderedHash = location.hash;
   if (viewCleanup) { try { viewCleanup(); } catch {} viewCleanup = null; }
   let loadError = null;
   try {
