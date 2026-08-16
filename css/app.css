@@ -148,6 +148,18 @@ button, .btn {
 }
 .list-item:last-child { border-bottom: 0; }
 
+/* --- shared page header ---
+   Selectors are qualified as ".pagehead .pagehead-title" (specificity 0,0,2,0)
+   rather than the bare class, so they reliably beat the dashboard's
+   ".view h1" rule (0,0,1,1 — one class + one type) regardless of source
+   order: without this, every view's header title/margin silently inherited
+   the dashboard's 24px/margin instead of its own, and never reached 30px
+   at 1024px+. */
+.pagehead { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.pagehead .pagehead-title { margin: 0; font-size: 24px; line-height: 1.2; }
+.pagehead-sub { margin: 2px 0 0; font-size: 13px; }
+.pagehead-back { flex: 0 0 auto; }
+
 /* --- dashboard --- */
 .view h1 { margin: 4px 0 2px; font-size: 24px; }
 .dash-subtitle { margin: 0 0 16px; }
@@ -236,6 +248,7 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
   .topbar { display: none; }
   .edittoolbar { top: 0; }
   .view { max-width: var(--content-max); padding: 24px 32px; }
+  .pagehead .pagehead-title { font-size: 30px; }
 
   .sidebar { width: var(--sidebar-w); }
   .sidebar-link { justify-content: flex-start; padding: 9px 10px; border-left: 3px solid transparent; }
@@ -264,4 +277,10 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
     gap: 16px; align-items: start;
   }
   .dash-cols .card:last-child { margin-bottom: 0; }
+}
+
+/* --- reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar { transition: none; }
+  .ring-fill { transition: none; }
 }

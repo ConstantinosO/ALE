@@ -124,11 +124,51 @@ function sidebarHtml(courses, state, hash) {
 // agree on what "open" means. Opening only ever happens from a direct user
 // gesture on the toggle/scrim, never from a render cycle, so refreshShell's
 // unconditional close on every call can't race or "fight" an open in progress.
+//
+// The sidebar doubles as a persistent nav rail (>=768px) and a modal mobile
+// drawer (<768px, the only width where the hamburger that opens it is even
+// visible). role="dialog"/aria-modal are therefore only ever added here, on
+// an actual open, and removed on close — never baked into the static markup
+// in index.html, where they'd mislabel the always-visible rail as a dialog.
 function setDrawer(open) {
+  const wasOpen = document.body.classList.contains('drawer-open');
   document.body.classList.toggle('drawer-open', open);
   const scrim = document.getElementById('scrim');
   if (scrim) scrim.hidden = !open;
-  document.getElementById('drawertoggle')?.setAttribute('aria-expanded', String(open));
+  const toggle = document.getElementById('drawertoggle');
+  toggle?.setAttribute('aria-expanded', String(open));
+  const sidebar = document.getElementById('sidebar');
+  if (open) {
+    sidebar?.setAttribute('role', 'dialog');
+    sidebar?.setAttribute('aria-modal', 'true');
+    sidebar?.querySelector('a[href], button:not([disabled])')?.focus();
+  } else {
+    sidebar?.removeAttribute('role');
+    sidebar?.removeAttribute('aria-modal');
+    // Only steal focus back when this call is a real open->closed
+    // transition (Escape, scrim click, a nav link inside the drawer) — the
+    // unconditional setDrawer(false) that refreshShell runs on every
+    // navigation must stay a no-op when the drawer was already closed, or
+    // focus would jump to the hamburger on every route change.
+    if (wasOpen) toggle?.focus();
+  }
+}
+
+// Keeps Tab/Shift+Tab cycling inside the sidebar while it is acting as a
+// modal drawer, so focus never reaches the dimmed background content behind
+// the scrim. Self-corrects (falls back to first/last) if focus is somehow
+// already outside the sidebar when Tab is pressed.
+function trapDrawerFocus(e) {
+  if (e.key !== 'Tab' || !document.body.classList.contains('drawer-open')) return;
+  const sidebar = document.getElementById('sidebar');
+  const focusables = [...(sidebar?.querySelectorAll('a[href], button:not([disabled])') || [])];
+  if (!focusables.length) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  const active = document.activeElement;
+  if (e.shiftKey) {
+    if (active === first || !sidebar.contains(active)) { e.preventDefault(); last.focus(); }
+  } else if (active === last || !sidebar.contains(active)) { e.preventDefault(); first.focus(); }
 }
 
 export function mountShell(ctxLike) {
@@ -143,7 +183,10 @@ export function mountShell(ctxLike) {
   document.getElementById('sidebar')?.addEventListener('click', (e) => {
     if (e.target.closest('a')) setDrawer(false);
   });
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setDrawer(false); });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { setDrawer(false); return; }
+    trapDrawerFocus(e);
+  });
   // Delegated on document.body (not the button) because refreshShell
   // replaces #sidebar's innerHTML — and therefore #collapsetoggle — on
   // every navigation, which would detach any handler bound directly to it.

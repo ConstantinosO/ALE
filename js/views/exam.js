@@ -1,4 +1,4 @@
-import { escapeHtml } from '../ui.js';
+import { escapeHtml, pageHeader } from '../ui.js';
 import { pickExamQuestions } from '../core/picker.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
@@ -22,8 +22,8 @@ export async function render(el, ctx) {
 
   // intro screen
   el.innerHTML = `
+    ${pageHeader({ title: 'Εξομοίωση εξέτασης', back: `#/course/${courseId}` })}
     <div class="card" style="text-align:center">
-      <h2>📝 Προσομοίωση Εξέτασης</h2>
       <p>${questions.length} ερωτήσεις · ${EXAM_MINUTES} λεπτά · χωρίς βοήθεια ανά ερώτηση</p>
       ${analysis ? '<p class="muted">Οι ερωτήσεις σταθμίζονται με βάση την ανάλυση παλαιών θεμάτων.</p>' : ''}
       <button class="btn btn-gold btn-block" id="start">Έναρξη</button>

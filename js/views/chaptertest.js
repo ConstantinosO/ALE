@@ -1,4 +1,4 @@
-import { escapeHtml } from '../ui.js';
+import { escapeHtml, pageHeader } from '../ui.js';
 import { formatText } from '../core/format.js';
 import { newTopicProgress, recordAnswer, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
@@ -52,12 +52,8 @@ export async function render(el, ctx) {
   }
 
   el.innerHTML = `
-    <div class="row" style="margin-bottom:12px">
-      <a class="btn btn-ghost" href="#/course/${courseId}">← Πίσω</a>
-    </div>
+    ${pageHeader({ title: 'Τεστ κεφαλαίου', subtitle: chapter.title, back: `#/course/${courseId}` })}
     <div class="card" style="text-align:center">
-      <h2>📋 Τεστ κεφαλαίου</h2>
-      <p><b>${escapeHtml(chapter.title)}</b></p>
       <p class="muted">${questions.length} ερωτήσεις από όλα τα θέματα του κεφαλαίου · επιτυχία από ${PASS_PCT}%</p>
       <button class="btn btn-gold btn-block" id="starttest">Έναρξη</button>
       <a class="btn btn-ghost btn-block" href="#/course/${courseId}">Άκυρο</a>
@@ -75,11 +71,14 @@ export async function render(el, ctx) {
     const show = () => {
       const { topicTitle, q } = questions[i];
       el.innerHTML = `
-        <div class="row" style="margin-bottom:12px">
-          <a class="btn btn-ghost" href="#/course/${courseId}">✕</a>
-          <span class="grow muted">📋 Τεστ κεφαλαίου · ${i + 1}/${questions.length}</span>
-          <span class="pill pill-gold">+${xpEarned} XP</span>
-        </div>
+        ${pageHeader({
+          title: 'Τεστ κεφαλαίου',
+          back: `#/course/${courseId}`,
+          actions: `
+            <span class="muted" style="font-size:13px">${i + 1}/${questions.length}</span>
+            <span class="pill pill-gold">+${xpEarned} XP</span>
+          `,
+        })}
         <div class="card">
           <p class="muted" style="font-size:13px">${escapeHtml(topicTitle)} · ${q.difficulty === 'easy' ? 'εύκολη' : q.difficulty === 'hard' ? 'δύσκολη' : 'μέτρια'}</p>
           <h2>${escapeHtml(q.question)}</h2>

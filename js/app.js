@@ -96,7 +96,11 @@ async function render() {
 }
 
 window.addEventListener('hashchange', render);
-container.addEventListener('click', (e) => {
+// Delegated on document.body (not #view) so a same-hash link OUTSIDE the view
+// — e.g. the top bar's brand link — also re-renders and, via refreshShell,
+// closes the mobile drawer. A plain click and a keyboard Enter/Space on a
+// focused <a> both fire this same 'click' event, so both are covered.
+document.body.addEventListener('click', (e) => {
   const a = e.target.closest('a[href^="#"]');
   if (a && a.getAttribute('href') === location.hash) { e.preventDefault(); render(); }
 });

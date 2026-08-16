@@ -1,4 +1,4 @@
-import { escapeHtml } from '../ui.js';
+import { escapeHtml, pageHeader } from '../ui.js';
 import { pickQuizQuestions } from '../core/picker.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
@@ -40,11 +40,14 @@ export async function render(el, ctx) {
   const showQuestion = () => {
     const { topicId, topicTitle, q } = questions[i];
     el.innerHTML = `
-      <div class="row" style="margin-bottom:12px">
-        <a class="btn btn-ghost" href="#/course/${courseId}">✕</a>
-        <span class="grow muted">${MODE_TITLES[mode] || 'Κουίζ'} · ${i + 1}/${questions.length}</span>
-        <span class="pill pill-gold">+${xpEarned} XP</span>
-      </div>
+      ${pageHeader({
+        title: MODE_TITLES[mode] || 'Κουίζ',
+        back: `#/course/${courseId}`,
+        actions: `
+          <span class="muted" style="font-size:13px">${i + 1}/${questions.length}</span>
+          <span class="pill pill-gold">+${xpEarned} XP</span>
+        `,
+      })}
       <div class="card">
         <p class="muted" style="font-size:13px">${escapeHtml(topicTitle)} · ${q.difficulty === 'easy' ? 'εύκολη' : q.difficulty === 'hard' ? 'δύσκολη' : 'μέτρια'}</p>
         <h2>${escapeHtml(q.question)}</h2>

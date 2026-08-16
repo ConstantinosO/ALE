@@ -1,4 +1,4 @@
-import { escapeHtml } from '../ui.js';
+import { escapeHtml, pageHeader } from '../ui.js';
 import { formatText } from '../core/format.js';
 import { editBtn, wireEditing, confirmLeaveEdit } from '../edit/editor.js';
 import { loadEdits, pendingCount } from '../edit/overlay.js';
@@ -41,16 +41,19 @@ export async function render(el, ctx) {
   const pending = pendingCount(loadEdits(window.localStorage), courseId, topicId);
 
   el.innerHTML = `
-    <div class="row" style="margin-bottom:12px">
-      <a class="btn btn-ghost" href="#/course/${courseId}">← Πίσω</a>
-      <span class="grow muted">${idx >= 0 ? `${idx + 1}/${topics.length}` : ''}</span>
-      ${pending ? '<span class="pill">εκκρεμεί ⟳</span>' : ''}
-      <span class="pill">Completion ${Number(p.mastery) || 0}%</span>
-      ${p.weak ? '<span class="pill pill-bad">αδύναμο</span>' : ''}
-    </div>
+    ${pageHeader({
+      title: topic.title,
+      subtitle: topic.chapterTitle,
+      back: `#/course/${courseId}`,
+      actions: `
+        ${idx >= 0 ? `<span class="muted" style="font-size:13px">${idx + 1}/${topics.length}</span>` : ''}
+        ${pending ? '<span class="pill">εκκρεμεί ⟳</span>' : ''}
+        <span class="pill">Completion ${Number(p.mastery) || 0}%</span>
+        ${p.weak ? '<span class="pill pill-bad">αδύναμο</span>' : ''}
+      `,
+    })}
     <div class="card">
-      <div class="row"><h2 class="grow">${escapeHtml(topic.title)}</h2>${editBtn(topic.id)}</div>
-      <p class="muted">${escapeHtml(topic.chapterTitle)}</p>
+      <div class="row"><span class="grow"></span>${editBtn(topic.id)}</div>
       <div class="prose" data-editpath="summary">${formatText(topic.summary) || '<span class="muted">Χωρίς σύνοψη.</span>'}</div>
     </div>
     ${topic.keyDefinitions.length ? `<div class="card">
