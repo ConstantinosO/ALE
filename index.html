@@ -20,6 +20,12 @@
         <button id="drawertoggle" class="iconbtn" aria-label="Μενού" aria-expanded="false">☰</button>
         <a href="#/" class="brand">ALE</a>
         <span class="grow"></span>
+        <!-- The days-to-exam counter. The sidebar foot carries a second
+             .countdown; renderCountdown() writes to every instance. This one
+             is the only one visible below 1024px (the sidebar is a rail or a
+             closed drawer there), and the top bar itself is display:none at
+             >=1024px, so exactly one is ever on screen. -->
+        <span class="countdown"></span>
       </header>
       <main id="view" class="view"></main>
     </div>

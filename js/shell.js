@@ -114,7 +114,7 @@ function sidebarHtml(courses, state, hash) {
         </a>`).join('')}`).join('')}
     </nav>
     <div class="sidebar-foot">
-      <span id="countdown" class="countdown"></span>
+      <span class="countdown"></span>
       <button id="collapsetoggle" class="iconbtn" aria-label="Σύμπτυξη">⟨⟩</button>
     </div>`;
 }

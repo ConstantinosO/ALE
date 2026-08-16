@@ -54,10 +54,14 @@ function examDateIso() {
   return state.settings.examDate || courses?.examDate || '2026-10-03';
 }
 
+// There is more than one .countdown (top bar and sidebar foot) and which of
+// them is visible depends on the width, so every instance is written on every
+// render. getElementById would have updated whichever one happened to be
+// first and silently left the other stale after an exam-date change.
 function renderCountdown() {
   const days = Math.ceil((new Date(examDateIso()) - new Date()) / 86400000);
-  document.getElementById('countdown').innerHTML =
-    days >= 0 ? `Εξετάσεις σε <b>${days}</b> ημέρες` : 'Οι εξετάσεις πέρασαν';
+  const html = days >= 0 ? `Εξετάσεις σε <b>${days}</b> ημέρες` : 'Οι εξετάσεις πέρασαν';
+  for (const el of document.querySelectorAll('.countdown')) el.innerHTML = html;
 }
 
 async function render() {
@@ -68,9 +72,8 @@ async function render() {
   } catch (e) {
     loadError = e;
   }
-  // The shell (and #countdown, which only exists inside it) must render
-  // regardless of whether the course list loaded — otherwise a failed load
-  // leaves the DOM with zero #countdown elements.
+  // The shell (and the sidebar's .countdown, which only exists inside it)
+  // must render regardless of whether the course list loaded.
   mountShell({ courses, state, save, hash: location.hash });
   renderCountdown();
   if (loadError) {
