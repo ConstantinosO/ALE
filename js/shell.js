@@ -187,6 +187,12 @@ export function mountShell(ctxLike) {
     if (e.key === 'Escape') { setDrawer(false); return; }
     trapDrawerFocus(e);
   });
+  // Crossing into the rail band retires the drawer. Rotating a phone from
+  // portrait (390px, drawer open) to landscape (844px) leaves the class on
+  // <body> otherwise, and at >=768px both the scrim and the hamburger are
+  // display:none — there is no control left to close it with.
+  window.matchMedia('(min-width: 768px)')
+    .addEventListener('change', (e) => { if (e.matches) setDrawer(false); });
   // Delegated on document.body (not the button) because refreshShell
   // replaces #sidebar's innerHTML — and therefore #collapsetoggle — on
   // every navigation, which would detach any handler bound directly to it.

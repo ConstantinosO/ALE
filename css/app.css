@@ -49,12 +49,21 @@ body {
 body.drawer-open .sidebar { transform: translateX(0); }
 body.drawer-open { overflow: hidden; }
 
+/* The collapse toggle only does something at >=1024px, where the
+   body.sidebar-collapsed rules live. Showing it below that gave the tablet
+   and phone a control that silently wrote a preference the user could not
+   see the effect of. */
+#collapsetoggle { display: none; }
+
 .scrim { position: fixed; inset: 0; background: rgba(0, 0, 0, .45); z-index: 20; }
 
 .iconbtn {
   background: transparent; color: inherit; border: 0; border-radius: 8px;
   padding: 6px 10px; font-size: 20px; line-height: 1; font-weight: 400;
   cursor: pointer;
+  /* 44px is the iOS minimum touch target; the 56px bar has room for it. */
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px;
 }
 .iconbtn:hover { background: rgba(255, 255, 255, .08); }
 
@@ -167,7 +176,12 @@ button, .btn {
    order: without this, every view's header title/margin silently inherited
    the dashboard's 24px/margin instead of its own, and never reached 30px
    at 1024px+. */
-.pagehead { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+/* flex-wrap is not decoration: the markup this replaced was <div class="row">,
+   which wraps. Without it a weak topic's pills pushed .pagehead to 510px
+   inside a 375px viewport and the whole document scrolled sideways. The
+   actions get their own wrapping flex box so they drop as a group. */
+.pagehead { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.pagehead-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .pagehead .pagehead-title { margin: 0; font-size: 24px; line-height: 1.2; }
 .pagehead-sub { margin: 2px 0 0; font-size: 13px; }
 .pagehead-back { flex: 0 0 auto; }
@@ -240,6 +254,14 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
 /* --- tablet (>=768px): icon rail, no bottom nav --- */
 @media (min-width: 768px) {
   body { padding-bottom: 0; }
+  /* min-width queries stack and add no specificity, so the base
+     body.drawer-open rules survive into this band. A phone opened at 390px
+     and rotated to landscape lands here with the class still set: without
+     these two overrides the page stays overflow:hidden with no way back
+     (the scrim and the hamburger are both display:none here). JS clears the
+     class on the same crossing; this is the belt to that braces. */
+  body.drawer-open { overflow: visible; }
+  body.drawer-open .sidebar { transform: none; }
 
   .sidebar { position: sticky; top: 0; transform: none; width: var(--sidebar-rail-w); }
   .sidebar-label, .sidebar-brandtext, .sidebar-group, .sidebar-chips { display: none; }
@@ -273,6 +295,8 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
   .sidebar-chips { display: flex; }
   .sidebar-foot { flex-direction: row; gap: 8px; padding: 12px 16px 4px; }
   .sidebar-foot .countdown { display: inline; }
+
+  #collapsetoggle { display: inline-flex; }
 
   body.sidebar-collapsed .sidebar { width: var(--sidebar-rail-w); }
   body.sidebar-collapsed .sidebar-label,

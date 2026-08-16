@@ -19,6 +19,6 @@ export function pageHeader({ title, subtitle = '', back = '', actions = '' }) {
       <h1 class="pagehead-title">${escapeHtml(title)}</h1>
       ${subtitle ? `<p class="pagehead-sub muted">${escapeHtml(subtitle)}</p>` : ''}
     </div>
-    ${actions}
+    ${actions ? `<div class="pagehead-actions">${actions}</div>` : ''}
   </div>`;
 }
