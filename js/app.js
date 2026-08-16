@@ -62,15 +62,22 @@ function renderCountdown() {
 
 async function render() {
   if (viewCleanup) { try { viewCleanup(); } catch {} viewCleanup = null; }
+  let loadError = null;
   try {
     courses ??= await loadCourses();
   } catch (e) {
-    container.innerHTML = `<div class="card"><h2>Σφάλμα</h2><p>${escapeHtml(e.message)}</p>
+    loadError = e;
+  }
+  // The shell (and #countdown, which only exists inside it) must render
+  // regardless of whether the course list loaded — otherwise a failed load
+  // leaves the DOM with zero #countdown elements.
+  mountShell({ courses, state, hash: location.hash });
+  renderCountdown();
+  if (loadError) {
+    container.innerHTML = `<div class="card"><h2>Σφάλμα</h2><p>${escapeHtml(loadError.message)}</p>
       <button onclick="location.reload()">Δοκιμή ξανά</button></div>`;
     return;
   }
-  mountShell({ courses, state, hash: location.hash });
-  renderCountdown();
   const route = parseRoute(location.hash);
   const view = VIEWS[route.view] || VIEWS.dashboard;
   const ctx = {

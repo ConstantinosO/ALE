@@ -109,7 +109,7 @@ function sidebarHtml(courses, state, hash) {
     <nav class="sidebar-nav">
       ${groups.map((g) => `
         ${g.key ? `<p class="sidebar-group">${escapeHtml(g.title)}${g.passed ? ' ✓' : ''}</p>` : ''}
-        ${g.items.map((i) => `<a class="sidebar-link${i.active ? ' active' : ''}" href="${i.href}">
+        ${g.items.map((i) => `<a class="sidebar-link${i.active ? ' active' : ''}" href="${escapeHtml(i.href)}">
           <span class="sidebar-icon">${i.icon}</span><span class="sidebar-label">${escapeHtml(i.label)}</span>
         </a>`).join('')}`).join('')}
     </nav>
@@ -119,24 +119,31 @@ function sidebarHtml(courses, state, hash) {
     </div>`;
 }
 
+// Shared by the click/Escape handlers below (drawer opening) and by
+// refreshShell (drawer closing on every render/navigation) so both sides
+// agree on what "open" means. Opening only ever happens from a direct user
+// gesture on the toggle/scrim, never from a render cycle, so refreshShell's
+// unconditional close on every call can't race or "fight" an open in progress.
+function setDrawer(open) {
+  document.body.classList.toggle('drawer-open', open);
+  const scrim = document.getElementById('scrim');
+  if (scrim) scrim.hidden = !open;
+  document.getElementById('drawertoggle')?.setAttribute('aria-expanded', String(open));
+}
+
 export function mountShell(ctxLike) {
   refreshShell(ctxLike);
   if (built) return;
   built = true;
   const scrim = document.getElementById('scrim');
-  const openDrawer = (open) => {
-    document.body.classList.toggle('drawer-open', open);
-    scrim.hidden = !open;
-    document.getElementById('drawertoggle')?.setAttribute('aria-expanded', String(open));
-  };
   document.getElementById('drawertoggle')?.addEventListener('click', () => {
-    openDrawer(!document.body.classList.contains('drawer-open'));
+    setDrawer(!document.body.classList.contains('drawer-open'));
   });
-  scrim.addEventListener('click', () => openDrawer(false));
-  document.getElementById('sidebar').addEventListener('click', (e) => {
-    if (e.target.closest('a')) openDrawer(false);
+  scrim?.addEventListener('click', () => setDrawer(false));
+  document.getElementById('sidebar')?.addEventListener('click', (e) => {
+    if (e.target.closest('a')) setDrawer(false);
   });
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') openDrawer(false); });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setDrawer(false); });
 }
 
 export function refreshShell({ courses, state, hash }) {
@@ -144,4 +151,8 @@ export function refreshShell({ courses, state, hash }) {
   if (el) el.innerHTML = sidebarHtml(courses, state, hash);
   const collapsed = !!state.settings.sidebarCollapsed;
   document.body.classList.toggle('sidebar-collapsed', collapsed);
+  // Every render (any navigation — sidebar link, topbar brand link, a view's
+  // own ctx.navigate(), hashchange from anywhere) closes the mobile drawer,
+  // instead of relying on catching every possible click target.
+  setDrawer(false);
 }
