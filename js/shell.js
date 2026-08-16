@@ -144,6 +144,16 @@ export function mountShell(ctxLike) {
     if (e.target.closest('a')) setDrawer(false);
   });
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setDrawer(false); });
+  // Delegated on document.body (not the button) because refreshShell
+  // replaces #sidebar's innerHTML — and therefore #collapsetoggle — on
+  // every navigation, which would detach any handler bound directly to it.
+  document.body.addEventListener('click', (e) => {
+    if (!e.target.closest('#collapsetoggle')) return;
+    const next = !document.body.classList.contains('sidebar-collapsed');
+    document.body.classList.toggle('sidebar-collapsed', next);
+    ctxLike.state.settings.sidebarCollapsed = next;
+    ctxLike.save();
+  });
 }
 
 export function refreshShell({ courses, state, hash }) {

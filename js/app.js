@@ -71,7 +71,7 @@ async function render() {
   // The shell (and #countdown, which only exists inside it) must render
   // regardless of whether the course list loaded — otherwise a failed load
   // leaves the DOM with zero #countdown elements.
-  mountShell({ courses, state, hash: location.hash });
+  mountShell({ courses, state, save, hash: location.hash });
   renderCountdown();
   if (loadError) {
     container.innerHTML = `<div class="card"><h2>Σφάλμα</h2><p>${escapeHtml(loadError.message)}</p>
