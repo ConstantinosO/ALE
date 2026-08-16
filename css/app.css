@@ -3,8 +3,20 @@
   --bg: #f6f7fb; --card: #ffffff; --text: #1a1c2e; --muted: #6a6f85;
   --border: #e3e5ee; --ok: #1f9d55; --bad: #d64545;
   --radius: 14px; --shadow: 0 1px 4px rgba(17, 18, 40, .08);
-  --sidebar-w: 260px; --sidebar-rail-w: 72px; --topbar-h: 56px; --bottomnav-h: 76px;
+  --sidebar-w: 260px; --sidebar-rail-w: 72px; --topbar-h: 56px; --bottomnav-h: 48px;
   --content-max: 1100px;
+  /* The device insets are read once, here, and used everywhere through these
+     tokens. Two reasons: --topbar-total below has to add the top inset to the
+     bar height (a border-box bar that only pads for the notch loses that many
+     pixels of content box — on a 47px iPhone notch the 56px bar was left with
+     a 9px content box and the hamburger hung out the bottom), and a single
+     definition point means the notch geometry can be exercised in a browser
+     by substituting one value. */
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+  /* Height the top bar actually occupies, and therefore the offset any
+     element sticking below it must use. */
+  --topbar-total: calc(var(--topbar-h) + var(--safe-top));
   --sidebar-bg: #111228; --sidebar-text: #e8eaf6; --sidebar-muted: #8f96b8;
   --sidebar-active: rgba(245, 184, 24, .14);
 }
@@ -18,7 +30,7 @@
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  padding-bottom: calc(var(--bottomnav-h) + env(safe-area-inset-bottom));
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom));
 }
 
 /* --- shell layout --- */
@@ -30,7 +42,7 @@ body {
   width: var(--sidebar-w); height: 100vh; height: 100dvh;
   background: var(--sidebar-bg); color: var(--sidebar-text);
   display: flex; flex-direction: column; overflow-y: auto;
-  padding: max(12px, env(safe-area-inset-top)) 0 12px;
+  padding: max(12px, var(--safe-top)) 0 calc(12px + var(--safe-bottom));
   transform: translateX(-100%);
   transition: transform .2s ease;
 }
@@ -84,8 +96,8 @@ body.drawer-open { overflow: hidden; }
 
 .topbar {
   position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px;
-  padding: 0 16px; background: var(--navy); box-sizing: border-box; height: var(--topbar-h);
-  color: #fff; padding-top: max(0px, env(safe-area-inset-top));
+  padding: 0 16px; background: var(--navy); box-sizing: border-box; height: var(--topbar-total);
+  color: #fff; padding-top: var(--safe-top);
 }
 .brand { color: var(--gold); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: 1px; }
 .countdown { font-size: 13px; color: #cfd2e4; }
@@ -94,7 +106,7 @@ body.drawer-open { overflow: hidden; }
 .bottomnav {
   position: fixed; bottom: 0; left: 0; right: 0; display: flex; z-index: 10;
   background: var(--card); border-top: 1px solid var(--border);
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--safe-bottom);
 }
 .bottomnav a {
   flex: 1; text-align: center; padding: 12px 0; text-decoration: none;
@@ -221,7 +233,7 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
 .editbtn { background: none; border: none; cursor: pointer; font-size: 15px; opacity: .55; padding: 2px 6px; }
 .editbtn:hover { opacity: 1; }
 .editing { outline: 2px dashed var(--gold); outline-offset: 4px; border-radius: 4px; min-height: 1.4em; }
-.edittoolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; position: sticky; top: var(--topbar-h); z-index: 5; padding: 6px 0; background: var(--card); }
+.edittoolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; position: sticky; top: var(--topbar-total); z-index: 5; padding: 6px 0; background: var(--card); }
 .edittoolbar [data-cmd] { min-width: 38px; padding: 6px 8px; }
 .editstatus:empty { display: none; }
 
