@@ -153,9 +153,48 @@ let built = false;
 // all. Kept in one place so the markup and the click handler cannot drift.
 const COLLAPSE_LABEL = (collapsed) => (collapsed ? 'Ανάπτυξη' : 'Σύμπτυξη');
 
+function sidebarLinkHtml(i) {
+  return `<a class="sidebar-link${i.active ? ' active' : ''}" href="${escapeHtml(i.href)}">
+      <span class="sidebar-icon">${i.icon}</span><span class="sidebar-label">${escapeHtml(i.label)}</span>
+    </a>`;
+}
+
+// One flyout per course badge, always in the DOM (so its links are real,
+// tabbable anchors) but `hidden` until a rail badge click reveals it. Reusing
+// COURSE_LINKS keeps its five destinations/labels/icons in lockstep with the
+// expanded sidebar's — one list, two renderings.
+function courseFlyoutHtml(courseId, title, passed) {
+  return `
+    <div class="course-flyout" id="flyout-${escapeHtml(courseId)}" role="menu" hidden>
+      <p class="course-flyout-title">${escapeHtml(title)}${passed ? ' ✓' : ''}</p>
+      ${COURSE_LINKS.map((l) => `<a role="menuitem" href="${escapeHtml(l.suffix(courseId))}">
+        <span class="sidebar-icon">${l.icon}</span>${escapeHtml(l.label)}</a>`).join('')}
+    </div>`;
+}
+
+// The rail: a circular badge per course instead of the old five-icons-times-
+// two-courses wall of anonymous glyphs. `title` on every item is the actual
+// fix for "no way to know what this icon is"; the flyout (opened by JS, see
+// mountShell) is how a tablet user still reaches all five destinations.
+function railHtml(courses, hash) {
+  return sidebarRailItems(courses, hash).map((it) => {
+    if (it.kind === 'link') {
+      return `<a class="rail-item rail-link${it.active ? ' active' : ''}" href="${escapeHtml(it.href)}"
+        title="${escapeHtml(it.label)}" aria-label="${escapeHtml(it.label)}">${it.icon}</a>`;
+    }
+    return `<div class="rail-item rail-course">
+      <button type="button" class="course-badge${it.active ? ' active' : ''}${it.passed ? ' passed' : ''}"
+        title="${escapeHtml(it.title)}" aria-haspopup="true" aria-expanded="false"
+        aria-controls="flyout-${escapeHtml(it.id)}" data-course-id="${escapeHtml(it.id)}"
+      >${escapeHtml(it.initials)}</button>${courseFlyoutHtml(it.id, it.title, it.passed)}
+    </div>`;
+  }).join('');
+}
+
 function sidebarHtml(courses, state, hash) {
   const items = sidebarNavItems(courses, hash);
   const collapsed = !!state.settings.sidebarCollapsed;
+  const collapsedGroups = state.settings.collapsedGroups;
   const groups = [];
   for (const i of items) {
     const key = i.group || '';
@@ -173,17 +212,40 @@ function sidebarHtml(courses, state, hash) {
       <span class="chip">🔥 ${Number(state.stats.currentStreak) || 0}</span>
     </div>
     <nav class="sidebar-nav">
-      ${groups.map((g) => `
-        ${g.key ? `<p class="sidebar-group">${escapeHtml(g.title)}${g.passed ? ' ✓' : ''}</p>` : ''}
-        ${g.items.map((i) => `<a class="sidebar-link${i.active ? ' active' : ''}" href="${escapeHtml(i.href)}">
-          <span class="sidebar-icon">${i.icon}</span><span class="sidebar-label">${escapeHtml(i.label)}</span>
-        </a>`).join('')}`).join('')}
+      ${groups.map((g) => {
+        if (!g.key) return g.items.map(sidebarLinkHtml).join('');
+        const open = isGroupOpen(g.key, g.passed ? 'passed' : 'active', collapsedGroups);
+        return `
+        <button type="button" class="sidebar-group" aria-expanded="${open}"
+          aria-controls="sidebargroup-${escapeHtml(g.key)}" data-course-id="${escapeHtml(g.key)}">
+          <span>${escapeHtml(g.title)}${g.passed ? ' ✓' : ''}</span>
+          <span class="sidebar-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="sidebar-group-links" id="sidebargroup-${escapeHtml(g.key)}"${open ? '' : ' hidden'}>
+          ${g.items.map(sidebarLinkHtml).join('')}
+        </div>`;
+      }).join('')}
+    </nav>
+    <nav class="sidebar-rail" aria-label="Σύντομη πλοήγηση">
+      ${railHtml(courses, hash)}
     </nav>
     <div class="sidebar-foot">
       <span class="countdown"></span>
       <button id="collapsetoggle" class="iconbtn" aria-controls="sidebar"
         aria-expanded="${!collapsed}" aria-label="${COLLAPSE_LABEL(collapsed)}">⟨⟩</button>
     </div>`;
+}
+
+// All course-flyouts share this so opening one closes any other, and so
+// Escape/outside-click/navigation have one place to call. `except` lets the
+// badge handler below close every *other* flyout without a flash of its own
+// panel disappearing and reappearing.
+function closeAllFlyouts(except) {
+  for (const flyout of document.querySelectorAll('.course-flyout:not([hidden])')) {
+    if (flyout === except) continue;
+    flyout.hidden = true;
+    document.querySelector(`.course-badge[aria-controls="${flyout.id}"]`)?.setAttribute('aria-expanded', 'false');
+  }
 }
 
 // Shared by the click/Escape handlers below (drawer opening) and by
@@ -228,7 +290,15 @@ function setDrawer(open) {
 function trapDrawerFocus(e) {
   if (e.key !== 'Tab' || !document.body.classList.contains('drawer-open')) return;
   const sidebar = document.getElementById('sidebar');
-  const focusables = [...(sidebar?.querySelectorAll('a[href], button:not([disabled])') || [])];
+  // offsetParent is null for anything display:none (itself or an ancestor) —
+  // needed because the drawer's markup now also contains #collapsetoggle
+  // (always display:none below 1024px) and the whole .sidebar-rail subtree
+  // (display:none below 768px, where the drawer lives): both match
+  // "button:not([disabled])" but neither is actually reachable, so without
+  // this filter Shift+Tab from the first link called .focus() on an invisible
+  // button and backward wrap-around was dead.
+  const focusables = [...(sidebar?.querySelectorAll('a[href], button:not([disabled])') || [])]
+    .filter((el) => el.offsetParent !== null);
   if (!focusables.length) return;
   const first = focusables[0];
   const last = focusables[focusables.length - 1];
@@ -247,11 +317,59 @@ export function mountShell(ctxLike) {
     setDrawer(!document.body.classList.contains('drawer-open'));
   });
   scrim?.addEventListener('click', () => setDrawer(false));
+  // Bound once on #sidebar itself (not its innerHTML, which refreshShell
+  // replaces on every navigation) so it keeps working for markup that does
+  // not exist yet at mount time — every group button, badge and flyout link
+  // rendered by a later sidebarHtml() call is still a descendant of this
+  // same element, and clicks on it still bubble up here.
   document.getElementById('sidebar')?.addEventListener('click', (e) => {
     if (e.target.closest('a')) setDrawer(false);
+
+    const groupBtn = e.target.closest('.sidebar-group');
+    if (groupBtn) {
+      const courseId = groupBtn.dataset.courseId;
+      const next = toggleGroup(courseId, ctxLike.courses, ctxLike.state.settings.collapsedGroups);
+      ctxLike.state.settings.collapsedGroups = next;
+      ctxLike.save();
+      // Toggled in place (no full re-render) so the button keeps focus; the
+      // state is already persisted, so the next refreshShell (any
+      // navigation) will render every group from this same array anyway.
+      const open = !next.includes(courseId);
+      groupBtn.setAttribute('aria-expanded', String(open));
+      const panel = document.getElementById(groupBtn.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !open;
+      return;
+    }
+
+    const badge = e.target.closest('.course-badge');
+    if (badge) {
+      const flyout = document.getElementById(badge.getAttribute('aria-controls'));
+      const wasOpen = !!flyout && !flyout.hidden;
+      closeAllFlyouts();
+      if (flyout && !wasOpen) {
+        // position:fixed and placed here (rather than in CSS) because the
+        // sidebar itself scrolls (overflow-y: auto) and is only 72px wide in
+        // the rail band — an absolutely-positioned child anchored inside it
+        // would be clipped the moment it needs to extend past that width.
+        const rect = badge.getBoundingClientRect();
+        flyout.style.top = `${Math.round(rect.top)}px`;
+        flyout.style.left = `${Math.round(rect.right + 8)}px`;
+        flyout.hidden = false;
+        badge.setAttribute('aria-expanded', 'true');
+      }
+      return;
+    }
+
+    if (e.target.closest('.course-flyout a')) closeAllFlyouts();
+  });
+  // Closes an open flyout on any click that lands outside the sidebar
+  // entirely (choosing a flyout link, and clicks inside the sidebar that
+  // aren't a badge, are both handled by the listener above already).
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#sidebar')) closeAllFlyouts();
   });
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { setDrawer(false); return; }
+    if (e.key === 'Escape') { setDrawer(false); closeAllFlyouts(); return; }
     trapDrawerFocus(e);
   });
   // Crossing into the rail band retires the drawer. Rotating a phone from
