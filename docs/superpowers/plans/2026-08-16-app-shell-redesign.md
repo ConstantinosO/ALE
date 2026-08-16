@@ -14,7 +14,7 @@
 
 - Zero npm dependencies; no build step; vanilla ES modules only.
 - `<main id="view">` keeps that exact id — `js/app.js` renders into it and binds the same-hash delegated click handler to it.
-- An element with id `countdown` must exist in the DOM at all times — `renderCountdown()` in `js/app.js` writes to it via `getElementById`. Exactly ONE element may carry that id.
+- The exam countdown must remain visible in every band. `renderCountdown()` in `js/app.js` writes to every `.countdown` element (changed from a single `#countdown` id during the final fix wave, so the top bar and the sidebar foot can each carry one).
 - `ctx.onCleanup` / single-slot `viewCleanup` behaviour is untouched (`js/views/exam.js`'s timer depends on it firing before `#view` is replaced).
 - Breakpoints: mobile `< 768px`, tablet `768–1023px`, desktop `≥ 1024px`. Declared once as a comment convention; CSS uses `@media (min-width: 768px)` and `@media (min-width: 1024px)` only (mobile-first).
 - Sidebar widths: expanded `260px`, rail `72px`. Declared as `--sidebar-w` and `--sidebar-rail-w`.
@@ -320,7 +320,7 @@ Keep `<head>` as it is apart from adding a favicon link. Replace the body's chil
 
 Add to `<head>`: `<link rel="icon" href="icons/icon-192.png">`.
 
-Note the `#countdown` element is NOT here — Task 2 Step 2 renders it inside the sidebar, keeping exactly one element with that id.
+Note: as originally planned this task rendered a single `#countdown` inside the sidebar. The final fix wave replaced the id with a `.countdown` class and added a second instance in the top bar, because the sidebar-only instance was invisible below 1024px.
 
 - [ ] **Step 2: Add the rendering half to `js/shell.js`**
 
@@ -356,7 +356,7 @@ function sidebarHtml(courses, state, hash) {
         </a>`).join('')}`).join('')}
     </nav>
     <div class="sidebar-foot">
-      <span id="countdown" class="countdown"></span>
+      <span class="countdown"></span>
       <button id="collapsetoggle" class="iconbtn" aria-label="Σύμπτυξη">⟨⟩</button>
     </div>`;
 }
@@ -399,7 +399,7 @@ Add `import { mountShell } from './shell.js';`. Inside `render()`, after `course
   mountShell({ courses, state, hash: location.hash });
 ```
 
-`renderCountdown()` still writes to `#countdown` and must run AFTER `mountShell` (the sidebar's innerHTML is what creates that element each refresh). Verify the ordering.
+`renderCountdown()` writes to every `.countdown` and must run AFTER `mountShell` (the sidebar's innerHTML is what recreates its instance on each refresh). Verify the ordering.
 
 - [ ] **Step 4: Write the CSS bands in `css/app.css`**
 
@@ -428,7 +428,7 @@ Serve at `http://localhost:8000` and hard-reload with a cache-busting query (`?v
 - **768px:** icon rail visible and static, no bottom nav, no scrim, content fills the remaining width.
 - **1280px:** full sidebar with labels, no top bar, content centred at `--content-max`.
 - Dark mode at 1280px (`resize_window` with `colorScheme: 'dark'`): sidebar stays dark, cards and text readable.
-- Exactly one `#countdown` element exists and shows the day count: `document.querySelectorAll('#countdown').length === 1`.
+- Every `.countdown` element shows the day count, in every band.
 - Navigate to `#/quiz/klados-zois/micro` and confirm the sidebar highlights exactly one entry.
 
 - [ ] **Step 6: Commit**
@@ -633,7 +633,7 @@ git commit -m "feat: shared page header across views; SW ale-v11; layout docs"
 
 - `node --test tests/*.test.js` — green (160+ tests).
 - Three bands behave as specified at 375 / 768 / 1280px, light and dark.
-- Exactly one `#countdown` element; the exam countdown still updates.
+- The exam countdown is visible and updating in all three bands.
 - Sidebar collapse persists across reloads and rides the sync snapshot.
 - The exam timer still clears on navigation (the `onCleanup` path is untouched).
 - Material editing — pencils, toolbar, save, pending pill — works at every width.
