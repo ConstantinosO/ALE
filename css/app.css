@@ -247,6 +247,10 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
 .editbtn { background: none; border: none; cursor: pointer; font-size: 15px; opacity: .55; padding: 2px 6px; }
 .editbtn:hover { opacity: 1; }
 .editing { outline: 2px dashed var(--gold); outline-offset: 4px; border-radius: 4px; min-height: 1.4em; }
+/* Generates no box, so .edittoolbar's containing block becomes the edited
+   card rather than a wrapper the same height as the toolbar. See the comment
+   at the createElement in js/edit/editor.js. */
+.edittoolbar-wrap { display: contents; }
 .edittoolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; position: sticky; top: var(--topbar-total); z-index: 5; padding: 6px 0; background: var(--card); }
 .edittoolbar [data-cmd] { min-width: 38px; padding: 6px 8px; }
 .editstatus:empty { display: none; }
