@@ -83,6 +83,65 @@ export function readinessPct(courses, topicsByCourse, progressByTopicId) {
   return count ? Math.round(sum / count) : 0;
 }
 
+// Up to two uppercase initials from the first two words of a course title —
+// the rail badge's only label, so it has to survive garbage input without
+// throwing (an empty/unparseable title still needs *something* rendered).
+export function courseInitials(title) {
+  if (typeof title !== 'string') return '?';
+  const words = title.trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return '?';
+  return words.slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+}
+
+// A course group's open/closed state has two layers: an implicit default
+// (active courses start open, passed ones start closed) and, once the user
+// has ever touched a toggle, an explicit collapsedGroups array that overrides
+// the default completely for every course it mentions. The array-vs-not
+// distinction is what lets toggleGroup below tell "never touched" apart from
+// "touched, and this particular course happens not to be in the list".
+export function isGroupOpen(courseId, status, collapsedGroups) {
+  if (!Array.isArray(collapsedGroups)) return status !== 'passed';
+  return !collapsedGroups.includes(courseId);
+}
+
+// The first toggle has to freeze the *current* effective state of every
+// course (not just the one being toggled), or collapsing the active course
+// would read back as "collapsedGroups = [active]" and silently leave the
+// already-collapsed passed course looking open (nothing in the array names
+// it, and isGroupOpen would then default it open). Once collapsedGroups is
+// already an array, every course's state is already explicit, so a toggle is
+// a plain flip.
+export function toggleGroup(courseId, courses, collapsedGroups) {
+  const list = Array.isArray(courses?.courses) ? courses.courses : [];
+  const next = Array.isArray(collapsedGroups)
+    ? [...collapsedGroups]
+    : list.filter((c) => c.status === 'passed').map((c) => c.id);
+  const idx = next.indexOf(courseId);
+  if (idx === -1) next.push(courseId);
+  else next.splice(idx, 1);
+  return next;
+}
+
+// The rail's model: home, one badge per course, settings. A badge counts as
+// "active" when the current route belongs to that course at all (any of its
+// five destinations), which is exactly what activeHref+COURSE_LINKS already
+// encode for the expanded sidebar — reused here rather than re-derived, so
+// the two views can never disagree about which course the user is inside.
+export function sidebarRailItems(courses, hash) {
+  const target = activeHref(hash);
+  const list = Array.isArray(courses?.courses) ? courses.courses : [];
+  const items = [{ kind: 'link', label: 'Αρχική', href: '#/', icon: '🏠', active: target === '#/' }];
+  for (const c of list) {
+    const hrefs = COURSE_LINKS.map((l) => l.suffix(c.id));
+    items.push({
+      kind: 'course', id: c.id, title: c.title, initials: courseInitials(c.title),
+      active: hrefs.includes(target), passed: c.status === 'passed',
+    });
+  }
+  items.push({ kind: 'link', label: 'Ρυθμίσεις', href: '#/settings', icon: '⚙️', active: target === '#/settings' });
+  return items;
+}
+
 // --- rendering (appended to js/shell.js) ---
 import { escapeHtml } from './ui.js';
 

@@ -171,6 +171,19 @@ test('freshState carries sidebarCollapsed so a fresh export contains it', () => 
   assert.equal('sidebarCollapsed' in mergeState(freshState(), freshState()).settings, true);
 });
 
+// Mirrors the sidebarCollapsed regression above: collapsedGroups rides the
+// same generic settings-spread in mergeState, so it needs its own freshState
+// default and its own proof it survives a merge without a dedicated rule.
+test('freshState carries collapsedGroups so a fresh export contains it, and it survives a merge', () => {
+  assert.equal(freshState().settings.collapsedGroups, null);
+  assert.equal('collapsedGroups' in mergeState(freshState(), freshState()).settings, true);
+
+  const local = freshState();
+  local.settings.collapsedGroups = ['basikes-arxes'];
+  const imported = freshState();
+  assert.deepEqual(mergeState(local, imported).settings.collapsedGroups, ['basikes-arxes']);
+});
+
 test('settings merge: excludedChapters combines imported-only courses, local wins per-course on conflict', () => {
   const local = freshState();
   local.settings.excludedChapters = { courseA: ['ch1'] };
