@@ -2,6 +2,7 @@ import { parseRoute } from './router.js';
 import { loadState, saveState } from './core/store.js';
 import { loadCourses, loadContent, loadAnalysis } from './core/content.js';
 import { escapeHtml } from './ui.js';
+import { mountShell } from './shell.js';
 import * as dashboard from './views/dashboard.js';
 import * as course from './views/course.js';
 import * as topic from './views/topic.js';
@@ -12,7 +13,7 @@ import * as analysis from './views/analysis.js';
 import * as settings from './views/settings.js';
 import * as chaptertest from './views/chaptertest.js';
 import { loadEdits, saveEdits, applyEdits, pruneDeployed } from './edit/overlay.js';
-import { retryPendingAll } from './edit/editor.js';
+import { retryPendingAll, confirmLeaveEdit } from './edit/editor.js';
 
 const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, analysis, settings, chaptertest };
 
@@ -53,22 +54,57 @@ function examDateIso() {
   return state.settings.examDate || courses?.examDate || '2026-10-03';
 }
 
+// There is more than one .countdown (top bar and sidebar foot) and which of
+// them is visible depends on the width, so every instance is written on every
+// render. getElementById would have updated whichever one happened to be
+// first and silently left the other stale after an exam-date change.
 function renderCountdown() {
   const days = Math.ceil((new Date(examDateIso()) - new Date()) / 86400000);
-  document.getElementById('countdown').innerHTML =
-    days >= 0 ? `Εξετάσεις σε <b>${days}</b> ημέρες` : 'Οι εξετάσεις πέρασαν';
+  const html = days >= 0 ? `Εξετάσεις σε <b>${days}</b> ημέρες` : 'Οι εξετάσεις πέρασαν';
+  for (const el of document.querySelectorAll('.countdown')) el.innerHTML = html;
 }
 
+// The hash #view currently reflects, and therefore the one a refused
+// navigation has to go back to.
+let renderedHash = location.hash;
+// Reverting location.hash fires a second hashchange, which re-enters
+// render() and would prompt again — and refusing that prompt would revert
+// again, forever. This swallows exactly that one re-entry.
+let revertingHash = false;
+
 async function render() {
+  if (revertingHash) { revertingHash = false; return; }
+  // Global guard on every route change. Before this, confirmLeaveEdit() was
+  // wired only into the views' own next-buttons, so the sidebar's 12 links,
+  // the drawer, the bottom nav and the body-level same-hash listener could
+  // all replace #view with an open editor inside it: typed text gone, nothing
+  // written to ale.edits.v1, no prompt. Runs before anything is torn down —
+  // view cleanup, the shell refresh and the container all have to survive a
+  // refusal untouched.
+  if (!confirmLeaveEdit(container)) {
+    if (location.hash !== renderedHash) {
+      revertingHash = true;
+      location.hash = renderedHash;
+    }
+    return;
+  }
+  renderedHash = location.hash;
   if (viewCleanup) { try { viewCleanup(); } catch {} viewCleanup = null; }
+  let loadError = null;
   try {
     courses ??= await loadCourses();
   } catch (e) {
-    container.innerHTML = `<div class="card"><h2>Σφάλμα</h2><p>${escapeHtml(e.message)}</p>
+    loadError = e;
+  }
+  // The shell (and the sidebar's .countdown, which only exists inside it)
+  // must render regardless of whether the course list loaded.
+  mountShell({ courses, state, save, hash: location.hash });
+  renderCountdown();
+  if (loadError) {
+    container.innerHTML = `<div class="card"><h2>Σφάλμα</h2><p>${escapeHtml(loadError.message)}</p>
       <button onclick="location.reload()">Δοκιμή ξανά</button></div>`;
     return;
   }
-  renderCountdown();
   const route = parseRoute(location.hash);
   const view = VIEWS[route.view] || VIEWS.dashboard;
   const ctx = {
@@ -87,7 +123,11 @@ async function render() {
 }
 
 window.addEventListener('hashchange', render);
-container.addEventListener('click', (e) => {
+// Delegated on document.body (not #view) so a same-hash link OUTSIDE the view
+// — e.g. the top bar's brand link — also re-renders and, via refreshShell,
+// closes the mobile drawer. A plain click and a keyboard Enter/Space on a
+// focused <a> both fire this same 'click' event, so both are covered.
+document.body.addEventListener('click', (e) => {
   const a = e.target.closest('a[href^="#"]');
   if (a && a.getAttribute('href') === location.hash) { e.preventDefault(); render(); }
 });

@@ -47,7 +47,14 @@ export function mergeState(local, imported) {
     ...local,
     topics,
     stats,
+    // Spread local first so settings keys this function has never heard of
+    // survive the merge. Rebuilding the object field-by-field silently
+    // dropped every one of them (sidebarCollapsed, and whatever comes next):
+    // Object.assign(ctx.state, merged) then installed a settings object with
+    // the key missing and the preference reset itself. The two fields below
+    // still get their own merge rules on top.
     settings: {
+      ...local.settings,
       examDate: local.settings?.examDate ?? imported.settings?.examDate ?? null,
       excludedChapters: { ...(imported.settings?.excludedChapters || {}), ...(local.settings?.excludedChapters || {}) },
     },

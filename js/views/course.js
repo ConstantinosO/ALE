@@ -1,4 +1,4 @@
-import { escapeHtml } from '../ui.js';
+import { escapeHtml, pageHeader } from '../ui.js';
 import { newTopicProgress } from '../core/progress.js';
 
 export async function render(el, ctx) {
@@ -8,11 +8,10 @@ export async function render(el, ctx) {
   const excluded = new Set(ctx.state.settings.excludedChapters[course.id] || []);
 
   el.innerHTML = `
-    <div class="row" style="margin-bottom:12px">
-      <a class="btn btn-ghost" href="#/">← Πίσω</a>
-      <h2 class="grow" style="margin:0">${escapeHtml(course.title)}</h2>
-      ${course.status === 'passed' ? '<span class="pill pill-ok">✓ Επιτυχία</span>' : ''}
-    </div>
+    ${pageHeader({
+      title: course.title, back: '#/',
+      actions: course.status === 'passed' ? '<span class="pill pill-ok">✓ Επιτυχία</span>' : '',
+    })}
     <div class="row" style="margin-bottom:12px">
       <a class="btn" href="#/quiz/${course.id}/micro">Κουίζ</a>
       <a class="btn btn-ghost" href="#/flashcards/${course.id}">Κάρτες</a>

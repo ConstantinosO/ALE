@@ -112,7 +112,16 @@ function enterEditMode(container, courseId, content, topic, btn) {
   }
   try { document.execCommand('styleWithCSS', false, 'false'); } catch { /* older engines */ }
 
+  // The wrapper stays (js/edit/sessions.js keys the whole session off this one
+  // element: bar.isConnected decides whether the session is still alive, and
+  // bar.remove() has to take the toolbar and the .editstatus paragraph down
+  // together), but .edittoolbar-wrap makes it display: contents. Without that
+  // the wrapper is a box exactly as tall as the toolbar inside it, and the
+  // toolbar's position: sticky resolves against it — 0px of travel, so the
+  // toolbar scrolled away on the first flick and Save/Akyro became
+  // unreachable on a long definition.
   const bar = document.createElement('div');
+  bar.className = 'edittoolbar-wrap';
   bar.innerHTML = TOOLBAR_HTML;
   container.parentElement.insertBefore(bar, container);
   const status = bar.querySelector('.editstatus');

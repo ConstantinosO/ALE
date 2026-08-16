@@ -1,4 +1,4 @@
-import { fmtDate, escapeHtml } from '../ui.js';
+import { fmtDate, escapeHtml, pageHeader } from '../ui.js';
 import { validateSnapshot, mergeState } from '../core/merge.js';
 import { freshState, saveState } from '../core/store.js';
 import { dateStr, BADGES } from '../core/stats.js';
@@ -11,6 +11,7 @@ const STORE_FULL = '⚠️ Δεν αποθηκεύτηκε (ο χώρος του
 export async function render(el, ctx) {
   const s = ctx.state.stats;
   el.innerHTML = `
+    ${pageHeader({ title: 'Ρυθμίσεις' })}
     <div class="card">
       <h2>📆 Ημερομηνία εξετάσεων</h2>
       <p class="muted">Τρέχουσα: ${fmtDate(ctx.examDateIso())}</p>

@@ -148,6 +148,29 @@ test('settings merge: examDate falls back to imported when local is null, else l
   assert.equal(mergeState(local2, imported2).settings.examDate, '2026-10-03');
 });
 
+// Regression: mergeState used to rebuild `settings` field-by-field from a
+// hard-coded list of two keys, so every other setting was dropped on import.
+// sidebarCollapsed is the key that exposed it; the test is written against an
+// arbitrary key as well, because the next setting added must not have to
+// remember to edit mergeState.
+test('settings merge: keys mergeState does not know about survive', () => {
+  const local = freshState();
+  local.settings.sidebarCollapsed = true;
+  local.settings.someFutureSetting = 'κρατήσου';
+  const imported = freshState();
+  const m = mergeState(local, imported);
+  assert.equal(m.settings.sidebarCollapsed, true);
+  assert.equal(m.settings.someFutureSetting, 'κρατήσου');
+  // and the two fields with real merge rules still follow them
+  assert.equal(m.settings.examDate, null);
+  assert.deepEqual(m.settings.excludedChapters, {});
+});
+
+test('freshState carries sidebarCollapsed so a fresh export contains it', () => {
+  assert.equal(freshState().settings.sidebarCollapsed, false);
+  assert.equal('sidebarCollapsed' in mergeState(freshState(), freshState()).settings, true);
+});
+
 test('settings merge: excludedChapters combines imported-only courses, local wins per-course on conflict', () => {
   const local = freshState();
   local.settings.excludedChapters = { courseA: ['ch1'] };

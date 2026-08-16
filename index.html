@@ -10,13 +10,27 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="stylesheet" href="css/app.css">
+  <link rel="icon" href="icons/icon-192.png">
 </head>
 <body>
-  <header class="topbar">
-    <a href="#/" class="brand">ALE</a>
-    <span id="countdown" class="countdown"></span>
-  </header>
-  <main id="view" class="view"></main>
+  <div class="shell">
+    <aside id="sidebar" class="sidebar" aria-label="Κύρια πλοήγηση"></aside>
+    <div class="shell-main">
+      <header class="topbar">
+        <button id="drawertoggle" class="iconbtn" aria-label="Μενού" aria-expanded="false">☰</button>
+        <a href="#/" class="brand">ALE</a>
+        <span class="grow"></span>
+        <!-- The days-to-exam counter. The sidebar foot carries a second
+             .countdown; renderCountdown() writes to every instance. This one
+             is the only one visible below 1024px (the sidebar is a rail or a
+             closed drawer there), and the top bar itself is display:none at
+             >=1024px, so exactly one is ever on screen. -->
+        <span class="countdown"></span>
+      </header>
+      <main id="view" class="view"></main>
+    </div>
+  </div>
+  <div id="scrim" class="scrim" hidden></div>
   <nav class="bottomnav">
     <a href="#/">🏠 Αρχική</a>
     <a href="#/settings">⚙️ Ρυθμίσεις</a>

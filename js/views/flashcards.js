@@ -1,4 +1,4 @@
-import { escapeHtml } from '../ui.js';
+import { escapeHtml, pageHeader } from '../ui.js';
 import { allTopics } from '../core/content.js';
 import { isDue } from '../core/srs.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
@@ -35,11 +35,12 @@ export async function render(el, ctx) {
     const { topicId, topicTitle, f, fi } = cards[i];
     flipped = false;
     el.innerHTML = `
-      <div class="row" style="margin-bottom:12px">
-        <a class="btn btn-ghost" href="#/course/${courseId}">✕</a>
-        <span class="grow muted">🗂️ Κάρτες · ${i + 1}/${cards.length}</span>
-      </div>
-      <p class="muted" style="font-size:13px">${escapeHtml(topicTitle)}</p>
+      ${pageHeader({
+        title: 'Κάρτες',
+        subtitle: topicTitle,
+        back: `#/course/${courseId}`,
+        actions: `<span class="muted" style="font-size:13px">${i + 1}/${cards.length}</span>`,
+      })}
       <div class="card flashcard" id="card">${escapeHtml(f.front)}</div>
       <div id="actions"><p class="muted" style="text-align:center">Πάτησε την κάρτα για την απάντηση</p></div>`;
 

@@ -3,6 +3,22 @@
   --bg: #f6f7fb; --card: #ffffff; --text: #1a1c2e; --muted: #6a6f85;
   --border: #e3e5ee; --ok: #1f9d55; --bad: #d64545;
   --radius: 14px; --shadow: 0 1px 4px rgba(17, 18, 40, .08);
+  --sidebar-w: 260px; --sidebar-rail-w: 72px; --topbar-h: 56px; --bottomnav-h: 48px;
+  --content-max: 1100px;
+  /* The device insets are read once, here, and used everywhere through these
+     tokens. Two reasons: --topbar-total below has to add the top inset to the
+     bar height (a border-box bar that only pads for the notch loses that many
+     pixels of content box — on a 47px iPhone notch the 56px bar was left with
+     a 9px content box and the hamburger hung out the bottom), and a single
+     definition point means the notch geometry can be exercised in a browser
+     by substituting one value. */
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+  /* Height the top bar actually occupies, and therefore the offset any
+     element sticking below it must use. */
+  --topbar-total: calc(var(--topbar-h) + var(--safe-top));
+  --sidebar-bg: #111228; --sidebar-text: #e8eaf6; --sidebar-muted: #8f96b8;
+  --sidebar-active: rgba(245, 184, 24, .14);
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -14,12 +30,83 @@
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  padding-bottom: 76px;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom));
 }
+
+/* --- shell layout --- */
+.shell { display: flex; align-items: stretch; min-height: 100vh; min-height: 100dvh; }
+.shell-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.sidebar {
+  position: fixed; top: 0; left: 0; z-index: 30;
+  width: var(--sidebar-w); height: 100vh; height: 100dvh;
+  background: var(--sidebar-bg); color: var(--sidebar-text);
+  display: flex; flex-direction: column; overflow-y: auto;
+  padding: max(12px, var(--safe-top)) 0 calc(12px + var(--safe-bottom));
+  transform: translateX(-100%);
+  transition: transform .2s ease;
+}
+body.drawer-open .sidebar { transform: translateX(0); }
+body.drawer-open { overflow: hidden; }
+
+/* The collapse toggle only does something at >=1024px, where the
+   body.sidebar-collapsed rules live. Showing it below that gave the tablet
+   and phone a control that silently wrote a preference the user could not
+   see the effect of. */
+#collapsetoggle { display: none; }
+
+.scrim { position: fixed; inset: 0; background: rgba(0, 0, 0, .45); z-index: 20; }
+
+.iconbtn {
+  background: transparent; color: inherit; border: 0; border-radius: 8px;
+  padding: 6px 10px; font-size: 20px; line-height: 1; font-weight: 400;
+  cursor: pointer;
+  /* 44px is the iOS minimum touch target; the 56px bar has room for it. */
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px;
+}
+.iconbtn:hover { background: rgba(255, 255, 255, .08); }
+
+.sidebar-brand { display: flex; align-items: center; gap: 10px; padding: 0 16px 16px; }
+.sidebar-logo { font-size: 26px; line-height: 1; }
+.sidebar-brandtext { display: flex; flex-direction: column; line-height: 1.35; }
+.sidebar-brandtext b { color: var(--gold); font-size: 17px; letter-spacing: .5px; }
+.sidebar-brandtext small { color: var(--sidebar-muted); font-size: 9.5px; letter-spacing: .06em; }
+
+.sidebar-chips { display: flex; gap: 8px; padding: 0 16px 16px; }
+.chip {
+  background: rgba(255, 255, 255, .07); color: var(--sidebar-text);
+  font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+  white-space: nowrap;
+}
+
+.sidebar-nav { flex: 1; padding: 0 10px; }
+.sidebar-group {
+  margin: 16px 10px 4px; font-size: 10px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--sidebar-muted); font-weight: 700;
+}
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px; padding: 9px 10px; margin: 1px 0;
+  border-radius: 10px; color: var(--sidebar-text); text-decoration: none;
+  font-size: 14px; font-weight: 600; border-left: 3px solid transparent;
+}
+.sidebar-link:hover { background: rgba(255, 255, 255, .06); }
+.sidebar-link.active {
+  background: var(--sidebar-active); border-left-color: var(--gold); color: #fff;
+}
+.sidebar-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+.sidebar-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.sidebar-foot {
+  margin-top: auto; display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 12px 16px 4px; border-top: 1px solid rgba(255, 255, 255, .08);
+}
+.sidebar-foot .countdown { font-size: 12px; }
+
 .topbar {
-  position: sticky; top: 0; z-index: 10; display: flex; align-items: center;
-  justify-content: space-between; padding: 12px 16px; background: var(--navy);
-  color: #fff; padding-top: max(12px, env(safe-area-inset-top));
+  position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px;
+  padding: 0 16px; background: var(--navy); box-sizing: border-box; height: var(--topbar-total);
+  color: #fff; padding-top: var(--safe-top);
 }
 .brand { color: var(--gold); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: 1px; }
 .countdown { font-size: 13px; color: #cfd2e4; }
@@ -28,7 +115,7 @@ body {
 .bottomnav {
   position: fixed; bottom: 0; left: 0; right: 0; display: flex; z-index: 10;
   background: var(--card); border-top: 1px solid var(--border);
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--safe-bottom);
 }
 .bottomnav a {
   flex: 1; text-align: center; padding: 12px 0; text-decoration: none;
@@ -81,6 +168,63 @@ button, .btn {
   border-bottom: 1px solid var(--border); text-decoration: none; color: var(--text);
 }
 .list-item:last-child { border-bottom: 0; }
+
+/* --- shared page header ---
+   Selectors are qualified as ".pagehead .pagehead-title" (specificity 0,0,2,0)
+   rather than the bare class, so they reliably beat the dashboard's
+   ".view h1" rule (0,0,1,1 — one class + one type) regardless of source
+   order: without this, every view's header title/margin silently inherited
+   the dashboard's 24px/margin instead of its own, and never reached 30px
+   at 1024px+. */
+/* flex-wrap is not decoration: the markup this replaced was <div class="row">,
+   which wraps. Without it a weak topic's pills pushed .pagehead to 510px
+   inside a 375px viewport and the whole document scrolled sideways. The
+   actions get their own wrapping flex box so they drop as a group. */
+.pagehead { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.pagehead-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pagehead .pagehead-title { margin: 0; font-size: 24px; line-height: 1.2; }
+.pagehead-sub { margin: 2px 0 0; font-size: 13px; }
+.pagehead-back { flex: 0 0 auto; }
+
+/* --- dashboard --- */
+.view h1 { margin: 4px 0 2px; font-size: 24px; }
+
+.statgrid { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); margin-bottom: 12px; }
+.statcard {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 14px; display: flex; gap: 12px; align-items: center;
+}
+.statcard > div:last-child { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.statcard b { font-size: 21px; font-weight: 800; line-height: 1.15; }
+.statcard span { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.statcard-icon {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 19px;
+}
+.statcard:nth-child(1) .statcard-icon { background: color-mix(in srgb, var(--gold) 24%, transparent); }
+.statcard:nth-child(2) .statcard-icon { background: color-mix(in srgb, #ff7a45 22%, transparent); }
+.statcard:nth-child(3) .statcard-icon { background: color-mix(in srgb, var(--ok) 20%, transparent); }
+.statcard:nth-child(4) .statcard-icon { background: color-mix(in srgb, #4c6ef5 20%, transparent); }
+
+.dash-cols { display: block; }
+.dash-courses .card:last-child { margin-bottom: 12px; }
+
+.course-card-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.course-card-row .ring { flex-shrink: 0; }
+.course-card-row > .grow { min-width: 200px; }
+
+.ring-track, .ring-fill { fill: none; stroke-width: 6; }
+.ring-track { stroke: var(--border); }
+.ring-fill {
+  stroke: var(--gold); stroke-linecap: round;
+  transform: rotate(-90deg); transform-origin: 50% 50%;
+  transition: stroke-dashoffset .3s ease;
+}
+.ring-text { fill: var(--text); font-size: 15px; font-weight: 700; }
+
+.activity-item { align-items: flex-start; }
+.activity-label { font-weight: 600; }
+.activity-detail { font-size: 13px; margin-top: 1px; }
 input[type="date"], input[type="file"] {
   padding: 8px; border: 1px solid var(--border); border-radius: 8px;
   background: var(--card); color: var(--text); font-size: 15px;
@@ -102,6 +246,83 @@ table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--
 .editbtn { background: none; border: none; cursor: pointer; font-size: 15px; opacity: .55; padding: 2px 6px; }
 .editbtn:hover { opacity: 1; }
 .editing { outline: 2px dashed var(--gold); outline-offset: 4px; border-radius: 4px; min-height: 1.4em; }
-.edittoolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; position: sticky; top: 0; z-index: 5; padding: 6px 0; background: var(--card); }
+/* Generates no box, so .edittoolbar's containing block becomes the edited
+   card rather than a wrapper the same height as the toolbar. See the comment
+   at the createElement in js/edit/editor.js. */
+.edittoolbar-wrap { display: contents; }
+.edittoolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; position: sticky; top: var(--topbar-total); z-index: 5; padding: 6px 0; background: var(--card); }
 .edittoolbar [data-cmd] { min-width: 38px; padding: 6px 8px; }
 .editstatus:empty { display: none; }
+
+/* --- tablet (>=768px): icon rail, no bottom nav --- */
+@media (min-width: 768px) {
+  body { padding-bottom: 0; }
+  /* min-width queries stack and add no specificity, so the base
+     body.drawer-open rules survive into this band. A phone opened at 390px
+     and rotated to landscape lands here with the class still set: without
+     these two overrides the page stays overflow:hidden with no way back
+     (the scrim and the hamburger are both display:none here). JS clears the
+     class on the same crossing; this is the belt to that braces. */
+  body.drawer-open { overflow: visible; }
+  body.drawer-open .sidebar { transform: none; }
+
+  .sidebar { position: sticky; top: 0; transform: none; width: var(--sidebar-rail-w); }
+  .sidebar-label, .sidebar-brandtext, .sidebar-group, .sidebar-chips { display: none; }
+  .sidebar-brand { justify-content: center; padding: 0 0 16px; }
+  .sidebar-link { justify-content: center; padding: 10px 0; border-left: none; }
+  .sidebar-foot { flex-direction: column; gap: 10px; padding: 12px 8px 4px; }
+  .sidebar-foot .countdown { display: none; }
+
+  #drawertoggle { display: none; }
+  .scrim { display: none; }
+  .bottomnav { display: none; }
+
+  .statgrid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* --- desktop (>=1024px): full sidebar, collapsible, no top bar --- */
+@media (min-width: 1024px) {
+  .topbar { display: none; }
+  .edittoolbar { top: 0; }
+  .view { max-width: var(--content-max); padding: 24px 32px; }
+  .pagehead .pagehead-title { font-size: 30px; }
+
+  .sidebar { width: var(--sidebar-w); }
+  .sidebar-link { justify-content: flex-start; padding: 9px 10px; border-left: 3px solid transparent; }
+  .sidebar-brand { justify-content: flex-start; padding: 0 16px 16px; }
+  /* the >=768px rail rules still apply here too (min-width queries stack), so the
+     expanded desktop state must explicitly restore what the rail hid. */
+  .sidebar-label { display: inline; }
+  .sidebar-brandtext { display: flex; }
+  .sidebar-group { display: block; }
+  .sidebar-chips { display: flex; }
+  .sidebar-foot { flex-direction: row; gap: 8px; padding: 12px 16px 4px; }
+  .sidebar-foot .countdown { display: inline; }
+
+  #collapsetoggle { display: inline-flex; }
+
+  body.sidebar-collapsed .sidebar { width: var(--sidebar-rail-w); }
+  body.sidebar-collapsed .sidebar-label,
+  body.sidebar-collapsed .sidebar-brandtext,
+  body.sidebar-collapsed .sidebar-group,
+  body.sidebar-collapsed .sidebar-chips { display: none; }
+  body.sidebar-collapsed .sidebar-brand { justify-content: center; padding: 0 0 16px; }
+  body.sidebar-collapsed .sidebar-link { justify-content: center; padding: 10px 0; border-left: none; }
+  body.sidebar-collapsed .sidebar-foot { flex-direction: column; gap: 10px; padding: 12px 8px 4px; }
+  body.sidebar-collapsed .sidebar-foot .countdown { display: none; }
+
+  .dash-cols {
+    display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    gap: 16px; align-items: start;
+  }
+  /* Direct child only: as a descendant selector this also matched the last
+     course card inside .dash-courses and beat the .dash-courses rule above
+     on source order alone. */
+  .dash-cols > .card:last-child { margin-bottom: 0; }
+}
+
+/* --- reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar { transition: none; }
+  .ring-fill { transition: none; }
+}

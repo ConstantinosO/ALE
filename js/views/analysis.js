@@ -1,4 +1,4 @@
-import { escapeHtml } from '../ui.js';
+import { escapeHtml, pageHeader } from '../ui.js';
 
 export async function render(el, ctx) {
   const { courseId } = ctx.params;
@@ -7,16 +7,15 @@ export async function render(el, ctx) {
 
   if (!a) {
     el.innerHTML = `
-      <div class="row" style="margin-bottom:12px"><a class="btn btn-ghost" href="#/course/${courseId}">← Πίσω</a></div>
-      <div class="card"><h2>📊 Ανάλυση Εξετάσεων</h2>
+      ${pageHeader({ title: 'Ανάλυση εξετάσεων', back: `#/course/${courseId}` })}
+      <div class="card">
       <p class="muted">Δεν υπάρχει ακόμη ανάλυση παλαιών θεμάτων για το μάθημα «${escapeHtml(course?.title || courseId)}».
       Θα προστεθεί όταν αναλυθούν τα past papers.</p></div>`;
     return;
   }
 
   el.innerHTML = `
-    <div class="row" style="margin-bottom:12px"><a class="btn btn-ghost" href="#/course/${courseId}">← Πίσω</a>
-      <h2 class="grow" style="margin:0">📊 Ανάλυση Εξετάσεων</h2></div>
+    ${pageHeader({ title: 'Ανάλυση εξετάσεων', back: `#/course/${courseId}` })}
     ${a.sourcePapers?.length ? `<div class="card"><p class="muted">Πηγές: ${a.sourcePapers.map(escapeHtml).join(', ')}</p></div>` : ''}
     <div class="card">
       <h2>Συχνότητα θεμάτων</h2>
