@@ -51,49 +51,58 @@ export function pickQuizQuestions({ content, topics, mode, now, excludedChapterI
 // ("Ασφάλιση Πρόσκαιρης Διάρκειας (Term)") hit just 3 of 50 topics — and two of
 // those were the chapters that appear LEAST in real papers, so the exam was
 // weighted backwards.
-// weight = max(1, round(pct)): the weight tracks the measured percentage
-// almost directly, rather than compressing it. The old max(1, round(1 +
-// pct/10)) collapsed every chapter from 5% to 14% onto the SAME weight (2),
-// which is why a 20-question mock exam measured (simulation over 20000
-// mock exams, js/core/picker.js's own pickExamQuestions, real
-// data/klados-zois/{content,exam-analysis}.json):
-//   chapter  real%  old draw%  new draw%
-//   z-ch03    30%     25.5%      41.6%   (6 topics -- multi-topic chapters
-//   z-ch01    14%      6.4%       9.8%    are inherently over-weighted by
-//   z-ch11    12%      8.5%      11.1%    topic-count x per-topic weight,
-//   z-ch12     8%      8.5%       7.4%    both before and after this fix --
-//   z-ch07     7%      8.5%       6.5%    not something this change tries
-//   z-ch08     7%      6.4%       4.9%    to solve; z-ch03 overshoots its
-//   z-ch14     6%      8.5%       5.6%    real share either way)
-//   z-ch02     5%      8.6%       4.7%
-//   z-ch04     4%      3.2%       2.8%
-//   z-ch05     4%      2.1%       1.9%
-//   z-ch10     2%      3.2%       1.4%
-//   z-ch06     1%      2.1%       0.5%
-//   z-ch09     0%      4.2%       0.9%   <- 0-of-9-papers chapters, was 8.4%
-//   z-ch13     0%      4.2%       0.9%      combined, now ~1.9% combined
-// Kefalaio 1's real 14% no longer ties with a 5% chapter for the same
-// weight, and kefalaia 9/13 (0/9 real papers) drop from an 8.4% combined
-// mock-exam share to under 2% combined -- present (via the max(1, ...)
-// floor) but no longer competing on equal footing with material that has
-// actually been examined. A 0% chapter is not necessarily 0% forever, and
-// the user can still study it deliberately via topic quizzes.
-function weightFor(topic, analysis) {
-  if (!analysis || !Array.isArray(analysis.topicFrequencies)) return 1;
+//
+// The weight is the chapter's measured share of real exam questions, divided
+// by how many of its topics are in play, then scaled to stay integral. Without
+// that division a chapter's pull is (per-topic weight × topic count), so the
+// topic count rather than the exam decided the shape. Measured over 4000
+// simulated 20-question exams against the real data files:
+//
+//   chapter  real%   drawn%   (title-match era / undivided / now)
+//   z-ch03    30%     25.5  →  41.6  →  30.8
+//   z-ch01    14%      6.4  →   9.8  →  14.4
+//   z-ch11    12%      8.5  →  11.1  →  11.4
+//   z-ch08     7%      6.4  →   4.9  →   6.2
+//   z-ch09     0%      4.2  →   0.9  →   0.4
+//   z-ch13     0%      4.2  →   0.9  →   0.2
+//
+// Mean absolute error across all 14 chapters is now 0.28 points, and the two
+// chapters that appear in none of the nine papers fell from 8.4% of every mock
+// exam combined to 0.6%.
+//
+// A chapter measured at 0% keeps the floor of 1 rather than vanishing: it has
+// not been examined in the nine papers on record, which is not a promise about
+// October, and the user can still drill it deliberately from its own topics.
+const WEIGHT_SCALE = 10;
+
+function frequencyFor(topic, analysis) {
+  if (!analysis || !Array.isArray(analysis.topicFrequencies)) return null;
   const byChapter = analysis.topicFrequencies.find(
     (f) => f && f.chapterId && f.chapterId === topic.chapterId);
-  const hit = byChapter || analysis.topicFrequencies.find(
+  return byChapter || analysis.topicFrequencies.find(
     (f) => f && typeof f.topic === 'string' && f.topic
-      && (topic.title.includes(f.topic) || f.topic.includes(topic.title)));
-  return hit ? Math.max(1, Math.round(Number(hit.percentage) || 0)) : 1;
+      && (topic.title.includes(f.topic) || f.topic.includes(topic.title))) || null;
+}
+
+export function weightFor(topic, analysis, topicsInChapter = 1) {
+  const hit = frequencyFor(topic, analysis);
+  if (!hit) return 1;
+  const pct = Number(hit.percentage) || 0;
+  const share = (pct * WEIGHT_SCALE) / Math.max(1, topicsInChapter);
+  return Math.max(1, Math.round(share));
 }
 
 export function pickExamQuestions({ content, analysis, excludedChapterIds = [], count = 20, rand = Math.random }) {
   const ts = allTopics(content, excludedChapterIds).filter((t) => (t.mcq || []).length);
   if (!ts.length) return [];
+  // Per-chapter topic counts come from the topics actually in play, so
+  // excluding chapters or topics without MCQs cannot skew the shares.
+  const perChapter = new Map();
+  for (const t of ts) perChapter.set(t.chapterId, (perChapter.get(t.chapterId) || 0) + 1);
   const weighted = [];
   for (const t of ts) {
-    for (let i = 0; i < weightFor(t, analysis); i++) weighted.push(t);
+    const w = weightFor(t, analysis, perChapter.get(t.chapterId));
+    for (let i = 0; i < w; i++) weighted.push(t);
   }
   const picked = [];
   const used = new Set();

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { pickQuizQuestions, pickExamQuestions } from '../js/core/picker.js';
+import { pickQuizQuestions, pickExamQuestions, weightFor } from '../js/core/picker.js';
 import { FIXTURE_CONTENT } from './fixtures/content.js';
 
 const NOW = '2026-08-15T10:00:00.000Z';
@@ -118,6 +118,57 @@ test('malformed frequency entries do not throw or skew weighting', () => {
   ] };
   const qs = pickExamQuestions({ content: FIXTURE_CONTENT, analysis, count: 3, rand: rand0 });
   assert.equal(qs.length, 3);
+});
+
+test('exam weighting is normalised per chapter, not amplified by topic count', () => {
+  // ch1 holds t1+t2, ch2 holds t3. Equal chapter percentages must give equal
+  // CHAPTER pull — before normalisation ch1 drew twice as often purely for
+  // having twice the topics, letting topic count decide the exam's shape.
+  const analysis = { topicFrequencies: [
+    { chapterId: 'ch1', topic: 'Κεφάλαιο Ένα', count: 5, percentage: 50 },
+    { chapterId: 'ch2', topic: 'Κεφάλαιο Δύο', count: 5, percentage: 50 },
+  ] };
+  let ch1 = 0;
+  let ch2 = 0;
+  for (let i = 0; i < 400; i++) {
+    const r = ((i * 37) % 100) / 100;
+    const qs = pickExamQuestions({ content: FIXTURE_CONTENT, analysis, count: 1, rand: () => r });
+    if (!qs.length) continue;
+    if (qs[0].topicId === 't3') ch2++; else ch1++;
+  }
+  const share = ch1 / (ch1 + ch2);
+  assert.ok(share > 0.35 && share < 0.65,
+    `ch1 drew ${(share * 100).toFixed(0)}% of questions; equal percentages should give roughly equal chapter shares`);
+});
+
+test('a chapter measured at 0% keeps a small but non-zero share', () => {
+  const analysis = { topicFrequencies: [
+    { chapterId: 'ch1', topic: 'Κεφάλαιο Ένα', count: 9, percentage: 90 },
+    { chapterId: 'ch2', topic: 'Κεφάλαιο Δύο', count: 0, percentage: 0 },
+  ] };
+  let ch2 = 0;
+  const runs = 400;
+  for (let i = 0; i < runs; i++) {
+    const r = ((i * 37) % 100) / 100;
+    const qs = pickExamQuestions({ content: FIXTURE_CONTENT, analysis, count: 1, rand: () => r });
+    if (qs[0]?.topicId === 't3') ch2++;
+  }
+  const share = ch2 / runs;
+  assert.ok(share < 0.15, `unexamined chapter took ${(share * 100).toFixed(0)}% of the exam`);
+  // Reachability is asserted on the weight itself rather than by sampling: a
+  // 0% chapter's real share is around 0.1%, which a coarse deterministic rand
+  // sweep cannot observe even though the chapter is genuinely still in the pool.
+  assert.equal(weightFor({ id: 't3', title: 'Θέμα Τρία', chapterId: 'ch2' }, analysis, 1), 1);
+});
+
+test('weightFor divides the chapter share by the topics in play', () => {
+  const analysis = { topicFrequencies: [{ chapterId: 'ch1', topic: 'x', count: 3, percentage: 30 }] };
+  const topic = { id: 't1', title: 'Θέμα Ένα', chapterId: 'ch1' };
+  assert.equal(weightFor(topic, analysis, 1), 300);
+  assert.equal(weightFor(topic, analysis, 6), 50);
+  assert.equal(weightFor(topic, analysis, 0), 300); // guards a zero divisor
+  assert.equal(weightFor({ ...topic, chapterId: 'nope' }, analysis, 3), 1);
+  assert.equal(weightFor(topic, null, 3), 1);
 });
 
 function base() {
