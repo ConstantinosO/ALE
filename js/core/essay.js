@@ -51,6 +51,10 @@ function pickPromptText(entry, rand) {
   return prompts[idx].text;
 }
 
+// frequency/trend deliberately are NOT copied onto the built question: no
+// view ever reads them off a paper question (only off the bank entry itself,
+// in essaybank.js), so carrying them here only bloats every draft persisted
+// to localStorage.
 function toQuestion(entry, rand) {
   return {
     id: entry.id,
@@ -59,8 +63,6 @@ function toQuestion(entry, rand) {
     keyPoints: Array.isArray(entry.keyPoints) ? entry.keyPoints : [],
     modelAnswer: entry.modelAnswer || '',
     topicIds: Array.isArray(entry.topicIds) ? entry.topicIds : [],
-    frequency: entry.frequency,
-    trend: entry.trend,
   };
 }
 
