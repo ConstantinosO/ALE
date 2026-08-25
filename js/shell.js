@@ -7,6 +7,7 @@ export const MODE_LABELS = {
   chapter_test: 'Τεστ κεφαλαίου',
   flashcard: 'Κάρτες',
   exam: 'Εξομοίωση εξέτασης',
+  essay_exam: 'Εξέταση εκθέσεων',
   micro: 'Γρήγορο κουίζ',
   weak: 'Αδύναμα σημεία',
   revision: 'Επανάληψη',

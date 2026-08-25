@@ -5,17 +5,26 @@ export async function render(el, ctx) {
   const course = ctx.courses.courses.find((c) => c.id === courseId);
   const a = await ctx.getAnalysis(courseId);
 
+  const essayLinks = `
+    <div class="card">
+      <p class="muted">Το πραγματικό θέμα είναι 8 ερωτήσεις έκθεσης, εκ των οποίων απαντάς τις 6 — καμία MCQ.</p>
+      <a class="btn btn-gold btn-block" href="#/essay/${courseId}">📝 Εξέταση εκθέσεων (6 από 8)</a>
+      <a class="btn btn-ghost btn-block" href="#/essaybank/${courseId}">📚 Τράπεζα θεμάτων</a>
+    </div>`;
+
   if (!a) {
     el.innerHTML = `
       ${pageHeader({ title: 'Ανάλυση εξετάσεων', back: `#/course/${courseId}` })}
       <div class="card">
       <p class="muted">Δεν υπάρχει ακόμη ανάλυση παλαιών θεμάτων για το μάθημα «${escapeHtml(course?.title || courseId)}».
-      Θα προστεθεί όταν αναλυθούν τα past papers.</p></div>`;
+      Θα προστεθεί όταν αναλυθούν τα past papers.</p></div>
+      ${essayLinks}`;
     return;
   }
 
   el.innerHTML = `
     ${pageHeader({ title: 'Ανάλυση εξετάσεων', back: `#/course/${courseId}` })}
+    ${essayLinks}
     ${a.sourcePapers?.length ? `<div class="card"><p class="muted">Πηγές: ${a.sourcePapers.map(escapeHtml).join(', ')}</p></div>` : ''}
     <div class="card">
       <h2>Συχνότητα θεμάτων</h2>

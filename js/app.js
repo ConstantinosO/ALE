@@ -9,13 +9,15 @@ import * as topic from './views/topic.js';
 import * as quiz from './views/quiz.js';
 import * as flashcards from './views/flashcards.js';
 import * as exam from './views/exam.js';
+import * as essayexam from './views/essayexam.js';
+import * as essaybank from './views/essaybank.js';
 import * as analysis from './views/analysis.js';
 import * as settings from './views/settings.js';
 import * as chaptertest from './views/chaptertest.js';
 import { loadEdits, saveEdits, applyEdits, pruneDeployed } from './edit/overlay.js';
 import { retryPendingAll, confirmLeaveEdit } from './edit/editor.js';
 
-const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, analysis, settings, chaptertest };
+const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, essayexam, essaybank, analysis, settings, chaptertest };
 
 const container = document.getElementById('view');
 const state = loadState(window.localStorage);
