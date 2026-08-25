@@ -40,6 +40,14 @@ export async function render(el, ctx) {
   const entries = [...bank.entries].sort((a, b) => (Number(b.frequency) || 0) - (Number(a.frequency) || 0));
   const minis = [...bank.miniDefinitions].sort((a, b) => (Number(b.times) || 0) - (Number(a.times) || 0));
 
+  // A mini-definition can only appear in a paper that drew the slot-8
+  // question itself, so "how often did this definition show up" is measured
+  // against how often that question appeared (frequency), NOT the full
+  // paper count -- /9 understates even the most-examined definition, which
+  // can appear in at most as many papers as slot-8 itself did.
+  const minidefsEntry = bank.entries.find((e) => e && e.slot === 8);
+  const minidefsPapers = Number(minidefsEntry?.frequency) || total;
+
   el.innerHTML = `
     ${pageHeader({
       title: '📚 Τράπεζα θεμάτων', back: `#/course/${courseId}`,
@@ -66,11 +74,13 @@ export async function render(el, ctx) {
       </div>`).join('')}
     <div class="card">
       <h2>Δεξαμενή σύντομων ορισμών</h2>
-      <p class="muted">Η τελευταία ερώτηση κάθε δοκιμίου ζητά τρεις από αυτούς τους ορισμούς.</p>
+      <p class="muted">Η τελευταία ερώτηση κάθε δοκιμίου ζητά τρεις από αυτούς τους ορισμούς.
+        Η συχνότητα κάθε ορισμού μετριέται στα ${minidefsPapers} δοκίμια όπου τέθηκε αυτή η ερώτηση
+        (από τα ${total} συνολικά), όχι στο σύνολο των δοκιμίων.</p>
       ${minis.map((m) => `
         <div class="essay-minidef">
           <div class="row"><h3 class="grow">${escapeHtml(m.term)}</h3>
-            <span class="pill">${Number(m.times) || 0}/${total} δοκίμια</span></div>
+            <span class="pill">${Number(m.times) || 0}/${minidefsPapers} δοκίμια με αυτή την ερώτηση</span></div>
           ${(m.keyPoints || []).length ? `<ul>${m.keyPoints.map((k) => `<li><div class="prose">${formatText(k)}</div></li>`).join('')}</ul>` : ''}
           ${m.modelAnswer ? `<details><summary>Υπόδειγμα απάντησης</summary><div class="prose">${formatText(m.modelAnswer)}</div></details>` : ''}
         </div>`).join('') || '<p class="muted">Χωρίς ορισμούς ακόμη.</p>'}
