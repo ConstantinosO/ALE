@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateEssayBank, buildPaper, scoreQuestion, scorePaper } from '../js/core/essay.js';
+import { validateEssayBank, buildPaper, scoreQuestion, scorePaper, questionTopicIds } from '../js/core/essay.js';
 import { FIXTURE_ESSAY_BANK } from './fixtures/essay.js';
 
 const rand0 = () => 0;
@@ -102,6 +102,31 @@ test('buildPaper picks exactly one prompt variant per question', () => {
 test('buildPaper carries the requested answerCount through untouched', () => {
   const paper = buildPaper(FIXTURE_ESSAY_BANK, { rand: rand0, answerCount: 4 });
   assert.equal(paper.answerCount, 4);
+});
+
+test('questionTopicIds returns a normal question\'s own topicIds', () => {
+  const q = { topicIds: ['z3-1', 'z3-2'] };
+  assert.deepEqual(questionTopicIds(q), ['z3-1', 'z3-2']);
+  assert.deepEqual(questionTopicIds({}), []);
+});
+
+test('questionTopicIds for a mini-definitions question uses ONLY the drawn items\' topicIds', () => {
+  // The entry's own generic topicIds (z1-2 here) were never actually
+  // tested by whichever three items got drawn -- they must not leak in.
+  const q = {
+    topicIds: ['z1-2'],
+    items: [
+      { id: 'mini-thnisimotita', topicIds: ['z2-1'] },
+      { id: 'mini-apa', topicIds: ['z3-6'] },
+      { id: 'mini-unitlinked', topicIds: ['z3-3'] },
+    ],
+  };
+  assert.deepEqual(questionTopicIds(q).sort(), ['z2-1', 'z3-3', 'z3-6']);
+});
+
+test('questionTopicIds de-duplicates and tolerates items with missing topicIds', () => {
+  const q = { items: [{ topicIds: ['t1'] }, { topicIds: ['t1', 't2'] }, {}] };
+  assert.deepEqual(questionTopicIds(q).sort(), ['t1', 't2']);
 });
 
 test('scoreQuestion is a 0-100 percentage and never NaN/Infinity', () => {

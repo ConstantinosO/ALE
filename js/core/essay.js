@@ -102,6 +102,20 @@ export function buildPaper(bank, { rand = Math.random, count = 8, answerCount = 
   return { questions, answerCount };
 }
 
+// Every topic a finished question's self-marking should feed back into. For
+// the mini-definitions question this is ONLY the three drawn items' own
+// topicIds -- the slot-8 entry's own topicIds are a generic placeholder
+// (e.g. z3-6, z1-2) never actually tested by whichever three items got
+// drawn for this paper. Unioning them in used to make the result screen
+// offer, and recordAnswer credit/penalise, a topic this particular paper
+// never touched.
+export function questionTopicIds(q) {
+  if (!q.items) return q.topicIds || [];
+  const set = new Set();
+  for (const it of q.items) for (const id of it.topicIds || []) set.add(id);
+  return [...set];
+}
+
 export function scoreQuestion(tickedCount, totalPoints) {
   if (!totalPoints || totalPoints <= 0) return 0;
   const pct = (Number(tickedCount) / Number(totalPoints)) * 100;

@@ -1,6 +1,6 @@
 import { escapeHtml, pageHeader } from '../ui.js';
 import { formatText } from '../core/format.js';
-import { validateEssayBank, buildPaper, scoreQuestion, scorePaper } from '../core/essay.js';
+import { validateEssayBank, buildPaper, scoreQuestion, scorePaper, questionTopicIds } from '../core/essay.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
 
@@ -39,16 +39,6 @@ function isAnswered(q, ans) {
 }
 function answeredCount(paper, answers) {
   return paper.questions.filter((q) => isAnswered(q, answers[q.id])).length;
-}
-
-// Every topic this question's self-marking should feed back into: the
-// entry's own topicIds, plus (for the mini-definitions question) each
-// chosen item's topicIds.
-function questionTopicIds(q) {
-  if (!q.items) return q.topicIds || [];
-  const set = new Set(q.topicIds || []);
-  for (const it of q.items) for (const id of it.topicIds || []) set.add(id);
-  return [...set];
 }
 
 // Flattens a question's checkable points into one ordered list — a normal
