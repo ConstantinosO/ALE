@@ -90,6 +90,28 @@ test('chapterId matching wins over a misleading title match', () => {
   assert.ok(hits > 50, `t3 picked ${hits}/100 — chapterId did not take precedence`);
 });
 
+test('a 0%-frequency chapter draws a small share next to a heavily-examined one', () => {
+  // ch1 (t1, t2) is 98% of the real paper; ch2 (t3) is 0%. The old
+  // max(1, round(1 + pct/10)) formula compressed this into weights 11 vs 1
+  // (t3 ~4.4% of the draw); the new max(1, round(pct)) formula produces
+  // weights 98 vs 1 (t3 ~0.5%) -- present via the floor, but not competing
+  // on anything like equal footing with material that has actually been
+  // examined.
+  const analysis = { topicFrequencies: [
+    { chapterId: 'ch1', topic: 'Πρώτο Κεφάλαιο', count: 49, percentage: 98 },
+    { chapterId: 'ch2', topic: 'Δεύτερο Κεφάλαιο', count: 0, percentage: 0 },
+  ] };
+  let hits = 0;
+  const trials = 2000;
+  for (let i = 0; i < trials; i++) {
+    const r = (i % trials) / trials;
+    const qs = pickExamQuestions({ content: FIXTURE_CONTENT, analysis, count: 1, rand: () => r });
+    if (qs[0]?.topicId === 't3') hits++;
+  }
+  const share = hits / trials;
+  assert.ok(share < 0.02, `t3 (0% chapter) picked ${hits}/${trials} (${(share * 100).toFixed(1)}%) — floor weight too large next to a 98% chapter`);
+});
+
 test('malformed frequency entries do not throw or skew weighting', () => {
   const analysis = { topicFrequencies: [
     null, {}, { chapterId: null }, { topic: null }, { chapterId: 'ch2' },
