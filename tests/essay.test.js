@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { validateEssayBank, buildPaper, scoreQuestion, scorePaper, questionTopicIds } from '../js/core/essay.js';
 import { FIXTURE_ESSAY_BANK } from './fixtures/essay.js';
 
@@ -180,5 +181,32 @@ test('scorePaper guards a zero/negative answerCount instead of dividing by zero'
     assert.equal(answered, 2);
     assert.equal(counted, 0);
     assert.ok(Number.isFinite(pct) && Number.isFinite(attemptedPct));
+  }
+});
+
+// The fixture bank above is hand-built and always valid; it can't catch a
+// real bank regeneration shipping a bad slot, an empty miniDefinitions
+// array, or a topicId/chapterId that no longer exists in content.json. Only
+// loading the actual shipped file catches that — see tests/content.test.js's
+// "generated data files pass validation" test for the same pattern applied
+// to content.json.
+test('the shipped essay bank passes validation and every topic/chapter link resolves', () => {
+  const bank = JSON.parse(readFileSync('data/klados-zois/essay-bank.json', 'utf8'));
+  assert.equal(validateEssayBank(bank), null);
+
+  const content = JSON.parse(readFileSync('data/klados-zois/content.json', 'utf8'));
+  const validChapters = new Set(content.chapters.map((c) => c.id));
+  const validTopics = new Set(content.chapters.flatMap((c) => c.topics.map((t) => t.id)));
+
+  for (const e of bank.entries) {
+    assert.ok(validChapters.has(e.chapterId), `entry ${e.id} has unknown chapterId ${e.chapterId}`);
+    for (const tid of e.topicIds || []) {
+      assert.ok(validTopics.has(tid), `entry ${e.id} has unknown topicId ${tid}`);
+    }
+  }
+  for (const m of bank.miniDefinitions) {
+    for (const tid of m.topicIds || []) {
+      assert.ok(validTopics.has(tid), `mini-definition ${m.id} has unknown topicId ${tid}`);
+    }
   }
 });
