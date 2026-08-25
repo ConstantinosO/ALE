@@ -60,6 +60,44 @@ test('exam picker weights topics named in analysis', () => {
   assert.ok(hits > 50, `t3 picked ${hits}/100 — weighting not applied`);
 });
 
+test('exam picker weights by chapterId when the analysis provides one', () => {
+  // ch2 holds only t3; a 90% chapter should dominate the draw.
+  const analysis = { topicFrequencies: [
+    { chapterId: 'ch2', topic: 'Δεύτερο Κεφάλαιο', count: 9, percentage: 90 },
+    { chapterId: 'ch1', topic: 'Πρώτο Κεφάλαιο', count: 1, percentage: 10 },
+  ] };
+  let hits = 0;
+  for (let i = 0; i < 100; i++) {
+    const r = ((i * 37) % 100) / 100;
+    const qs = pickExamQuestions({ content: FIXTURE_CONTENT, analysis, count: 1, rand: () => r });
+    if (qs[0]?.topicId === 't3') hits++;
+  }
+  assert.ok(hits > 50, `t3 picked ${hits}/100 — chapterId weighting not applied`);
+});
+
+test('chapterId matching wins over a misleading title match', () => {
+  // 'Θέμα' substring-matches every topic title; the chapterId entry must win.
+  const analysis = { topicFrequencies: [
+    { chapterId: 'ch2', topic: 'κάτι άλλο', count: 9, percentage: 90 },
+    { topic: 'Θέμα', count: 1, percentage: 10 },
+  ] };
+  let hits = 0;
+  for (let i = 0; i < 100; i++) {
+    const r = ((i * 37) % 100) / 100;
+    const qs = pickExamQuestions({ content: FIXTURE_CONTENT, analysis, count: 1, rand: () => r });
+    if (qs[0]?.topicId === 't3') hits++;
+  }
+  assert.ok(hits > 50, `t3 picked ${hits}/100 — chapterId did not take precedence`);
+});
+
+test('malformed frequency entries do not throw or skew weighting', () => {
+  const analysis = { topicFrequencies: [
+    null, {}, { chapterId: null }, { topic: null }, { chapterId: 'ch2' },
+  ] };
+  const qs = pickExamQuestions({ content: FIXTURE_CONTENT, analysis, count: 3, rand: rand0 });
+  assert.equal(qs.length, 3);
+});
+
 function base() {
   return {
     mastery: 0, acc: 0, correct: 0, incorrect: 0, consecCorrect: 0, consecIncorrect: 0,

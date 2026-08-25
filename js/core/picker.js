@@ -45,11 +45,20 @@ export function pickQuizQuestions({ content, topics, mode, now, excludedChapterI
   return picked;
 }
 
+// Frequency entries are keyed by chapter id. Title matching is kept only as a
+// fallback for analyses written before chapterId existed: matching a
+// chapter-level label ("Είδη Ασφαλίσεων Ζωής") against topic titles
+// ("Ασφάλιση Πρόσκαιρης Διάρκειας (Term)") hit just 3 of 50 topics — and two of
+// those were the chapters that appear LEAST in real papers, so the exam was
+// weighted backwards.
 function weightFor(topic, analysis) {
   if (!analysis || !Array.isArray(analysis.topicFrequencies)) return 1;
-  const hit = analysis.topicFrequencies.find(
-    (f) => topic.title.includes(f.topic) || f.topic.includes(topic.title));
-  return hit ? Math.max(1, Math.round(1 + hit.percentage / 10)) : 1;
+  const byChapter = analysis.topicFrequencies.find(
+    (f) => f && f.chapterId && f.chapterId === topic.chapterId);
+  const hit = byChapter || analysis.topicFrequencies.find(
+    (f) => f && typeof f.topic === 'string' && f.topic
+      && (topic.title.includes(f.topic) || f.topic.includes(topic.title)));
+  return hit ? Math.max(1, Math.round(1 + (Number(hit.percentage) || 0) / 10)) : 1;
 }
 
 export function pickExamQuestions({ content, analysis, excludedChapterIds = [], count = 20, rand = Math.random }) {
