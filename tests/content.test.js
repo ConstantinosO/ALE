@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { loadCourses, loadContent, loadAnalysis, validateContent, allTopics } from '../js/core/content.js';
+import { loadCourses, loadContent, loadAnalysis, loadEssayBank, validateContent, allTopics } from '../js/core/content.js';
 import { FIXTURE_CONTENT } from './fixtures/content.js';
 
 function fakeFetch(map) {
@@ -31,6 +31,21 @@ test('loadContent validates structure', async () => {
 
 test('loadAnalysis returns null when file missing', async () => {
   assert.equal(await loadAnalysis('demo', fakeFetch({})), null);
+});
+
+test('loadEssayBank returns null when file missing', async () => {
+  assert.equal(await loadEssayBank('demo', fakeFetch({})), null);
+});
+
+test('loadEssayBank returns the parsed bank when present', async () => {
+  const bank = { courseId: 'demo', entries: [], miniDefinitions: [] };
+  const f = fakeFetch({ 'data/demo/essay-bank.json': bank });
+  assert.deepEqual(await loadEssayBank('demo', f), bank);
+});
+
+test('loadEssayBank throws on malformed JSON, unlike loadAnalysis', async () => {
+  const f = async () => ({ ok: true, json: async () => { throw new SyntaxError('bad json'); } });
+  await assert.rejects(() => loadEssayBank('demo', f), SyntaxError);
 });
 
 test('validateContent', () => {

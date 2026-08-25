@@ -1,6 +1,6 @@
 import { parseRoute } from './router.js';
 import { loadState, saveState } from './core/store.js';
-import { loadCourses, loadContent, loadAnalysis } from './core/content.js';
+import { loadCourses, loadContent, loadAnalysis, loadEssayBank } from './core/content.js';
 import { escapeHtml } from './ui.js';
 import { mountShell } from './shell.js';
 import * as dashboard from './views/dashboard.js';
@@ -22,6 +22,7 @@ const state = loadState(window.localStorage);
 let courses = null;
 const contentCache = {};
 const analysisCache = {};
+const essayBankCache = {};
 let viewCleanup = null;
 
 function save() {
@@ -48,6 +49,11 @@ async function getContent(courseId) {
 async function getAnalysis(courseId) {
   if (!(courseId in analysisCache)) analysisCache[courseId] = await loadAnalysis(courseId);
   return analysisCache[courseId];
+}
+
+async function getEssayBank(courseId) {
+  if (!(courseId in essayBankCache)) essayBankCache[courseId] = await loadEssayBank(courseId);
+  return essayBankCache[courseId];
 }
 
 function examDateIso() {
@@ -108,7 +114,7 @@ async function render() {
   const route = parseRoute(location.hash);
   const view = VIEWS[route.view] || VIEWS.dashboard;
   const ctx = {
-    state, save, courses, getContent, getAnalysis,
+    state, save, courses, getContent, getAnalysis, getEssayBank,
     navigate: (h) => { if (location.hash === h) render(); else location.hash = h; },
     onCleanup: (fn) => { viewCleanup = fn; },
     params: route.params, examDateIso,

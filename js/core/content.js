@@ -23,6 +23,16 @@ export async function loadAnalysis(courseId, fetchFn = fetch) {
   }
 }
 
+// Unlike loadAnalysis above, a malformed body here is NOT swallowed: the
+// essay bank drives graded scoring, so a broken JSON file must surface as a
+// loud error rather than silently degrade to "no essay mode" the way a
+// missing exam-analysis.json is allowed to.
+export async function loadEssayBank(courseId, fetchFn = fetch) {
+  const res = await fetchFn(`data/${courseId}/essay-bank.json`);
+  if (!res.ok) return null;
+  return res.json();
+}
+
 export function validateContent(c) {
   if (!c || !Array.isArray(c.chapters)) return 'Μη έγκυρη δομή ύλης.';
   for (const ch of c.chapters) {
