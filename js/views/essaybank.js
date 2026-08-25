@@ -2,10 +2,13 @@ import { escapeHtml, pageHeader } from '../ui.js';
 import { formatText } from '../core/format.js';
 import { validateEssayBank } from '../core/essay.js';
 
-// Frequency/times are measured against the nine real past papers the bank
-// was built from (see the brief in essay-exam-report.md) — fixed here rather
-// than derived, since the bank contract carries no "papers analysed" count.
-const TOTAL_PAPERS = 9;
+// Frequencies are measured against the real past papers the bank was built
+// from, so the denominator comes from the bank itself — adding a tenth paper
+// must not leave every pill silently reading "/9".
+const FALLBACK_PAPERS = 9;
+const paperCount = (bank) => Number(bank?.paperCount)
+  || (Array.isArray(bank?.sourcePapers) ? bank.sourcePapers.length : 0)
+  || FALLBACK_PAPERS;
 
 const TREND_LABEL = { core: 'σταθερό', heating: '↑ ανεβαίνει', cooling: '↓ υποχωρεί', rare: 'σπάνιο' };
 const TREND_CLASS = { heating: 'pill-ok', cooling: 'pill-bad' };
@@ -33,6 +36,7 @@ export async function render(el, ctx) {
     return;
   }
 
+  const total = paperCount(bank);
   const entries = [...bank.entries].sort((a, b) => (Number(b.frequency) || 0) - (Number(a.frequency) || 0));
   const minis = [...bank.miniDefinitions].sort((a, b) => (Number(b.times) || 0) - (Number(a.times) || 0));
 
@@ -47,7 +51,7 @@ export async function render(el, ctx) {
       <div class="card">
         <div class="row">
           <h2 class="grow">${escapeHtml(e.title)}</h2>
-          <span class="pill pill-gold">${Number(e.frequency) || 0}/${TOTAL_PAPERS} δοκίμια</span>
+          <span class="pill pill-gold">${Number(e.frequency) || 0}/${total} δοκίμια</span>
           ${trendPill(e.trend)}
           ${e.marks != null ? `<span class="pill">${Number(e.marks)} μονάδες</span>` : ''}
         </div>
@@ -67,7 +71,7 @@ export async function render(el, ctx) {
       ${minis.map((m) => `
         <div class="essay-minidef">
           <div class="row"><h3 class="grow">${escapeHtml(m.term)}</h3>
-            <span class="pill">${Number(m.times) || 0}/${TOTAL_PAPERS} δοκίμια</span></div>
+            <span class="pill">${Number(m.times) || 0}/${total} δοκίμια</span></div>
           ${(m.keyPoints || []).length ? `<ul>${m.keyPoints.map((k) => `<li><div class="prose">${formatText(k)}</div></li>`).join('')}</ul>` : ''}
           ${m.modelAnswer ? `<details><summary>Υπόδειγμα απάντησης</summary><div class="prose">${formatText(m.modelAnswer)}</div></details>` : ''}
         </div>`).join('') || '<p class="muted">Χωρίς ορισμούς ακόμη.</p>'}
