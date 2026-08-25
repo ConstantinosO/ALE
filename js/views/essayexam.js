@@ -16,7 +16,7 @@ function loadDraft(storage) {
     const raw = storage.getItem(DRAFT_KEY);
     if (!raw) return null;
     const d = JSON.parse(raw);
-    if (!d || typeof d !== 'object' || !d.paper || typeof d.answers !== 'object') return null;
+    if (!d || typeof d !== 'object' || !d.paper || typeof d.answers !== 'object' || !d.answers) return null;
     return d;
   } catch {
     return null;
