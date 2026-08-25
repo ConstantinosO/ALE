@@ -7,7 +7,10 @@ import { recordSession, evaluateBadges } from '../core/stats.js';
 // The draft (in-progress paper + typed answers) lives under its OWN
 // localStorage key, never inside ale.v1 — essay prose is easily tens of KB
 // and must never bloat the progress snapshot that syncs between devices.
-const DRAFT_KEY = 'ale.essay.v1';
+// Exported so js/views/settings.js's "Diagrafi proodou" can clear it too —
+// it resets ale.v1 only, and without this the essay draft (and its ~32KB of
+// typed prose) survives a full progress reset, still offering to resume.
+export const DRAFT_KEY = 'ale.essay.v1';
 const COUNT = 8;
 const ANSWER_COUNT = 6;
 
@@ -25,7 +28,7 @@ function loadDraft(storage) {
 function saveDraft(storage, draft) {
   try { storage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch { /* best effort */ }
 }
-function clearDraft(storage) {
+export function clearDraft(storage) {
   try { storage.removeItem(DRAFT_KEY); } catch { /* best effort */ }
 }
 
