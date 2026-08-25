@@ -356,7 +356,9 @@ export async function render(el, ctx) {
           <div class="stat"><b>${fmtDuration(timeSeconds)}</b><span>Χρόνος</span></div>
         </div>
         ${answered
-          ? `<p class="muted" style="font-size:13px;margin-top:8px">Μέση ποιότητα απαντήσεων: ${attemptedPct}% (${counted} από ${paper.answerCount} θεμάτων)</p>`
+          ? `<p class="muted" style="font-size:13px;margin-top:8px">${counted < answered
+              ? `Μέση ποιότητα των ${counted} καλύτερων απαντήσεων (από τις ${answered} που έγραψες): ${attemptedPct}%`
+              : `Μέση ποιότητα απαντήσεων: ${attemptedPct}% (${counted} από ${paper.answerCount} θεμάτων)`}</p>`
           : ''}
       </div>
       <div class="card">

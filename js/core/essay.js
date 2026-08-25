@@ -136,10 +136,15 @@ export function scoreQuestion(tickedCount, totalPoints) {
 // candidate who wrote two excellent answers has not earned 100% of the
 // paper, he's earned two-sixths of it. pct therefore always divides by the
 // full answerCount — an unanswered slot among the best `answerCount` counts
-// as zero, exactly as the real marking would score a blank. attemptedPct is
-// the separate, honest average over only what was actually attempted: real
-// and useful for a deliberate few-question practice run, but never the
-// number shown as "your score" (see js/views/essayexam.js's result screen).
+// as zero, exactly as the real marking would score a blank. attemptedPct
+// averages the same `counted` answers that fed pct's numerator, just divided
+// by `counted` instead of the full answerCount: when under-answered that IS
+// every answer actually written (an honest quality score for a deliberate
+// few-question practice run), but when OVER-answered `counted` is capped at
+// answerCount, so attemptedPct is the best-`answerCount` average too, not a
+// plain average of everything attempted — see js/views/essayexam.js's result
+// screen, which spells this out when counted < answered. Neither number is
+// ever shown as "your score".
 export function scorePaper(perQuestion, answerCount = 6) {
   const scores = Array.isArray(perQuestion)
     ? perQuestion.filter((n) => typeof n === 'number' && Number.isFinite(n))
