@@ -27,6 +27,7 @@ const CORE = [
   './js/views/chaptertest.js',
   './js/views/course.js',
   './js/views/dashboard.js',
+  './js/views/essaybank.js',
   './js/views/essayexam.js',
   './js/views/exam.js',
   './js/views/flashcards.js',
