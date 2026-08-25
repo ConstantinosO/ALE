@@ -44,6 +44,13 @@ function answeredCount(paper, answers) {
   return paper.questions.filter((q) => isAnswered(q, answers[q.id])).length;
 }
 
+// Math.round(timeSeconds / 60) reads "0'" for anything under 30 seconds --
+// indistinguishable from a genuinely instant (broken) run. Show seconds
+// under a minute instead.
+function fmtDuration(timeSeconds) {
+  return timeSeconds < 60 ? `${timeSeconds}″` : `${Math.round(timeSeconds / 60)}′`;
+}
+
 // Flattens a question's checkable points into one ordered list — a normal
 // question's own keyPoints, or (for the mini-definitions question) all three
 // items' keyPoints back to back, each tagged with which item it belongs to
@@ -346,7 +353,7 @@ export async function render(el, ctx) {
         <div class="stat-row">
           <div class="stat"><b>${pct}%</b><span>Βαθμολογία δοκιμίου</span></div>
           <div class="stat"><b>${answered}</b><span>Απαντημένες</span></div>
-          <div class="stat"><b>${Math.round(timeSeconds / 60)}′</b><span>Χρόνος</span></div>
+          <div class="stat"><b>${fmtDuration(timeSeconds)}</b><span>Χρόνος</span></div>
         </div>
         ${answered
           ? `<p class="muted" style="font-size:13px;margin-top:8px">Μέση ποιότητα απαντήσεων: ${attemptedPct}% (${counted} από ${paper.answerCount} θεμάτων)</p>`
