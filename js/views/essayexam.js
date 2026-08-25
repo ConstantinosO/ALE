@@ -283,7 +283,7 @@ export async function render(el, ctx) {
     const perQuestion = answeredQs.map((q) => ({
       id: q.id, title: q.title, score: questionScore(q, ticks[q.id]), topicIds: questionTopicIds(q),
     }));
-    const { pct, answered, counted } = scorePaper(perQuestion.map((p) => p.score), paper.answerCount);
+    const { pct, attemptedPct, answered, counted } = scorePaper(perQuestion.map((p) => p.score), paper.answerCount);
 
     const nowIso = new Date().toISOString();
     const timeSeconds = Math.round((Date.now() - startedAt) / 1000);
@@ -307,19 +307,28 @@ export async function render(el, ctx) {
     ctx.save();
 
     clearDraft(window.localStorage);
-    showResult({ pct, answered, counted, perQuestion, timeSeconds });
+    showResult({ pct, attemptedPct, answered, counted, perQuestion, timeSeconds });
   }
 
-  function showResult({ pct, answered, counted, perQuestion, timeSeconds }) {
+  // pct is the headline: it scores the whole paper (an unanswered slot among
+  // the best answerCount counts as zero), so it's the one number that must
+  // never be overstated by a partial attempt. attemptedPct — the average
+  // quality of only what was actually written — is real information for a
+  // deliberate few-question practice run, but is shown strictly smaller and
+  // second, never with equal or greater weight than pct.
+  function showResult({ pct, attemptedPct, answered, counted, perQuestion, timeSeconds }) {
     const weakest = [...perQuestion].sort((a, b) => a.score - b.score).slice(0, 2);
     el.innerHTML = `
       <div class="card" style="text-align:center">
         <h2>${pct >= 70 ? '🎉 Καλή δουλειά!' : '📚 Θέλει δουλειά ακόμη'}</h2>
         <div class="stat-row">
-          <div class="stat"><b>${pct}%</b><span>Επίδοση (καλύτερες ${counted})</span></div>
+          <div class="stat"><b>${pct}%</b><span>Βαθμολογία δοκιμίου</span></div>
           <div class="stat"><b>${answered}</b><span>Απαντημένες</span></div>
           <div class="stat"><b>${Math.round(timeSeconds / 60)}′</b><span>Χρόνος</span></div>
         </div>
+        ${answered
+          ? `<p class="muted" style="font-size:13px;margin-top:8px">Μέση ποιότητα απαντήσεων: ${attemptedPct}% (${counted} από ${paper.answerCount} θεμάτων)</p>`
+          : ''}
       </div>
       <div class="card">
         <h2>Ανά ερώτηση</h2>

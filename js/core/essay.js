@@ -112,14 +112,24 @@ export function scoreQuestion(tickedCount, totalPoints) {
 
 // The real marking only counts the candidate's best `answerCount` answers —
 // over-answering (attempting more than the 6 the paper asks for) cannot hurt
-// the score, it can only help by letting a weak answer be dropped.
+// the score, it can only help by letting a weak answer be dropped. But
+// answering FEWER than answerCount must not be rewarded the same way: a
+// candidate who wrote two excellent answers has not earned 100% of the
+// paper, he's earned two-sixths of it. pct therefore always divides by the
+// full answerCount — an unanswered slot among the best `answerCount` counts
+// as zero, exactly as the real marking would score a blank. attemptedPct is
+// the separate, honest average over only what was actually attempted: real
+// and useful for a deliberate few-question practice run, but never the
+// number shown as "your score" (see js/views/essayexam.js's result screen).
 export function scorePaper(perQuestion, answerCount = 6) {
   const scores = Array.isArray(perQuestion)
     ? perQuestion.filter((n) => typeof n === 'number' && Number.isFinite(n))
     : [];
   const sorted = [...scores].sort((a, b) => b - a);
-  const counted = Math.min(sorted.length, answerCount);
-  const top = sorted.slice(0, counted);
-  const pct = counted ? Math.round(top.reduce((a, b) => a + b, 0) / counted) : 0;
-  return { pct, answered: scores.length, counted };
+  const safeAnswerCount = Number.isFinite(answerCount) && answerCount > 0 ? Math.floor(answerCount) : 0;
+  const counted = Math.min(sorted.length, safeAnswerCount);
+  const sum = sorted.slice(0, counted).reduce((a, b) => a + b, 0);
+  const pct = safeAnswerCount ? Math.round(sum / safeAnswerCount) : 0;
+  const attemptedPct = counted ? Math.round(sum / counted) : 0;
+  return { pct, attemptedPct, answered: scores.length, counted };
 }

@@ -114,25 +114,46 @@ test('scoreQuestion is a 0-100 percentage and never NaN/Infinity', () => {
   assert.ok(Number.isFinite(scoreQuestion(NaN, NaN)));
 });
 
-test('scorePaper scores the best answerCount of the answered questions', () => {
+test('scorePaper (over-answered): pct and attemptedPct both average the best answerCount', () => {
   const perQuestion = [100, 90, 20, 10, 0, 80, 60]; // 7 answered, answerCount 6
-  const { pct, answered, counted } = scorePaper(perQuestion, 6);
+  const { pct, attemptedPct, answered, counted } = scorePaper(perQuestion, 6);
   assert.equal(answered, 7);
   assert.equal(counted, 6);
   const best6 = [100, 90, 80, 60, 20, 10];
-  assert.equal(pct, Math.round(best6.reduce((a, b) => a + b, 0) / 6));
+  const expected = Math.round(best6.reduce((a, b) => a + b, 0) / 6);
+  assert.equal(pct, expected); // unaffected by the fix: counted === answerCount here
+  assert.equal(attemptedPct, expected);
 });
 
-test('scorePaper handles answering fewer than answerCount', () => {
-  const { pct, answered, counted } = scorePaper([50, 100], 6);
+test('scorePaper (under-answered): pct counts missing slots as zero, attemptedPct does not', () => {
+  // Two excellent answers is NOT 75% of a 6-question paper — it's 2/6 of it.
+  const { pct, attemptedPct, answered, counted } = scorePaper([50, 100], 6);
   assert.equal(answered, 2);
   assert.equal(counted, 2);
-  assert.equal(pct, 75);
+  assert.equal(pct, 25); // (50+100)/6
+  assert.equal(attemptedPct, 75); // (50+100)/2 — honest quality of what was attempted
+});
+
+test('scorePaper: pct equals attemptedPct when exactly answerCount questions are answered', () => {
+  const { pct, attemptedPct } = scorePaper([80, 60, 40, 20, 100, 0], 6);
+  assert.equal(pct, attemptedPct);
 });
 
 test('scorePaper handles zero answered questions without NaN', () => {
-  const { pct, answered, counted } = scorePaper([], 6);
+  const { pct, attemptedPct, answered, counted } = scorePaper([], 6);
   assert.equal(pct, 0);
+  assert.equal(attemptedPct, 0);
   assert.equal(answered, 0);
   assert.equal(counted, 0);
+});
+
+test('scorePaper guards a zero/negative answerCount instead of dividing by zero', () => {
+  for (const bad of [0, -3, NaN]) {
+    const { pct, attemptedPct, answered, counted } = scorePaper([50, 80], bad);
+    assert.equal(pct, 0);
+    assert.equal(attemptedPct, 0);
+    assert.equal(answered, 2);
+    assert.equal(counted, 0);
+    assert.ok(Number.isFinite(pct) && Number.isFinite(attemptedPct));
+  }
 });
