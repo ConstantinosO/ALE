@@ -111,10 +111,23 @@ test('buildPaper still produces a paper with no slot-1 or no slot-8 entry', () =
   assert.ok(paper.questions.every((q) => !q.items));
 });
 
-test('buildPaper picks exactly one prompt variant per question', () => {
-  const paper = buildPaper(FIXTURE_ESSAY_BANK, { rand: rand0 });
-  const midHigh = paper.questions.find((q) => q.id === 'e-mid-high');
-  assert.ok(['Ερώτηση Χ;', 'Ερώτηση Χ παραλλαγή;'].includes(midHigh.promptText));
+test('buildPaper picks exactly one prompt variant per question, and both variants actually occur', () => {
+  // rand0 alone would pass even if variant selection were hard-wired to
+  // index 0 -- it always returns the SAME index. Sweep rand instead and
+  // confirm both of e-mid-high's two prompt variants are reachable.
+  const bank = {
+    ...FIXTURE_ESSAY_BANK,
+    entries: FIXTURE_ESSAY_BANK.entries.filter((e) => ['e-anagkes', 'e-mid-high', 'e-last'].includes(e.id)),
+  };
+  const seen = new Set();
+  for (let i = 0; i < 20; i++) {
+    const r = ((i * 31) % 100) / 100;
+    const paper = buildPaper(bank, { count: 3, rand: () => r });
+    const midHigh = paper.questions.find((q) => q.id === 'e-mid-high');
+    assert.ok(['Ερώτηση Χ;', 'Ερώτηση Χ παραλλαγή;'].includes(midHigh.promptText));
+    seen.add(midHigh.promptText);
+  }
+  assert.equal(seen.size, 2, `expected both prompt variants across the rand sweep, saw: ${[...seen]}`);
 });
 
 test('buildPaper carries the requested answerCount through untouched', () => {
