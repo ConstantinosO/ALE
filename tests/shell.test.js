@@ -51,6 +51,15 @@ test('a chapter-test route activates its course entry', () => {
   assert.equal(items.filter((i) => i.active)[0].href, '#/course/klados-zois');
 });
 
+test('essay exam and essay bank routes activate their course entry, not the dashboard', () => {
+  for (const h of ['#/essay/klados-zois', '#/essaybank/klados-zois']) {
+    const items = sidebarNavItems(COURSES, h);
+    const active = items.filter((i) => i.active);
+    assert.equal(active.length, 1, h);
+    assert.equal(active[0].href, '#/course/klados-zois', h);
+  }
+});
+
 test('an empty or unknown hash activates the dashboard', () => {
   for (const h of ['', '#/', '#/nonsense']) {
     const items = sidebarNavItems(COURSES, h);
@@ -180,6 +189,7 @@ test('sidebarRailItems marks a course badge active for any of its five routes', 
     '#/course/klados-zois', '#/quiz/klados-zois/micro', '#/flashcards/klados-zois',
     '#/exam/klados-zois', '#/analysis/klados-zois',
     '#/topic/klados-zois/z3-1', '#/chaptertest/klados-zois/z-ch03',
+    '#/essay/klados-zois', '#/essaybank/klados-zois',
   ];
   for (const h of hashes) {
     const items = sidebarRailItems(COURSES, h);

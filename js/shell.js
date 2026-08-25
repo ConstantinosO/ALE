@@ -29,7 +29,7 @@ function activeHref(hash) {
   if (!view) return '#/';
   if (view === 'settings') return '#/settings';
   if (!courseId) return '#/';
-  if (view === 'topic' || view === 'chaptertest' || view === 'course') return `#/course/${courseId}`;
+  if (view === 'topic' || view === 'chaptertest' || view === 'course' || view === 'essay' || view === 'essaybank') return `#/course/${courseId}`;
   if (view === 'quiz') return `#/quiz/${courseId}/micro`;
   if (view === 'flashcards' || view === 'exam' || view === 'analysis') return `#/${view}/${courseId}`;
   return '#/';
