@@ -178,7 +178,6 @@ export async function render(el, ctx) {
         <span class="timer" id="stopwatch">00:00</span>
       </div>
       <div class="card">
-        ${q.marks != null ? `<p class="muted" style="font-size:13px">${Number(q.marks)} μονάδες</p>` : ''}
         <div class="prose">${formatText(q.promptText)}</div>
         ${q.items ? q.items.map((item, idx) => `
           <label class="essay-itemlabel" for="ans-${idx}">${escapeHtml(item.term)}</label>

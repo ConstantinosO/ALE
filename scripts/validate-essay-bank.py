@@ -29,7 +29,7 @@ BAD_MARKUP = re.compile(r'<[a-zA-Z/]|&lt;|&amp;|^#{1,6}\s|\|\s*---|__', re.M)
 
 def check_entry(e, errs, warns, src):
     eid = e.get('id','?')
-    for f in ('id','title','prompts','chapterId','topicIds','frequency','lastSeen','slot','trend','marks','keyPoints','modelAnswer'):
+    for f in ('id','title','prompts','chapterId','topicIds','frequency','lastSeen','slot','trend','keyPoints','modelAnswer'):
         if f not in e: errs.append(f"{src}:{eid} missing field {f}")
     if eid in EXPECT:
         fr, ls, sl, tr = EXPECT[eid]
@@ -43,7 +43,6 @@ def check_entry(e, errs, warns, src):
     for t in e.get('topicIds') or []:
         if t not in VALID_TOPICS: errs.append(f"{src}:{eid} bad topicId {t}")
     if not (1 <= len(e.get('topicIds') or []) <= 4): errs.append(f"{src}:{eid} topicIds count {len(e.get('topicIds') or [])}")
-    if e.get('marks') != 17: errs.append(f"{src}:{eid} marks {e.get('marks')} != 17")
     kp = e.get('keyPoints') or []
     # e-minidefs keyPoints are how-to-answer guidance; its real rubric lives per item
     # The cap keeps rubric points tickable, not to limit coverage: an entry that

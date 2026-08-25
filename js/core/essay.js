@@ -56,7 +56,6 @@ function toQuestion(entry, rand) {
     id: entry.id,
     title: entry.title,
     promptText: pickPromptText(entry, rand),
-    marks: entry.marks,
     keyPoints: Array.isArray(entry.keyPoints) ? entry.keyPoints : [],
     modelAnswer: entry.modelAnswer || '',
     topicIds: Array.isArray(entry.topicIds) ? entry.topicIds : [],

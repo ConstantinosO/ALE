@@ -53,7 +53,6 @@ export async function render(el, ctx) {
           <h2 class="grow">${escapeHtml(e.title)}</h2>
           <span class="pill pill-gold">${Number(e.frequency) || 0}/${total} δοκίμια</span>
           ${trendPill(e.trend)}
-          ${e.marks != null ? `<span class="pill">${Number(e.marks)} μονάδες</span>` : ''}
         </div>
         ${e.slot === 1 ? '<p class="muted" style="font-size:13px">📌 Πάντα η 1η ερώτηση</p>' : ''}
         ${e.slot === 8 ? '<p class="muted" style="font-size:13px">📌 Πάντα η τελευταία ερώτηση (με τρεις σύντομους ορισμούς)</p>' : ''}
