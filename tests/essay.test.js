@@ -87,6 +87,23 @@ test('buildPaper degrades to a shorter paper when there are fewer entries than c
   assert.ok(paper.questions.length > 0 && paper.questions.length < 8);
 });
 
+test('buildPaper drops the slot-8 question when fewer than 3 mini-definitions exist', () => {
+  for (const n of [0, 1, 2]) {
+    const bank = { ...FIXTURE_ESSAY_BANK, miniDefinitions: FIXTURE_ESSAY_BANK.miniDefinitions.slice(0, n) };
+    const paper = buildPaper(bank, { rand: rand0 });
+    assert.ok(paper.questions.every((q) => !q.items), `n=${n}`);
+    assert.ok(paper.questions.every((q) => q.id !== 'e-last'), `n=${n}`);
+  }
+});
+
+test('buildPaper keeps the slot-8 question when exactly 3 mini-definitions exist', () => {
+  const bank = { ...FIXTURE_ESSAY_BANK, miniDefinitions: FIXTURE_ESSAY_BANK.miniDefinitions.slice(0, 3) };
+  const paper = buildPaper(bank, { rand: rand0 });
+  const last = paper.questions.at(-1);
+  assert.equal(last.id, 'e-last');
+  assert.equal(last.items.length, 3);
+});
+
 test('buildPaper still produces a paper with no slot-1 or no slot-8 entry', () => {
   const noEdges = { ...FIXTURE_ESSAY_BANK, entries: FIXTURE_ESSAY_BANK.entries.filter((e) => e.slot === 0) };
   const paper = buildPaper(noEdges, { count: 3, rand: rand0 });

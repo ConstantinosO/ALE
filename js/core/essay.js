@@ -80,7 +80,13 @@ export function buildPaper(bank, { rand = Math.random, count = 8, answerCount = 
   const slot0Pool = entries.filter((e) => e && e.slot === 0);
 
   const first = slot1Pool.length ? weightedDraw(slot1Pool, () => 1, 1, rand)[0] : null;
-  const last = slot8Pool.length ? weightedDraw(slot8Pool, () => 1, 1, rand)[0] : null;
+  // A slot-8 question always asks for exactly three definitions (see the
+  // .items build-out below); with fewer than three in the pool it can only
+  // render an unanswerable prompt (empty or short of three textareas, no
+  // error, isAnswered never true). Dropping it here rather than degrading it
+  // keeps buildPaper's contract simple: every question it emits is answerable.
+  const lastCandidate = slot8Pool.length ? weightedDraw(slot8Pool, () => 1, 1, rand)[0] : null;
+  const last = lastCandidate && miniDefs.length >= 3 ? lastCandidate : null;
 
   const middleTarget = Math.max(0, count - (first ? 1 : 0) - (last ? 1 : 0));
   const middleEntries = weightedDraw(slot0Pool, (e) => e.frequency, middleTarget, rand);
