@@ -58,7 +58,7 @@ export function pickQuizQuestions({ content, topics, mode, now, excludedChapterI
 // topic count rather than the exam decided the shape. Measured over 4000
 // simulated 20-question exams against the real data files:
 //
-//   chapter  real%   drawn%   (title-match era / undivided / now)
+//   chapter  real%   drawn%   (pre-fix weight / undivided / now)
 //   z-ch03    30%     25.5  →  41.6  →  30.8
 //   z-ch01    14%      6.4  →   9.8  →  14.4
 //   z-ch11    12%      8.5  →  11.1  →  11.4
@@ -84,11 +84,13 @@ function frequencyFor(topic, analysis) {
       && (topic.title.includes(f.topic) || f.topic.includes(topic.title))) || null;
 }
 
-export function weightFor(topic, analysis, topicsInChapter = 1) {
+// topicsInChapter has no default on purpose: omitting it would silently
+// restore the un-normalised weighting this function exists to correct.
+export function weightFor(topic, analysis, topicsInChapter) {
   const hit = frequencyFor(topic, analysis);
   if (!hit) return 1;
   const pct = Number(hit.percentage) || 0;
-  const share = (pct * WEIGHT_SCALE) / Math.max(1, topicsInChapter);
+  const share = (pct * WEIGHT_SCALE) / Math.max(1, Number(topicsInChapter) || 1);
   return Math.max(1, Math.round(share));
 }
 

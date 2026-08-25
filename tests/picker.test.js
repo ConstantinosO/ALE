@@ -93,11 +93,9 @@ test('chapterId matching wins over a misleading title match', () => {
 test('a 0%-frequency chapter draws a small share next to a heavily-examined one', () => {
   // ch1 (t1, t2) is 98% of the real paper; ch2 (t3) is 0%. The old
   // max(1, round(1 + pct/10)) formula compressed this into weights 11 vs 1
-  // (t3 ~4.4% of the draw); the new max(1, round(pct)) formula produces
-  // weights 98 vs 1 (t3 ~0.5%) -- present via the floor, but not competing
-  // on anything like equal footing with material that has actually been
-  // examined.
-  const analysis = { topicFrequencies: [
+  // The 0%-chapter floor keeps t3 in the pool at a share far below its
+  // topic count would otherwise give it.
+    const analysis = { topicFrequencies: [
     { chapterId: 'ch1', topic: 'Πρώτο Κεφάλαιο', count: 49, percentage: 98 },
     { chapterId: 'ch2', topic: 'Δεύτερο Κεφάλαιο', count: 0, percentage: 0 },
   ] };

@@ -25,7 +25,10 @@ let courses = null;
 const contentCache = {};
 const analysisCache = {};
 const essayBankCache = {};
-let viewCleanup = null;
+// A list, not a single slot: a view that registers two cleanups (a timer and
+// a debounce, say) used to silently lose the first one, leaving a write that
+// outlived the view it belonged to.
+let viewCleanups = [];
 
 function save() {
   if (!saveState(state, window.localStorage)) {
@@ -97,7 +100,8 @@ async function render() {
     return;
   }
   renderedHash = location.hash;
-  if (viewCleanup) { try { viewCleanup(); } catch {} viewCleanup = null; }
+  for (const fn of viewCleanups) { try { fn(); } catch { /* a failed cleanup must not block the rest */ } }
+  viewCleanups = [];
   let loadError = null;
   try {
     courses ??= await loadCourses();
@@ -118,7 +122,7 @@ async function render() {
   const ctx = {
     state, save, courses, getContent, getAnalysis, getEssayBank,
     navigate: (h) => { if (location.hash === h) render(); else location.hash = h; },
-    onCleanup: (fn) => { viewCleanup = fn; },
+    onCleanup: (fn) => { if (typeof fn === 'function') viewCleanups.push(fn); },
     params: route.params, examDateIso,
   };
   container.innerHTML = '<p class="muted">Φόρτωση…</p>';

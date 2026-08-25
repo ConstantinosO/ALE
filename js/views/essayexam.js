@@ -10,7 +10,7 @@ import { recordSession, evaluateBadges } from '../core/stats.js';
 // Exported so js/views/settings.js's "Diagrafi proodou" can clear it too —
 // it resets ale.v1 only, and without this the essay draft (and its ~32KB of
 // typed prose) survives a full progress reset, still offering to resume.
-export const DRAFT_KEY = 'ale.essay.v1';
+const DRAFT_KEY = 'ale.essay.v1';
 const COUNT = 8;
 const ANSWER_COUNT = 6;
 
@@ -114,15 +114,26 @@ export async function render(el, ctx) {
   // so nothing typed is ever lost to an in-flight debounce.
   const PERSIST_DEBOUNCE_MS = 500;
   let persistTimer = null;
+  let finished = false;
   function persistNow(extra = {}) {
     if (persistTimer) { clearTimeout(persistTimer); persistTimer = null; }
+    if (finished) return; // the paper is handed in; the draft is intentionally gone
     saveDraft(window.localStorage, { courseId, paper, answers, startedAt, i, ...extra });
   }
   function persist(extra = {}) {
     if (persistTimer) clearTimeout(persistTimer);
     persistTimer = setTimeout(() => { persistTimer = null; persistNow(extra); }, PERSIST_DEBOUNCE_MS);
   }
-  ctx.onCleanup(() => { if (persistTimer) clearTimeout(persistTimer); });
+  // Once the paper is handed in the draft is gone for good: any in-flight
+  // debounce must not write it back. Flushing on teardown is what makes
+  // leaving mid-typing (or a tab close) safe, so the two have to be one
+  // decision rather than two independent handlers.
+  ctx.onCleanup(() => {
+    if (!persistTimer) return;
+    clearTimeout(persistTimer);
+    persistTimer = null;
+    if (!finished) persistNow();
+  });
 
   // --- stopwatch: we don't know the real paper's duration, so this counts
   // up, never down. Runs for the whole view lifetime; it simply no-ops on
@@ -139,6 +150,16 @@ export async function render(el, ctx) {
   }
   timerId = setInterval(tick, 500);
   ctx.onCleanup(() => clearInterval(timerId));
+
+  // A tab close or app switch fires no navigation, so the debounce would drop
+  // whatever was typed in the last 500ms — which the per-keystroke save never did.
+  const flushOnHide = () => { if (persistTimer) persistNow(); };
+  window.addEventListener('pagehide', flushOnHide);
+  document.addEventListener('visibilitychange', flushOnHide);
+  ctx.onCleanup(() => {
+    window.removeEventListener('pagehide', flushOnHide);
+    document.removeEventListener('visibilitychange', flushOnHide);
+  });
 
   function showIntro() {
     el.innerHTML = `
@@ -205,7 +226,7 @@ export async function render(el, ctx) {
           ${i + 1 < paper.questions.length ? '<button class="btn grow" id="nextq">Επόμενη →</button>' : ''}
         </div>
         <button class="btn btn-gold btn-block" id="submit" ${n < 1 ? 'disabled' : ''}>Παράδοση</button>
-        <a class="btn btn-ghost btn-block" href="#/course/${courseId}">Διακοπή (το δοκίμιο μένει αποθηκευμένο)</a>
+        <a class="btn btn-ghost btn-block" id="pause" href="#/course/${courseId}">Διακοπή (το δοκίμιο μένει αποθηκευμένο)</a>
       </div>`;
 
     if (q.items) {
@@ -226,6 +247,7 @@ export async function render(el, ctx) {
 
     document.getElementById('prev')?.addEventListener('click', () => { if (i > 0) { i--; persistNow(); showAnswering(); } });
     document.getElementById('nextq')?.addEventListener('click', () => { i++; persistNow(); showAnswering(); });
+    document.getElementById('pause')?.addEventListener('click', () => persistNow());
     document.getElementById('submit').addEventListener('click', startMarking);
   }
 
@@ -328,6 +350,7 @@ export async function render(el, ctx) {
     ctx.state.sessions = ctx.state.sessions.slice(-50);
     ctx.save();
 
+    finished = true;
     clearDraft(window.localStorage);
     showResult({ pct, attemptedPct, answered, counted, perQuestion, timeSeconds });
   }

@@ -75,7 +75,7 @@ export async function render(el, ctx) {
       <details><summary>Υπόδειγμα απάντησης</summary><div class="prose" data-editpath="shortAnswers.${i}.modelAnswer">${formatText(s.modelAnswer)}</div></details>`).join('')}
     </div>` : ''}
     ${topic.examQuestion ? `<div class="card">
-      <div class="row"><h2 class="grow">📝 Θέμα εξέτασης (${topic.examQuestion.marks} μονάδες)</h2>${editBtn(topic.id)}</div>
+      <div class="row"><h2 class="grow">📝 Θέμα εξέτασης</h2>${editBtn(topic.id)}</div>
       <div class="prose" data-editpath="examQuestion.question">${formatText(topic.examQuestion.question)}</div>
       <details><summary>Υπόδειγμα απάντησης</summary><div class="prose" data-editpath="examQuestion.modelAnswer">${formatText(topic.examQuestion.modelAnswer)}</div></details>
     </div>` : ''}
