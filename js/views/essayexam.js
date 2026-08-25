@@ -89,6 +89,14 @@ export async function render(el, ctx) {
     return;
   }
 
+  // Topic titles label the follow-up links on the result screen; a bare
+  // "θέμα" pill repeated per topicId told the user nothing about where to go.
+  const topicTitles = new Map();
+  try {
+    const content = await ctx.getContent(courseId);
+    for (const ch of content.chapters) for (const t of ch.topics) topicTitles.set(t.id, t.title);
+  } catch { /* links fall back to the generic label */ }
+
   const storedDraft = loadDraft(window.localStorage);
   const hasDraft = !!(storedDraft && storedDraft.courseId === courseId && storedDraft.paper?.questions?.length);
 
@@ -317,7 +325,14 @@ export async function render(el, ctx) {
   // deliberate few-question practice run, but is shown strictly smaller and
   // second, never with equal or greater weight than pct.
   function showResult({ pct, attemptedPct, answered, counted, perQuestion, timeSeconds }) {
-    const weakest = [...perQuestion].sort((a, b) => a.score - b.score).slice(0, 2);
+    // Only genuinely weak answers belong here. Taking the bottom two
+    // unconditionally listed a 100%-scored answer under «Πιο αδύναμες
+    // ερωτήσεις» whenever fewer than three questions were attempted.
+    const WEAK_BELOW = 70;
+    const weakest = [...perQuestion]
+      .filter((p) => p.score < WEAK_BELOW)
+      .sort((a, b) => a.score - b.score)
+      .slice(0, 2);
     el.innerHTML = `
       <div class="card" style="text-align:center">
         <h2>${pct >= 70 ? '🎉 Καλή δουλειά!' : '📚 Θέλει δουλειά ακόμη'}</h2>
@@ -340,7 +355,7 @@ export async function render(el, ctx) {
         <h2>Πιο αδύναμες ερωτήσεις</h2>
         ${weakest.map((p) => `
           <div class="list-item"><span class="grow">${escapeHtml(p.title)} — ${p.score}%</span>
-            ${p.topicIds.map((tid) => `<a class="pill" href="#/topic/${courseId}/${tid}">θέμα</a>`).join('')}</div>`).join('')}
+            ${p.topicIds.map((tid) => `<a class="pill" href="#/topic/${courseId}/${tid}">${escapeHtml(topicTitles.get(tid) || 'θέμα')}</a>`).join('')}</div>`).join('')}
       </div>` : ''}
       <a class="btn btn-gold btn-block" href="#/essay/${courseId}">Νέο δοκίμιο</a>
       <a class="btn btn-ghost btn-block" href="#/">Αρχική</a>`;
