@@ -99,9 +99,23 @@ export async function render(el, ctx) {
   let i = 0;
   const ticks = {}; // questionId -> Set<flat keyPoint index>
 
-  function persist(extra = {}) {
+  // persist() runs on every keystroke, and the draft it serialises carries
+  // every keyPoint and model answer for the whole paper — tens of KB — so a
+  // synchronous JSON.stringify + localStorage.setItem per character is real
+  // work on a slow device. Debounce the keystroke path; persistNow flushes
+  // immediately and is what navigation (prev/next question) and submit use,
+  // so nothing typed is ever lost to an in-flight debounce.
+  const PERSIST_DEBOUNCE_MS = 500;
+  let persistTimer = null;
+  function persistNow(extra = {}) {
+    if (persistTimer) { clearTimeout(persistTimer); persistTimer = null; }
     saveDraft(window.localStorage, { courseId, paper, answers, startedAt, i, ...extra });
   }
+  function persist(extra = {}) {
+    if (persistTimer) clearTimeout(persistTimer);
+    persistTimer = setTimeout(() => { persistTimer = null; persistNow(extra); }, PERSIST_DEBOUNCE_MS);
+  }
+  ctx.onCleanup(() => { if (persistTimer) clearTimeout(persistTimer); });
 
   // --- stopwatch: we don't know the real paper's duration, so this counts
   // up, never down. Runs for the whole view lifetime; it simply no-ops on
@@ -142,7 +156,7 @@ export async function render(el, ctx) {
     for (const q of paper.questions) answers[q.id] = q.items ? { items: ['', '', ''] } : '';
     startedAt = Date.now();
     i = 0;
-    persist();
+    persistNow();
     showAnswering();
   }
 
@@ -203,12 +217,13 @@ export async function render(el, ctx) {
       });
     }
 
-    document.getElementById('prev')?.addEventListener('click', () => { if (i > 0) { i--; persist(); showAnswering(); } });
-    document.getElementById('nextq')?.addEventListener('click', () => { i++; persist(); showAnswering(); });
+    document.getElementById('prev')?.addEventListener('click', () => { if (i > 0) { i--; persistNow(); showAnswering(); } });
+    document.getElementById('nextq')?.addEventListener('click', () => { i++; persistNow(); showAnswering(); });
     document.getElementById('submit').addEventListener('click', startMarking);
   }
 
   function startMarking() {
+    persistNow();
     for (const q of paper.questions) {
       if (isAnswered(q, answers[q.id]) && !ticks[q.id]) ticks[q.id] = new Set();
     }
