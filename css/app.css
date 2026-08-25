@@ -299,6 +299,25 @@ input[type="date"], input[type="file"] {
 table.freq { width: 100%; border-collapse: collapse; font-size: 14px; }
 table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--border); text-align: left; }
 
+/* --- essay mode: mock exam (js/views/essayexam.js) + bank (essaybank.js) --- */
+.essay-textarea {
+  display: block; width: 100%; min-height: 160px; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: 10px; resize: vertical;
+  font: inherit; background: var(--card); color: var(--text); margin-bottom: 12px;
+}
+.essay-itemlabel { display: block; font-weight: 700; margin-bottom: 4px; }
+/* The candidate's own typed answer is plain text, never marker-formatted
+   bank prose — escaped and shown as-is, with pre-wrap doing the only
+   "formatting" it needs (preserving the line breaks he actually typed). */
+.essay-useranswer {
+  white-space: pre-wrap; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 12px; margin-bottom: 12px;
+}
+.essay-kp { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; cursor: pointer; }
+.essay-kp input { margin-top: 3px; flex-shrink: 0; }
+.essay-miniitem, .essay-minidef { padding: 10px 0; border-top: 1px solid var(--border); }
+.essay-miniitem:first-of-type, .essay-minidef:first-of-type { border-top: 0; padding-top: 0; }
+
 /* --- material editing --- */
 .prose p { margin: 0 0 10px; }
 .prose p:last-child { margin-bottom: 0; }

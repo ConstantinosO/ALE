@@ -22,6 +22,18 @@ test('quiz route carries mode', () => {
     { view: 'quiz', params: { courseId: 'klados-zois', mode: 'weak' } });
 });
 
+test('essay exam route carries courseId', () => {
+  assert.deepEqual(parseRoute('#/essay/klados-zois'),
+    { view: 'essayexam', params: { courseId: 'klados-zois' } });
+  assert.equal(parseRoute('#/essay').view, 'dashboard');
+});
+
+test('essay bank route carries courseId', () => {
+  assert.deepEqual(parseRoute('#/essaybank/klados-zois'),
+    { view: 'essaybank', params: { courseId: 'klados-zois' } });
+  assert.equal(parseRoute('#/essaybank').view, 'dashboard');
+});
+
 test('chapter test route carries courseId and chapterId', () => {
   assert.deepEqual(parseRoute('#/chaptertest/klados-zois/z-ch03'),
     { view: 'chaptertest', params: { courseId: 'klados-zois', chapterId: 'z-ch03' } });

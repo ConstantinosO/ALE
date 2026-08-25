@@ -1,4 +1,4 @@
-const CACHE = 'ale-v12'; // bump on every content/app update
+const CACHE = 'ale-v15'; // bump on every content/app update
 // Every ES module the app boots from must be precached. Without them the
 // activate step (which deletes the previous cache) could leave the app
 // unbootable offline if the network drops before the modules are fetched.
@@ -10,6 +10,7 @@ const CORE = [
   './js/ui.js',
   './js/shell.js',
   './js/core/content.js',
+  './js/core/essay.js',
   './js/core/format.js',
   './js/core/merge.js',
   './js/core/picker.js',
@@ -26,6 +27,8 @@ const CORE = [
   './js/views/chaptertest.js',
   './js/views/course.js',
   './js/views/dashboard.js',
+  './js/views/essaybank.js',
+  './js/views/essayexam.js',
   './js/views/exam.js',
   './js/views/flashcards.js',
   './js/views/quiz.js',

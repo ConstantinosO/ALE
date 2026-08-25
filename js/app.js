@@ -1,6 +1,6 @@
 import { parseRoute } from './router.js';
 import { loadState, saveState } from './core/store.js';
-import { loadCourses, loadContent, loadAnalysis } from './core/content.js';
+import { loadCourses, loadContent, loadAnalysis, loadEssayBank } from './core/content.js';
 import { escapeHtml } from './ui.js';
 import { mountShell } from './shell.js';
 import * as dashboard from './views/dashboard.js';
@@ -9,20 +9,26 @@ import * as topic from './views/topic.js';
 import * as quiz from './views/quiz.js';
 import * as flashcards from './views/flashcards.js';
 import * as exam from './views/exam.js';
+import * as essayexam from './views/essayexam.js';
+import * as essaybank from './views/essaybank.js';
 import * as analysis from './views/analysis.js';
 import * as settings from './views/settings.js';
 import * as chaptertest from './views/chaptertest.js';
 import { loadEdits, saveEdits, applyEdits, pruneDeployed } from './edit/overlay.js';
 import { retryPendingAll, confirmLeaveEdit } from './edit/editor.js';
 
-const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, analysis, settings, chaptertest };
+const VIEWS = { dashboard, course, topic, quiz, flashcards, exam, essayexam, essaybank, analysis, settings, chaptertest };
 
 const container = document.getElementById('view');
 const state = loadState(window.localStorage);
 let courses = null;
 const contentCache = {};
 const analysisCache = {};
-let viewCleanup = null;
+const essayBankCache = {};
+// A list, not a single slot: a view that registers two cleanups (a timer and
+// a debounce, say) used to silently lose the first one, leaving a write that
+// outlived the view it belonged to.
+let viewCleanups = [];
 
 function save() {
   if (!saveState(state, window.localStorage)) {
@@ -48,6 +54,11 @@ async function getContent(courseId) {
 async function getAnalysis(courseId) {
   if (!(courseId in analysisCache)) analysisCache[courseId] = await loadAnalysis(courseId);
   return analysisCache[courseId];
+}
+
+async function getEssayBank(courseId) {
+  if (!(courseId in essayBankCache)) essayBankCache[courseId] = await loadEssayBank(courseId);
+  return essayBankCache[courseId];
 }
 
 function examDateIso() {
@@ -89,7 +100,8 @@ async function render() {
     return;
   }
   renderedHash = location.hash;
-  if (viewCleanup) { try { viewCleanup(); } catch {} viewCleanup = null; }
+  for (const fn of viewCleanups) { try { fn(); } catch { /* a failed cleanup must not block the rest */ } }
+  viewCleanups = [];
   let loadError = null;
   try {
     courses ??= await loadCourses();
@@ -108,9 +120,9 @@ async function render() {
   const route = parseRoute(location.hash);
   const view = VIEWS[route.view] || VIEWS.dashboard;
   const ctx = {
-    state, save, courses, getContent, getAnalysis,
+    state, save, courses, getContent, getAnalysis, getEssayBank,
     navigate: (h) => { if (location.hash === h) render(); else location.hash = h; },
-    onCleanup: (fn) => { viewCleanup = fn; },
+    onCleanup: (fn) => { if (typeof fn === 'function') viewCleanups.push(fn); },
     params: route.params, examDateIso,
   };
   container.innerHTML = '<p class="muted">Φόρτωση…</p>';

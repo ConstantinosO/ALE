@@ -5,6 +5,7 @@ import { dateStr, BADGES } from '../core/stats.js';
 import { loadEdits, saveEdits, pendingCount } from '../edit/overlay.js';
 import { getFile } from '../edit/github.js';
 import { retryPendingAll } from '../edit/editor.js';
+import { clearDraft as clearEssayDraft } from './essayexam.js';
 
 const STORE_FULL = '⚠️ Δεν αποθηκεύτηκε (ο χώρος του προγράμματος περιήγησης είναι πλήρης).';
 
@@ -123,6 +124,7 @@ export async function render(el, ctx) {
       Object.keys(ctx.state).forEach((k) => { delete ctx.state[k]; });
       Object.assign(ctx.state, fresh);
       saveState(ctx.state, window.localStorage);
+      clearEssayDraft(window.localStorage);
       ctx.navigate('#/');
     }
   });
