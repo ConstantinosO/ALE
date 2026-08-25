@@ -10,6 +10,7 @@ const CORE = [
   './js/ui.js',
   './js/shell.js',
   './js/core/content.js',
+  './js/core/essay.js',
   './js/core/format.js',
   './js/core/merge.js',
   './js/core/picker.js',
