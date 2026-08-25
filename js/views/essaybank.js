@@ -10,12 +10,17 @@ const paperCount = (bank) => Number(bank?.paperCount)
   || (Array.isArray(bank?.sourcePapers) ? bank.sourcePapers.length : 0)
   || FALLBACK_PAPERS;
 
-const TREND_LABEL = { core: 'σταθερό', heating: '↑ ανεβαίνει', cooling: '↓ υποχωρεί', rare: 'σπάνιο' };
-const TREND_CLASS = { heating: 'pill-ok', cooling: 'pill-bad' };
+// Maps, not plain objects: `trend` comes straight from data, and a plain
+// object literal makes TREND_LABEL[trend] / TREND_CLASS[trend] resolve
+// prototype members for a trend value like "constructor" or "toString".
+const TREND_LABEL = new Map([
+  ['core', 'σταθερό'], ['heating', '↑ ανεβαίνει'], ['cooling', '↓ υποχωρεί'], ['rare', 'σπάνιο'],
+]);
+const TREND_CLASS = new Map([['heating', 'pill-ok'], ['cooling', 'pill-bad']]);
 
 function trendPill(trend) {
-  const label = TREND_LABEL[trend] || (trend ? escapeHtml(String(trend)) : 'σπάνιο');
-  return `<span class="pill ${TREND_CLASS[trend] || ''}">${label}</span>`;
+  const label = TREND_LABEL.get(trend) || (trend ? escapeHtml(String(trend)) : 'σπάνιο');
+  return `<span class="pill ${TREND_CLASS.get(trend) || ''}">${label}</span>`;
 }
 
 export async function render(el, ctx) {
