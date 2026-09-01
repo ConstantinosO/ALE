@@ -8,6 +8,26 @@ import { recordSession, evaluateBadges } from '../core/stats.js';
 
 const CHECK_COUNT = 3;
 
+// A bulleted, editable list (κρίσιμα σημεία / παγίδες). Blanking a field is
+// an offered operation — the editor confirms it and commits "" — so a blanked
+// item must disappear rather than leave a bullet with nothing after it. The
+// ORIGINAL index still goes into data-editpath: these paths address the array
+// as stored, and renumbering them here would point every later edit at its
+// neighbour's text.
+function bulletCard(heading, topic, field) {
+  const items = topic[field] || [];
+  const lis = items
+    .map((f, i) => (String(f ?? '').trim()
+      ? `<li><div class="prose" data-editpath="${field}.${i}">${formatText(f)}</div></li>`
+      : ''))
+    .join('');
+  if (!lis) return '';
+  return `<div class="card">
+      <div class="row"><h2 class="grow">${heading}</h2>${editBtn(topic.id)}</div>
+      <ul>${lis}</ul>
+    </div>`;
+}
+
 // Most topics carry a single examQuestion object. The two merged chapters
 // (5 and 6) carry a list, because folding two topics into one page brought
 // two real ΠΒΑΚ questions with it and demoting either to a "short answer"
@@ -74,14 +94,8 @@ export async function render(el, ctx) {
       ${topic.keyDefinitions.map((d, i) => `<p style="margin-bottom:2px"><b>${escapeHtml(d.term)}:</b></p>
         <div class="prose" data-editpath="keyDefinitions.${i}.definition" style="margin-bottom:10px">${formatText(d.definition)}</div>`).join('')}
     </div>` : ''}
-    ${topic.killerFacts.length ? `<div class="card">
-      <div class="row"><h2 class="grow">💡 Κρίσιμα σημεία</h2>${editBtn(topic.id)}</div>
-      <ul>${topic.killerFacts.map((f, i) => `<li><div class="prose" data-editpath="killerFacts.${i}">${formatText(f)}</div></li>`).join('')}</ul>
-    </div>` : ''}
-    ${topic.commonTraps.length ? `<div class="card">
-      <div class="row"><h2 class="grow">⚠️ Συνήθεις παγίδες</h2>${editBtn(topic.id)}</div>
-      <ul>${topic.commonTraps.map((f, i) => `<li><div class="prose" data-editpath="commonTraps.${i}">${formatText(f)}</div></li>`).join('')}</ul>
-    </div>` : ''}
+    ${bulletCard('💡 Κρίσιμα σημεία', topic, 'killerFacts')}
+    ${bulletCard('⚠️ Συνήθεις παγίδες', topic, 'commonTraps')}
     ${(topic.shortAnswers || []).length ? `<div class="card">
       <div class="row"><h2 class="grow">✍️ Ερωτήσεις σύντομης απάντησης</h2>${editBtn(topic.id)}</div>
       ${topic.shortAnswers.map((s, i) => `<div class="prose" data-editpath="shortAnswers.${i}.question">${formatText(s.question)}</div>
