@@ -222,7 +222,7 @@ function sidebarHtml(courses, state, hash) {
   return `
     <div class="sidebar-brand">
       <span class="sidebar-logo">🎓</span>
-      <span class="sidebar-brandtext"><b>ALE</b><small>ΠΡΟΣΑΡΜΟΣΤΙΚΗ ΜΑΘΗΣΗ</small></span>
+      <span class="sidebar-brandtext"><b>ALE</b><small>ADVANCED LEARNING</small></span>
     </div>
     <div class="sidebar-chips">
       <span class="chip">⚡ ${Number(state.stats.totalXp) || 0} XP</span>
