@@ -32,9 +32,9 @@ test('CORE lists no JS file that does not exist', () => {
   assert.deepEqual(ghosts, [], 'addAll() rejects wholesale on a 404');
 });
 
-test('CORE still covers the shell and keeps the ale-v15 cache name', () => {
+test('CORE still covers the shell and keeps the ale-v16 cache name', () => {
   for (const f of ['./', './index.html', './css/app.css', './manifest.webmanifest']) {
     assert.ok(CORE.includes(f), f);
   }
-  assert.ok(/const CACHE = 'ale-v15'/.test(sw));
+  assert.ok(/const CACHE = 'ale-v16'/.test(sw));
 });

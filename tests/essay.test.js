@@ -220,6 +220,42 @@ test('scorePaper guards a zero/negative answerCount instead of dividing by zero'
 // loading the actual shipped file catches that — see tests/content.test.js's
 // "generated data files pass validation" test for the same pattern applied
 // to content.json.
+// A frequency-0 entry is a real case: a question asked on a paper outside the
+// nine analysed still has to be practisable. weightedDraw's `Math.max(1, ...)`
+// floor is what makes that work — "fixing" it to honour a literal 0 weight
+// would silently drop such an entry out of every mock paper it could appear in.
+test('buildPaper can still draw a frequency-0 middle entry', () => {
+  const bank = {
+    courseId: 'demo',
+    entries: [
+      {
+        id: 'e-zero', title: 'Μηδενικής Συχνότητας',
+        prompts: [{ text: 'Ερώτηση Μ;', papers: [], source: 'Παλαιό δοκίμιο' }],
+        chapterId: 'z-ch02', topicIds: ['t9'], frequency: 0, lastSeen: null,
+        slot: 0, trend: 'rare', keyPoints: ['ΣΘ'], modelAnswer: 'Υπόδειγμα Μ.',
+      },
+    ],
+    miniDefinitions: [],
+  };
+  assert.equal(validateEssayBank(bank), null);
+  const paper = buildPaper(bank, { rand: rand0, count: 8 });
+  assert.deepEqual(paper.questions.map((q) => q.id), ['e-zero']);
+});
+
+// The bank view prints a prompt's papers, or its `source` when it has none.
+// A prompt carrying neither renders a bare wording under a heading that
+// claims these are questions which have appeared in the nine papers — so the
+// invariant lives here, not only in scripts/validate-essay-bank.py.
+test('every shipped prompt says where it came from', () => {
+  const bank = JSON.parse(readFileSync('data/klados-zois/essay-bank.json', 'utf8'));
+  for (const e of bank.entries) {
+    for (const p of e.prompts) {
+      assert.ok(p.papers?.length || (p.source || '').trim(),
+        `entry ${e.id} has a prompt with neither papers nor source: ${p.text.slice(0, 40)}`);
+    }
+  }
+});
+
 test('the shipped essay bank passes validation and every topic/chapter link resolves', () => {
   const bank = JSON.parse(readFileSync('data/klados-zois/essay-bank.json', 'utf8'));
   assert.equal(validateEssayBank(bank), null);

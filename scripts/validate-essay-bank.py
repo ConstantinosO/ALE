@@ -24,6 +24,9 @@ EXPECT = {
  'e-axiologisi':(2,'2026-04',0,'heating'), 'e-apaitisi':(2,'2026-06',0,'heating'),
  'e-typoi':(2,'2025-06',0,'rare'), 'e-symferon':(1,'2025-02',0,'rare'),
  'e-syntaxiodotika':(1,'2024-10',0,'rare'), 'e-xeplyma':(1,'2025-04',0,'rare'),
+ # Asked on a paper outside the nine analysed, so frequency 0 / lastSeen None:
+ # the pill must read 0/9 rather than borrow a frequency it did not earn.
+ 'e-arxes':(0,None,0,'rare'),
 }
 BAD_MARKUP = re.compile(r'<[a-zA-Z/]|&lt;|&amp;|^#{1,6}\s|\|\s*---|__', re.M)
 
@@ -56,7 +59,12 @@ def check_entry(e, errs, warns, src):
     if not ps: errs.append(f"{src}:{eid} no prompts")
     for p in ps:
         if not p.get('text','').strip(): errs.append(f"{src}:{eid} empty prompt text")
-        if not p.get('papers'): errs.append(f"{src}:{eid} prompt without papers")
+        # A prompt must say where it came from: the papers it appeared in, or a
+        # `source` label for one taken from the syllabus's own exam-question
+        # list or a paper outside the nine. Neither means the view would print
+        # nothing, implying it had been seen in the nine.
+        if not p.get('papers') and not (p.get('source') or '').strip():
+            errs.append(f"{src}:{eid} prompt with neither papers nor source")
     ma = e.get('modelAnswer','')
     words = len(ma.split())
     if not (150 <= words <= 700): warns.append(f"{src}:{eid} modelAnswer {words} words")

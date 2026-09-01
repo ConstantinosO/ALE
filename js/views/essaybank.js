@@ -18,6 +18,21 @@ const TREND_LABEL = new Map([
 ]);
 const TREND_CLASS = new Map([['heating', 'pill-ok'], ['cooling', 'pill-bad']]);
 
+// Where a wording came from. Most prompts list the papers they appeared in;
+// a prompt taken from the syllabus's own list of exam questions, or from a
+// paper outside the nine analysed, has no papers to list and carries a
+// `source` label instead — printing nothing would imply it had been seen in
+// the nine, which is the opposite of true.
+function promptOrigin(p) {
+  if (p.papers?.length) {
+    return `<p class="muted" style="font-size:12px;margin:0 0 8px">${p.papers.map((x) => escapeHtml(x)).join(', ')}</p>`;
+  }
+  if (p.source) {
+    return `<p class="muted" style="font-size:12px;margin:0 0 8px">${escapeHtml(p.source)}</p>`;
+  }
+  return '';
+}
+
 function trendPill(trend) {
   const label = TREND_LABEL.get(trend) || (trend ? escapeHtml(String(trend)) : 'σπάνιο');
   return `<span class="pill ${TREND_CLASS.get(trend) || ''}">${label}</span>`;
@@ -69,10 +84,10 @@ export async function render(el, ctx) {
         </div>
         ${e.slot === 1 ? '<p class="muted" style="font-size:13px">📌 Πάντα η 1η ερώτηση</p>' : ''}
         ${e.slot === 8 ? '<p class="muted" style="font-size:13px">📌 Πάντα η τελευταία ερώτηση (με τρεις σύντομους ορισμούς)</p>' : ''}
-        <h3>Εκφωνήσεις όπως έχουν πέσει</h3>
+        <h3>${(e.prompts || []).some((p) => p.papers?.length) ? 'Εκφωνήσεις όπως έχουν πέσει' : 'Εκφωνήσεις'}</h3>
         ${(e.prompts || []).map((p) => `
           <div class="prose" style="margin-bottom:4px">${formatText(p.text)}</div>
-          ${p.papers?.length ? `<p class="muted" style="font-size:12px;margin:0 0 8px">${p.papers.map((x) => escapeHtml(x)).join(', ')}</p>` : ''}`).join('')}
+          ${promptOrigin(p)}`).join('')}
         ${(e.keyPoints || []).length ? `<h3>Βασικά σημεία</h3>
           <ul>${e.keyPoints.map((k) => `<li><div class="prose">${formatText(k)}</div></li>`).join('')}</ul>` : ''}
         ${e.modelAnswer ? `<details><summary>Υπόδειγμα απάντησης</summary><div class="prose">${formatText(e.modelAnswer)}</div></details>` : ''}
