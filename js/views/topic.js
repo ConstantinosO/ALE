@@ -8,6 +8,18 @@ import { recordSession, evaluateBadges } from '../core/stats.js';
 
 const CHECK_COUNT = 3;
 
+// Most topics carry a single examQuestion object. The two merged chapters
+// (5 and 6) carry a list, because folding two topics into one page brought
+// two real ΠΒΑΚ questions with it and demoting either to a "short answer"
+// would mislabel it. Both shapes read the same way from here.
+const examList = (topic) => [].concat(topic.examQuestion ?? []);
+
+// …and both shapes have to address the same field for editing: a lone
+// object is `examQuestion.question`, a list is `examQuestion.0.question`.
+const examPath = (topic, i, field) => (Array.isArray(topic.examQuestion)
+  ? `examQuestion.${i}.${field}`
+  : `examQuestion.${field}`);
+
 // Questions for the end-of-topic check: the tracked difficulty first, then the rest.
 function checkQuestions(topic, prog) {
   const pool = topic.mcq || [];
@@ -30,6 +42,7 @@ export async function render(el, ctx) {
   const isLastOfChapter = !next || next.chapterId !== topic.chapterId;
   const p = ctx.state.topics[topicId] || newTopicProgress();
   const questions = checkQuestions(topic, p);
+  const examQuestions = examList(topic);
 
   const navRow = (bottom) => `
     <div class="row" style="${bottom ? 'margin-top:12px' : 'margin-bottom:12px'}">
@@ -74,10 +87,11 @@ export async function render(el, ctx) {
       ${topic.shortAnswers.map((s, i) => `<div class="prose" data-editpath="shortAnswers.${i}.question">${formatText(s.question)}</div>
       <details><summary>Υπόδειγμα απάντησης</summary><div class="prose" data-editpath="shortAnswers.${i}.modelAnswer">${formatText(s.modelAnswer)}</div></details>`).join('')}
     </div>` : ''}
-    ${topic.examQuestion ? `<div class="card">
-      <div class="row"><h2 class="grow">📝 Θέμα εξέτασης</h2>${editBtn(topic.id)}</div>
-      <div class="prose" data-editpath="examQuestion.question">${formatText(topic.examQuestion.question)}</div>
-      <details><summary>Υπόδειγμα απάντησης</summary><div class="prose" data-editpath="examQuestion.modelAnswer">${formatText(topic.examQuestion.modelAnswer)}</div></details>
+    ${examQuestions.length ? `<div class="card">
+      <div class="row"><h2 class="grow">📝 ${examQuestions.length > 1 ? 'Θέματα εξέτασης' : 'Θέμα εξέτασης'}</h2>${editBtn(topic.id)}</div>
+      ${examQuestions.map((q, i) => `
+        <div class="prose" data-editpath="${examPath(topic, i, 'question')}">${formatText(q.question)}</div>
+        <details><summary>Υπόδειγμα απάντησης</summary><div class="prose" data-editpath="${examPath(topic, i, 'modelAnswer')}">${formatText(q.modelAnswer)}</div></details>`).join('')}
     </div>` : ''}
     <div class="card" id="check">
       ${questions.length ? `<h2>✅ Έλεγχος κατανόησης</h2>

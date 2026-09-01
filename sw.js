@@ -1,4 +1,4 @@
-const CACHE = 'ale-v18'; // bump on every content/app update
+const CACHE = 'ale-v19'; // bump on every content/app update
 // Every ES module the app boots from must be precached. Without them the
 // activate step (which deletes the previous cache) could leave the app
 // unbootable offline if the network drops before the modules are fetched.

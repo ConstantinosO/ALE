@@ -193,3 +193,16 @@ test('settings merge: excludedChapters combines imported-only courses, local win
   assert.deepEqual(m.settings.excludedChapters.courseA, ['ch1']); // local wins
   assert.deepEqual(m.settings.excludedChapters.courseB, ['ch2']); // imported-only fills in
 });
+
+test('importing an old snapshot does not resurrect a retired topic id', () => {
+  const local = { ...freshState(), topics: {} };
+  const imported = {
+    version: 1,
+    topics: { 'z5-2': { mastery: 60, correct: 3, incorrect: 1, lastStudied: '2026-08-01T00:00:00.000Z' } },
+    stats: { badges: [] },
+    settings: {},
+  };
+  const out = mergeState(local, imported);
+  assert.equal(out.topics['z5-2'], undefined);
+  assert.equal(out.topics['z5-1'].mastery, 60);
+});

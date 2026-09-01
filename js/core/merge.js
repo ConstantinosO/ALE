@@ -1,3 +1,5 @@
+import { migrateTopics } from './store.js';
+
 export function validateSnapshot(o) {
   if (!o || typeof o !== 'object') return { ok: false, error: 'Μη έγκυρο αρχείο.' };
   if (o.version !== 1) return { ok: false, error: 'Μη υποστηριζόμενη έκδοση αρχείου.' };
@@ -20,9 +22,13 @@ function sanitizeTopic(imp) {
 }
 
 export function mergeState(local, imported) {
-  const topics = { ...local.topics };
-  for (const [id, imp] of Object.entries(imported.topics)) {
-    if (id === '__proto__' || id === 'constructor' || id === 'prototype') continue;
+  // Both sides go through migrateTopics: a snapshot exported from a device
+  // that has not seen the chapter-5/6 merge still carries z5-2 / z6-2, and
+  // importing it must not put those ids back.
+  const topics = migrateTopics(local.topics);
+  // migrateTopics also drops the __proto__/constructor/prototype keys this
+  // loop used to guard against, on both sides.
+  for (const [id, imp] of Object.entries(migrateTopics(imported.topics))) {
     const loc = topics[id];
     if (!loc) { topics[id] = sanitizeTopic(imp); continue; }
     const locT = loc.lastStudied ? Date.parse(loc.lastStudied) : 0;

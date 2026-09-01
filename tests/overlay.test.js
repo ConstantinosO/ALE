@@ -42,10 +42,13 @@ test('validPath accepts exactly the whitelist', () => {
   for (const p of ['summary', 'keyDefinitions.0.definition', 'killerFacts.3',
     'commonTraps.1', 'shortAnswers.2.question', 'shortAnswers.2.modelAnswer',
     'examQuestion.question', 'examQuestion.modelAnswer', 'mcq.5.explanation',
+    // chapters 5 and 6 hold a LIST of exam questions - see js/views/topic.js
+    'examQuestion.0.question', 'examQuestion.1.modelAnswer',
     'flashcards.1.back']) assert.ok(validPath(p), p);
   for (const p of ['mcq.0.correctIndex', 'mcq.0.options.1', 'title', 'id',
     '__proto__', 'keyDefinitions.0.term', 'flashcards.0.front',
-    'summary.constructor', '']) assert.ok(!validPath(p), p);
+    'summary.constructor', 'examQuestion.0', 'examQuestion.0.marks',
+    '']) assert.ok(!validPath(p), p);
 });
 
 test('getPath / setPath navigate dot-paths; setPath only overwrites strings', () => {

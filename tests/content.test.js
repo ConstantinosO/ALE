@@ -77,3 +77,31 @@ test('generated data files use canonical difficulty values', () => {
     }
   }
 });
+
+// Chapters 5 and 6 were collapsed to one topic each. Their two exam
+// questions came along as a list, so the shipped material must exercise the
+// array shape js/views/topic.js and the editor's PATH_RE both allow.
+test('chapters 5 and 6 are a single topic each, carrying both exam questions', () => {
+  const content = JSON.parse(readFileSync('data/klados-zois/content.json', 'utf8'));
+  for (const chId of ['z-ch05', 'z-ch06']) {
+    const ch = content.chapters.find((c) => c.id === chId);
+    assert.equal(ch.topics.length, 1, `${chId} should hold one topic`);
+    const qs = [].concat(ch.topics[0].examQuestion ?? []);
+    assert.equal(qs.length, 2, `${chId} should keep both exam questions`);
+    for (const q of qs) {
+      assert.ok(q.question?.trim() && q.modelAnswer?.trim(), `${chId} exam question is incomplete`);
+    }
+  }
+});
+
+test('no retired topic id survives anywhere in the shipped material', () => {
+  const content = JSON.parse(readFileSync('data/klados-zois/content.json', 'utf8'));
+  const bank = JSON.parse(readFileSync('data/klados-zois/essay-bank.json', 'utf8'));
+  const ids = new Set(content.chapters.flatMap((c) => c.topics.map((t) => t.id)));
+  for (const gone of ['z5-2', 'z6-2']) assert.ok(!ids.has(gone), `${gone} still in content`);
+  for (const holder of [...bank.entries, ...bank.miniDefinitions]) {
+    for (const tid of holder.topicIds || []) {
+      assert.ok(ids.has(tid), `${holder.id} points at missing topic ${tid}`);
+    }
+  }
+});

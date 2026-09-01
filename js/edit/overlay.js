@@ -3,7 +3,9 @@
 // into ale.v1 progress snapshots.
 export const EDITS_KEY = 'ale.edits.v1';
 
-const PATH_RE = /^(summary|keyDefinitions\.\d+\.definition|killerFacts\.\d+|commonTraps\.\d+|shortAnswers\.\d+\.(question|modelAnswer)|examQuestion\.(question|modelAnswer)|mcq\.\d+\.explanation|flashcards\.\d+\.back)$/;
+// examQuestion is a lone object on most topics and a list on the merged
+// chapters 5 and 6, so its index segment is optional — see js/views/topic.js.
+const PATH_RE = /^(summary|keyDefinitions\.\d+\.definition|killerFacts\.\d+|commonTraps\.\d+|shortAnswers\.\d+\.(question|modelAnswer)|examQuestion\.(\d+\.)?(question|modelAnswer)|mcq\.\d+\.explanation|flashcards\.\d+\.back)$/;
 
 export function validPath(path) { return PATH_RE.test(String(path ?? '')); }
 
