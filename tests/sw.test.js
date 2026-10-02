@@ -32,9 +32,18 @@ test('CORE lists no JS file that does not exist', () => {
   assert.deepEqual(ghosts, [], 'addAll() rejects wholesale on a 404');
 });
 
-test('CORE still covers the shell and keeps the ale-v27 cache name', () => {
+test('CORE still covers the shell and keeps the ale-v28 cache name', () => {
   for (const f of ['./', './index.html', './css/app.css', './manifest.webmanifest']) {
     assert.ok(CORE.includes(f), f);
   }
-  assert.ok(/const CACHE = 'ale-v27'/.test(sw));
+  assert.ok(/const CACHE = 'ale-v28'/.test(sw));
+});
+
+// Pages sends max-age=600; without these the worker served (and even
+// precached) copies up to ten minutes stale after a deploy.
+test('the worker bypasses the HTTP cache when precaching and revalidates at runtime', () => {
+  const sw = readFileSync('sw.js', 'utf8');
+  assert.match(sw, /new Request\(u, \{ cache: 'reload' \}\)/);
+  assert.match(sw, /cache: 'no-cache'/);
+  assert.match(sw, /mode === 'navigate'/);
 });

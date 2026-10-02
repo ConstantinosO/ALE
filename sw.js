@@ -1,4 +1,4 @@
-const CACHE = 'ale-v27'; // bump on every content/app update
+const CACHE = 'ale-v28'; // bump on every content/app update
 // Every ES module the app boots from must be precached. Without them the
 // activate step (which deletes the previous cache) could leave the app
 // unbootable offline if the network drops before the modules are fetched.
@@ -39,8 +39,17 @@ const CORE = [
   './js/views/topic.js',
 ];
 
+// GitHub Pages serves everything with Cache-Control: max-age=600, so a plain
+// fetch may be answered by the browser's HTTP cache with a copy up to ten
+// minutes stale. Two consequences, both seen in practice: a fresh deploy kept
+// showing old material, and — worse — a NEW worker could precache OLD files
+// into its brand-new cache. Precaching therefore bypasses the HTTP cache
+// ('reload'), and every runtime fetch revalidates ('no-cache': an ETag check,
+// a cheap 304 when nothing changed).
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE)
+    .then((c) => c.addAll(CORE.map((u) => new Request(u, { cache: 'reload' }))))
+    .then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -52,8 +61,13 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET' || !e.request.url.startsWith(self.location.origin)) return;
+  // A navigation Request cannot be re-made with an init (the constructor
+  // throws for mode 'navigate'), so page loads are re-fetched by URL.
+  const fresh = e.request.mode === 'navigate'
+    ? fetch(e.request.url, { cache: 'no-cache', credentials: 'same-origin' })
+    : fetch(e.request, { cache: 'no-cache' });
   e.respondWith(
-    fetch(e.request)
+    fresh
       .then((res) => {
         if (res.ok) {
           const copy = res.clone();
