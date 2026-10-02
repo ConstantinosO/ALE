@@ -276,3 +276,16 @@ test('the shipped essay bank passes validation and every topic/chapter link reso
     }
   }
 });
+
+// Q1 is on every paper. Its personal half must keep the slide's structure —
+// two groups, protection split into three — not the flat seven-item list it
+// once had, which dropped the ανικανότητα and ιατρική αρωγή branches and
+// filed «έκτακτες ανάγκες» under protection instead of savings.
+test('Q1 personal needs follow the slide: 2 groups, 3 protection branches', () => {
+  const e = JSON.parse(readFileSync('data/klados-zois/essay-bank.json', 'utf8')).entries.find((x) => x.id === 'e-anagkes');
+  for (const must of ['Ανάγκες Προστασίας', 'Ανάγκες Συστηματικής Αποταμίευσης', 'πρόωρου θανάτου',
+    'ανικανότητας', 'Ιατρική αρωγή και περίθαλψη', 'Διαχείριση κληρονομικών θεμάτων',
+    'Χρήματα για άλλες ανάγκες (ανεργία, απρόβλεπτα, έκτακτα)']) {
+    assert.ok(e.modelAnswer.includes(must), `model answer is missing «${must}»`);
+  }
+});
