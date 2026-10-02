@@ -3,6 +3,7 @@ import { formatText } from '../core/format.js';
 import { editBtn, wireEditing, confirmLeaveEdit } from '../edit/editor.js';
 import { loadEdits, pendingCount } from '../edit/overlay.js';
 import { allTopics } from '../core/content.js';
+import { diagramsFor } from '../core/diagrams.js';
 import { newTopicProgress, recordAnswer, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
 
@@ -89,6 +90,11 @@ export async function render(el, ctx) {
       <div class="row"><span class="grow"></span>${editBtn(topic.id)}</div>
       <div class="prose" data-editpath="summary">${formatText(topic.summary) || '<span class="muted">Χωρίς σύνοψη.</span>'}</div>
     </div>
+    ${diagramsFor(topic.id).map((d) => `<div class="card">
+      <h2>📊 ${escapeHtml(d.title)}</h2>
+      ${d.svg}
+      <p class="muted" style="font-size:13px;margin:10px 0 0">${escapeHtml(d.caption)}</p>
+    </div>`).join('')}
     ${topic.keyDefinitions.length ? `<div class="card">
       <div class="row"><h2 class="grow">📖 Βασικοί ορισμοί</h2>${editBtn(topic.id)}</div>
       ${topic.keyDefinitions.map((d, i) => `<p style="margin-bottom:2px"><b>${escapeHtml(d.term)}:</b></p>
