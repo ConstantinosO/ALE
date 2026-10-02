@@ -127,3 +127,16 @@ test('the trust (καταπίστευμα) definitions carry no court and keep r
     assert.doesNotMatch(s, /δικαιούχο πρόσωπο[^"]{0,80}ενεργεί ως καταπιστευματοδόχος/);
   }
 });
+
+// Slide Κεφ. 4, απαράγραπτες επιλογές 1(α)/(β): Μειωμένο Αποπληρωμένο keeps
+// cover for a REDUCED amount; Ελεύθερο Περαιτέρω Πληρωμών (paid-up) KEEPS the
+// original sum assured, with charges taken from the units. The material once
+// gave paid-up the reduced amount and "cancelled covers", contradicting its
+// own definition card. The user chose to follow the slide.
+test('paid-up is never given the reduced amount or cancelled covers', () => {
+  for (const f of ['data/klados-zois/content.json', 'data/klados-zois/essay-bank.json']) {
+    const s = readFileSync(f, 'utf8');
+    assert.doesNotMatch(s, /(Paid.?up|Ελεύθερο Περαιτέρω Πληρωμών)(?:(?!Μειωμένο Αποπληρωμένο|\(α\))[^.·"]){0,140}μειωμένο ποσό/i, f);
+    assert.doesNotMatch(s, /(Paid.?up|Ελεύθερο Περαιτέρω)(?:(?!Μειωμένο Αποπληρωμένο|\(α\))[^.·"]){0,100}καταργ/i, f);
+  }
+});
