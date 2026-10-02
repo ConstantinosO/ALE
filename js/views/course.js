@@ -19,6 +19,7 @@ export async function render(el, ctx) {
       <a class="btn btn-ghost" href="#/analysis/${course.id}">Ανάλυση</a>
       <a class="btn btn-ghost" href="#/essay/${course.id}">📝 Εξέταση εκθέσεων (6 από 8)</a>
       <a class="btn btn-ghost" href="#/essaybank/${course.id}">📚 Τράπεζα θεμάτων</a>
+      <a class="btn btn-ghost" href="#/recall/${course.id}">✍️ Από μνήμης</a>
     </div>
     ${content.chapters.map((ch) => `
       <div class="card">

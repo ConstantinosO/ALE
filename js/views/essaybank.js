@@ -91,6 +91,7 @@ export async function render(el, ctx) {
         ${(e.keyPoints || []).length ? `<h3>Βασικά σημεία</h3>
           <ul>${e.keyPoints.map((k) => `<li><div class="prose">${formatText(k)}</div></li>`).join('')}</ul>` : ''}
         ${e.modelAnswer ? `<details><summary>Υπόδειγμα απάντησης</summary><div class="prose">${formatText(e.modelAnswer)}</div></details>` : ''}
+        ${e.slot !== 8 ? `<a class="btn btn-ghost" style="margin-top:8px" href="#/recall/${courseId}/${encodeURIComponent(e.id)}">✍️ Δοκίμασέ το από μνήμης</a>` : ''}
       </div>`).join('')}
     <div class="card">
       <h2>Δεξαμενή σύντομων ορισμών</h2>
@@ -103,6 +104,7 @@ export async function render(el, ctx) {
             <span class="pill">${Number(m.times) || 0}/${minidefsPapers} δοκίμια με αυτή την ερώτηση</span></div>
           ${(m.keyPoints || []).length ? `<ul>${m.keyPoints.map((k) => `<li><div class="prose">${formatText(k)}</div></li>`).join('')}</ul>` : ''}
           ${m.modelAnswer ? `<details><summary>Υπόδειγμα απάντησης</summary><div class="prose">${formatText(m.modelAnswer)}</div></details>` : ''}
+          <a class="btn btn-ghost" style="margin-top:6px" href="#/recall/${courseId}/${encodeURIComponent(m.id)}">✍️ Από μνήμης</a>
         </div>`).join('') || '<p class="muted">Χωρίς ορισμούς ακόμη.</p>'}
     </div>`;
 }

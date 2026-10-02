@@ -44,3 +44,11 @@ test('unknown or incomplete routes fall back to dashboard', () => {
   assert.equal(parseRoute('#/nonsense').view, 'dashboard');
   assert.equal(parseRoute('#/course').view, 'dashboard');
 });
+
+test('recall routes to the picker, or straight to one item', () => {
+  assert.deepEqual(parseRoute('#/recall/klados-zois'),
+    { view: 'recall', params: { courseId: 'klados-zois', itemId: null } });
+  assert.deepEqual(parseRoute('#/recall/klados-zois/e-anagkes'),
+    { view: 'recall', params: { courseId: 'klados-zois', itemId: 'e-anagkes' } });
+  assert.equal(parseRoute('#/recall').view, 'dashboard');
+});
