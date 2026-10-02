@@ -56,7 +56,7 @@ function investmentPyramid() {
   ], 'Η Πυραμίδα των Επενδύσεων');
   return {
     title: 'Η Πυραμίδα των Επενδύσεων',
-    svg: svg(p.h, p.label, p.body),
+    html: svg(p.h, p.label, p.body),
     caption: 'Όσο ψηλότερα στην πυραμίδα, τόσο μεγαλύτερο το ρίσκο και η δυνητική απόδοση — και τόσο μικρότερο μέρος του χαρτοφυλακίου ενός συνετού επενδυτή πρέπει να καταλαμβάνει.',
   };
 }
@@ -80,7 +80,7 @@ function needsPyramid() {
   const legend = sw(8, 0.28, 'Προστασία') + sw(120, 0.62, 'Συσσώρευση') + sw(240, 1, 'Κατανομή πλούτου');
   return {
     title: 'Ιεράρχηση Ασφαλιστικών Αναγκών (πυραμίδα του Μάσλοου)',
-    svg: svg(ly + 22, p.label, p.body + legend),
+    html: svg(ly + 22, p.label, p.body + legend),
     caption: 'Πρώτα καλύπτεται η βάση — η ασφαλιστική προστασία — και μόνο μετά οι ανάγκες συσσώρευσης και κατανομής πλούτου.',
   };
 }
@@ -119,7 +119,7 @@ function howItWorks() {
     + t(X1 - 10, Y1 - 14, 'αξία εξαγοράς', { weight: 700, fill: '#111228', anchor: 'end' });
   return {
     title: 'Πώς δουλεύει μια ασφάλεια ζωής',
-    svg: svg(222, 'Το ποσό θανάτου χωρίζεται σε απόθεμα και ρίσκο ασφαλιστή καθώς μεγαλώνει η ηλικία', body),
+    html: svg(222, 'Το ποσό θανάτου χωρίζεται σε απόθεμα και ρίσκο ασφαλιστή καθώς μεγαλώνει η ηλικία', body),
     caption: 'Το ποσό θανάτου μένει σταθερό. Καθώς το απόθεμα μεγαλώνει, μικραίνει το μέρος που καλύπτει ο ασφαλιστής από δικό του ρίσκο. Η απλή πρόσκαιρη (Term) δεν συσσωρεύει αξία εξαγοράς.',
   };
 }
@@ -159,15 +159,116 @@ function renewableVsLevel() {
     + t(X1 - 6, levelY + 18, '↑ χρήση αποθέματος', { size: 11.5, anchor: 'end' });
   return {
     title: 'Ετήσιο ανανεώσιμο έναντι σταθερού ασφαλίστρου',
-    svg: svg(222, 'Το σταθερό ασφάλιστρο υπερβαίνει το κόστος ηλικίας στα πρώτα χρόνια και υπολείπεται στα τελευταία', body),
+    html: svg(222, 'Το σταθερό ασφάλιστρο υπερβαίνει το κόστος ηλικίας στα πρώτα χρόνια και υπολείπεται στα τελευταία', body),
     caption: 'Τα ασφάλιστρα ζωής αυξάνονται με την ηλικία. Με σταθερό ασφάλιστρο, στα πρώτα χρόνια πληρώνεις περισσότερο από το πραγματικό κόστος — το περίσσευμα γίνεται απόθεμα, που καλύπτει τη διαφορά στα τελευταία χρόνια.',
+  };
+}
+
+function savingsCycle() {
+  // Slide 17, «Αποταμιευτικός Κύκλος στις Ασφαλίσεις Ζωής», in the Unit
+  // Linked section: regular premiums build capital over the years, and the
+  // insurer's risk is whatever the capital has not yet reached of the death
+  // benefit. The curve's shape is illustrative.
+  const top = Y0 + 8;
+  const capY = (u) => Y1 - (Y1 - top) * Math.pow(u, 1.35);
+  const curve = path(capY);
+  // A row of premium arrows under the axis, one per "year".
+  let premiums = '';
+  for (let i = 0; i < 12; i++) {
+    const x = X0 + 14 + i * ((X1 - X0 - 28) / 11);
+    premiums += `<path d="M${x.toFixed(1)},${Y1 + 15} L${x.toFixed(1)},${Y1 + 5} M${(x - 3).toFixed(1)},${Y1 + 8} L${x.toFixed(1)},${Y1 + 4} L${(x + 3).toFixed(1)},${Y1 + 8}" stroke="var(--gold)" stroke-width="1.6" fill="none"/>`;
+  }
+  const body = `<line x1="${X0}" y1="${Y1}" x2="${X1}" y2="${Y1}" stroke="var(--muted)" stroke-width="1.5"/>`
+    + `<line x1="${X0}" y1="${Y0 - 6}" x2="${X0}" y2="${Y1}" stroke="var(--muted)" stroke-width="1.5"/>`
+    + `<polygon points="${X0},${Y0 - 10} ${X0 - 4},${Y0 - 3} ${X0 + 4},${Y0 - 3}" fill="var(--muted)"/>`
+    + t(16, (Y0 + Y1) / 2, 'Αξίες (€)', { size: 12, fill: 'var(--muted)', anchor: 'middle', extra: `transform="rotate(-90 16 ${(Y0 + Y1) / 2})"` })
+    + `<path d="${curve} L${X1},${Y1} L${X0},${Y1} Z" fill="var(--gold)" fill-opacity="0.85"/>`
+    + `<path d="${curve} L${X1},${top} L${X0},${top} Z" fill="var(--border)"/>`
+    + `<line x1="${X0}" y1="${top}" x2="${X1}" y2="${top}" stroke="var(--text)" stroke-width="2"/>`
+    + t(X0 + 6, top - 5, 'Ασφάλισμα Θανάτου', { size: 11.5, weight: 700 })
+    + t(X0 + 14, top + 34, 'Ρίσκο Ασφαλιστή', { weight: 700 })
+    + t(X1 - 10, Y1 - 30, 'Κεφάλαιο', { weight: 700, fill: '#111228', anchor: 'end' })
+    + t(X1 - 10, Y1 - 14, '(απόθεμα)', { size: 11.5, weight: 700, fill: '#111228', anchor: 'end' })
+    + premiums
+    + t(X0, Y1 + 30, 'Ασφάλιστρα', { size: 11.5, fill: 'var(--muted)' })
+    + t(X1, Y1 + 30, 'Έτη →', { size: 12, fill: 'var(--muted)', anchor: 'end' });
+  return {
+    title: 'Αποταμιευτικός Κύκλος στις Ασφαλίσεις Ζωής',
+    html: svg(236, 'Τα τακτικά ασφάλιστρα χτίζουν κεφάλαιο με τα έτη, ενώ μικραίνει το ρίσκο του ασφαλιστή', body),
+    caption: 'Τα τακτικά ασφάλιστρα χτίζουν με τα έτη κεφάλαιο (απόθεμα)· το ρίσκο του ασφαλιστή είναι ό,τι λείπει ακόμη μέχρι το ασφάλισμα θανάτου. Στα Unit Linked η αξία αυτή δεν είναι εγγυημένη — εξαρτάται από την απόδοση των επενδύσεων με τις οποίες συνδέονται.',
+  };
+}
+
+function healthComparison() {
+  // Slide 43, «Ατομική Υγείας Vs. Ομαδική Υγείας», row for row. Two rows
+  // come out of the PDF with their cells interleaved; they are read in
+  // column order, which is also how z9-4's own material reads them.
+  const rows = [
+    ['Προστασία από αλλαγή εργασίας', 'Περιορισμένη', 'Ναι'],
+    ['Διάρκεια σχεδίου', 'Βραχυπρόθεσμη, ανανεώσιμη', 'Μακροπρόθεσμη, ανανεώσιμη'],
+    ['Επιλογή ιατρικών παρόχων', 'Πιθανόν περιορισμένη', 'Κυρίως απεριόριστη'],
+    ['Ασφάλιστρα', 'Συνήθως χαμηλότερα', 'Κυρίως μεγαλύτερα'],
+    ['Ποιος είναι ο αγοραστής;', 'Ο εργοδότης, με συνεισφορές των εργοδοτουμένων', 'Το άτομο'],
+    ['Επιλογή καλύψεων / εξαιρέσεων', 'Ευέλικτη επιλογή καλύψεων και εξαιρέσεων', 'Επιλογή από σταθερά προγράμματα'],
+    ['Συγκριτικά όρια κάλυψης', 'Χαμηλότερα, αναλόγως δυνατοτήτων του εργοδότη', 'Υψηλότερα'],
+    ['Έκταση κάλυψης', 'Συνήθως τοπικά', 'Μέχρι και παγκόσμια'],
+    ['Ασφαλισιμότητα', 'Ανάμεσα στα μέλη της ομάδας', 'Σε σύγκριση με όλο τον πληθυσμό'],
+  ];
+  const e = escapeHtml;
+  // Each comparison point is a full-width heading row with the two answers
+  // side by side beneath it. Three columns on a phone left ~100px per cell,
+  // which broke words like «Βραχυπρόθεσμη» in the middle.
+  const html = `<div class="cmp-wrap"><table class="cmp">
+    <thead><tr><th>Ομαδική Υγείας</th><th>Ατομική / Οικογενειακή Υγείας</th></tr></thead>
+    <tbody>${rows.map(([k, g, i]) => `<tr class="cmp-k"><th colspan="2" scope="colgroup">${e(k)}</th></tr><tr><td>${e(g)}</td><td>${e(i)}</td></tr>`).join('')}</tbody>
+  </table></div>`;
+  return {
+    title: 'Ατομική έναντι Ομαδικής Ασφάλισης Υγείας',
+    html,
+    caption: 'Όπως στη διαφάνεια της ύλης. Η ομαδική κερδίζει σε κόστος· η ατομική σε διάρκεια, επιλογή παρόχων, όρια και έκταση κάλυψης, και σε προστασία όταν αλλάζεις δουλειά.',
+  };
+}
+
+function householdGoals() {
+  // Slide 59, «Στόχοι Νοικοκυριών»: one goal per life stage against ΕΣΟΔΑ.
+  // The column heights follow the slide's vertical layout — Δημιουργία
+  // Περιουσίας lowest, Μέλλον των παιδιών highest, the other two between —
+  // and carry no values.
+  const stages = [
+    { stage: ['Ελεύθεροι'], goal: ['Δημιουργία', 'Περιουσίας'], h: 0.34, shade: 0.35 },
+    { stage: ['Παντρεμένοι', 'χωρίς παιδιά'], goal: ['Προστασία', 'Οικογένειας'], h: 0.62, shade: 0.55 },
+    { stage: ['Οικογένεια', 'με παιδιά'], goal: ['Μέλλον των', 'παιδιών'], h: 0.9, shade: 1 },
+    { stage: ['Αφυπηρέτηση'], goal: ['Προγραμματισμός', 'Αφυπηρέτησης'], h: 0.62, shade: 0.55 },
+  ];
+  const base = 180, ceil = 40, colW = 78, gap = 9, left = 40;
+  let body = `<line x1="${left - 8}" y1="${base}" x2="392" y2="${base}" stroke="var(--muted)" stroke-width="1.5"/>`
+    + `<line x1="${left - 8}" y1="${ceil - 22}" x2="${left - 8}" y2="${base}" stroke="var(--muted)" stroke-width="1.5"/>`
+    + `<polygon points="${left - 8},${ceil - 26} ${left - 12},${ceil - 19} ${left - 4},${ceil - 19}" fill="var(--muted)"/>`
+    + t(16, (ceil + base) / 2, 'Έσοδα', { size: 12, fill: 'var(--muted)', anchor: 'middle', extra: `transform="rotate(-90 16 ${(ceil + base) / 2})"` });
+  stages.forEach((s, i) => {
+    const x = left + i * (colW + gap);
+    const yTop = base - (base - ceil) * s.h;
+    const cx = x + colW / 2;
+    body += `<rect x="${x}" y="${yTop}" width="${colW}" height="${base - yTop}" rx="4" fill="var(--gold)" fill-opacity="${s.shade}" stroke="var(--gold)"/>`;
+    // Goal names above the column, stage names below the axis.
+    s.goal.forEach((l, k) => { body += t(cx, yTop - 8 - 13 * (s.goal.length - 1 - k), l, { size: 11, weight: 700, anchor: 'middle' }); });
+    s.stage.forEach((l, k) => { body += t(cx, base + 15 + 13 * k, l, { size: 11, fill: 'var(--muted)', anchor: 'middle' }); });
+  });
+  body += t(392, base + 44, 'Στάδιο ζωής →', { size: 12, fill: 'var(--muted)', anchor: 'end' });
+  return {
+    title: 'Στόχοι Νοικοκυριών ανά στάδιο ζωής',
+    html: svg(base + 54, 'Οι στόχοι του νοικοκυριού ανά στάδιο ζωής', body),
+    caption: 'Οι ελεύθεροι χτίζουν περιουσία, οι οικογένειες εστιάζουν στην προστασία και στο μέλλον των παιδιών, και όσοι πλησιάζουν την αφυπηρέτηση στον προγραμματισμό της.',
   };
 }
 
 const BUILDERS = {
   'z2-4': [howItWorks, renewableVsLevel],
+  'z3-3': [savingsCycle],
+  'z9-4': [healthComparison],
   'z11-3': [investmentPyramid],
   'z12-1': [needsPyramid],
+  'z12-3': [householdGoals],
 };
 
 export function diagramsFor(topicId) {

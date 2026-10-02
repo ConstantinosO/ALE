@@ -298,6 +298,19 @@ input[type="date"], input[type="file"] {
 .badge .name { font-size: 11px; }
 table.freq { width: 100%; border-collapse: collapse; font-size: 14px; }
 table.freq td, table.freq th { padding: 6px 4px; border-bottom: 1px solid var(--border); text-align: left; }
+/* Comparison table from the slides (js/core/diagrams.js). Three columns fit a
+   phone at this size; the wrapper scrolls the table, never the page, if a
+   cell ever outgrows it. No media queries, so nothing leaks between bands. */
+.cmp-wrap { overflow-x: auto; }
+/* table-layout: fixed is load-bearing. With auto layout the longest Greek
+   words set the table's min-content width, and that propagated up through
+   the view and stretched the whole page to 412px on a 375px phone — the
+   wrapper's overflow never got the chance to scroll. */
+table.cmp { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 13px; line-height: 1.35; }
+table.cmp th, table.cmp td { padding: 6px 6px; text-align: left; vertical-align: top; overflow-wrap: break-word; }
+table.cmp thead th { font-size: 12px; color: var(--muted); border-bottom: 2px solid var(--gold); width: 50%; }
+table.cmp tr.cmp-k th { font-weight: 700; padding-top: 10px; padding-bottom: 2px; }
+table.cmp tr:not(.cmp-k) td { border-bottom: 1px solid var(--border); padding-bottom: 9px; }
 
 /* --- essay mode: mock exam (js/views/essayexam.js) + bank (essaybank.js) --- */
 .essay-textarea {

@@ -92,7 +92,7 @@ export async function render(el, ctx) {
     </div>
     ${diagramsFor(topic.id).map((d) => `<div class="card">
       <h2>📊 ${escapeHtml(d.title)}</h2>
-      ${d.svg}
+      ${d.html}
       <p class="muted" style="font-size:13px;margin:10px 0 0">${escapeHtml(d.caption)}</p>
     </div>`).join('')}
     ${topic.keyDefinitions.length ? `<div class="card">
