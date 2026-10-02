@@ -140,3 +140,21 @@ test('paid-up is never given the reduced amount or cancelled covers', () => {
     assert.doesNotMatch(s, /(Paid.?up|Ελεύθερο Περαιτέρω)(?:(?!Μειωμένο Αποπληρωμένο|\(α\))[^.·"]){0,100}καταργ/i, f);
   }
 });
+
+// Group life: the minimum group of 10 and the 75%-full-time condition for
+// skipping individual evidence are both on the slides and z5-1's summary,
+// and must reach the exam answers and the bank, not just the topic page.
+test('group-life answers carry the 10-person and 75% full-time conditions', () => {
+  const c = JSON.parse(readFileSync('data/klados-zois/content.json', 'utf8'));
+  const b = JSON.parse(readFileSync('data/klados-zois/essay-bank.json', 'utf8'));
+  const z = c.chapters.flatMap((ch) => ch.topics).find((t) => t.id === 'z5-1');
+  const texts = [...[].concat(z.examQuestion).map((q) => q.modelAnswer),
+    b.entries.find((e) => e.id === 'e-omadiki').modelAnswer];
+  for (const s of texts) {
+    assert.match(s, /τουλάχιστον 10 άτομα/);
+    assert.match(s, /75%[^.]*πλήρες ωράριο/);
+  }
+  // and nothing broke «π.χ.» while being edited (a lone «π.» before a capital;
+  // «συμπ. Πρόσοδοι» in a chapter title is a different, legitimate abbreviation)
+  for (const s of [JSON.stringify(c), JSON.stringify(b)]) assert.doesNotMatch(s, /(?<![πΠ])\.χ\.|(?<![α-ωά-ώΑ-ΩΆ-Ώ])π\.\s+[Α-ΩΆ-Ώ]/);
+});
