@@ -105,3 +105,12 @@ test('no retired topic id survives anywhere in the shipped material', () => {
     }
   }
 });
+
+// καθορισμένων συνεισφορών = Defined Contribution, καθορισμένων ωφελημάτων =
+// Defined Benefit. The two English labels were once added swapped during an
+// in-app edit of z6-1; nothing else in the material uses them.
+test('Greek and English pension-plan terms are paired correctly', () => {
+  const s = readFileSync('data/klados-zois/content.json', 'utf8');
+  assert.doesNotMatch(s, /συνεισφορ\S*\s*\(Defined Benefits?\)/i);
+  assert.doesNotMatch(s, /ωφελημάτων\s*\(Defined Contributions?\)/i);
+});
