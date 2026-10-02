@@ -114,3 +114,16 @@ test('Greek and English pension-plan terms are paired correctly', () => {
   assert.doesNotMatch(s, /συνεισφορ\S*\s*\(Defined Benefits?\)/i);
   assert.doesNotMatch(s, /ωφελημάτων\s*\(Defined Contributions?\)/i);
 });
+
+// A trust over a life policy is not made "before a court": the only court in
+// the source notes is disputed claims (Κεφ. 10), which had leaked into the
+// καταπίστευμα definitions. The trustee and the beneficiary are also distinct
+// roles - the trustee completes the claim form on the beneficiaries' behalf.
+test('the trust (καταπίστευμα) definitions carry no court and keep roles apart', () => {
+  const blobs = ['data/klados-zois/content.json', 'data/klados-zois/essay-bank.json']
+    .map((f) => readFileSync(f, 'utf8'));
+  for (const s of blobs) {
+    assert.doesNotMatch(s, /αταπίστευμα[^"]{0,300}δικαστ/);
+    assert.doesNotMatch(s, /δικαιούχο πρόσωπο[^"]{0,80}ενεργεί ως καταπιστευματοδόχος/);
+  }
+});
