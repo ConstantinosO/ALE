@@ -1,6 +1,7 @@
 import { escapeHtml, pageHeader } from '../ui.js';
 import { formatText } from '../core/format.js';
 import { validateEssayBank } from '../core/essay.js';
+import { verifyCard } from './topic.js';
 
 // Frequencies are measured against the real past papers the bank was built
 // from, so the denominator comes from the bank itself — adding a tenth paper
@@ -91,6 +92,7 @@ export async function render(el, ctx) {
         ${(e.keyPoints || []).length ? `<h3>Βασικά σημεία</h3>
           <ul>${e.keyPoints.map((k) => `<li><div class="prose">${formatText(k)}</div></li>`).join('')}</ul>` : ''}
         ${e.modelAnswer ? `<details><summary>Υπόδειγμα απάντησης</summary><div class="prose">${formatText(e.modelAnswer)}</div></details>` : ''}
+        ${verifyCard(e.unverified)}
         ${e.slot !== 8 ? `<a class="btn btn-ghost" style="margin-top:8px" href="#/recall/${courseId}/${encodeURIComponent(e.id)}">✍️ Δοκίμασέ το από μνήμης</a>` : ''}
       </div>`).join('')}
     <div class="card">

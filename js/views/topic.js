@@ -29,6 +29,18 @@ function bulletCard(heading, topic, field) {
     </div>`;
 }
 
+// Facts written from general insurance knowledge because no source the student
+// supplied covers them — shown so he verifies them before relying on them.
+export function verifyCard(items) {
+  const list = (items || []).filter((s) => String(s ?? '').trim());
+  if (!list.length) return '';
+  return `<div class="card">
+      <h2>⚠️ Προς επαλήθευση</h2>
+      <p class="muted" style="font-size:13px">Γράφτηκαν από γενική ασφαλιστική γνώση — δεν υπάρχουν στο υλικό σου. Έλεγξέ τα πριν τα χρησιμοποιήσεις.</p>
+      <ul>${list.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+    </div>`;
+}
+
 // Most topics carry a single examQuestion object. The two merged chapters
 // (5 and 6) carry a list, because folding two topics into one page brought
 // two real ΠΒΑΚ questions with it and demoting either to a "short answer"
@@ -100,6 +112,7 @@ export async function render(el, ctx) {
       ${topic.keyDefinitions.map((d, i) => `<p style="margin-bottom:2px"><b>${escapeHtml(d.term)}:</b></p>
         <div class="prose" data-editpath="keyDefinitions.${i}.definition" style="margin-bottom:10px">${formatText(d.definition)}</div>`).join('')}
     </div>` : ''}
+    ${verifyCard(topic.generalKnowledge)}
     ${bulletCard('💡 Κρίσιμα σημεία', topic, 'killerFacts')}
     ${bulletCard('⚠️ Συνήθεις παγίδες', topic, 'commonTraps')}
     ${(topic.shortAnswers || []).length ? `<div class="card">

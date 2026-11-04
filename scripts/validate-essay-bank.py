@@ -3,8 +3,10 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 # Valid ids come from the course content itself, so this stays correct as the
 # material changes. Run from the repo root: python scripts/validate-essay-bank.py
-CONTENT = 'data/klados-zois/content.json'
-BANK = 'data/klados-zois/essay-bank.json'
+# Usage: python scripts/validate-essay-bank.py [courseId]   (default klados-zois)
+COURSE = sys.argv[1] if len(sys.argv) > 1 else 'klados-zois'
+CONTENT = f'data/{COURSE}/content.json'
+BANK = f'data/{COURSE}/essay-bank.json'
 VALID_TOPICS = set()
 VALID_CHAPTERS = set()
 _content = json.load(open(CONTENT, encoding='utf-8'))
@@ -34,7 +36,9 @@ def check_entry(e, errs, warns, src):
     eid = e.get('id','?')
     for f in ('id','title','prompts','chapterId','topicIds','frequency','lastSeen','slot','trend','keyPoints','modelAnswer'):
         if f not in e: errs.append(f"{src}:{eid} missing field {f}")
-    if eid in EXPECT:
+    if COURSE != 'klados-zois':
+        pass  # EXPECT pins Κλάδος Ζωής' corpus; other banks carry their own metadata
+    elif eid in EXPECT:
         fr, ls, sl, tr = EXPECT[eid]
         if e.get('frequency') != fr: errs.append(f"{src}:{eid} frequency {e.get('frequency')} != {fr}")
         if e.get('lastSeen') != ls: errs.append(f"{src}:{eid} lastSeen {e.get('lastSeen')} != {ls}")
@@ -50,7 +54,7 @@ def check_entry(e, errs, warns, src):
     # e-minidefs keyPoints are how-to-answer guidance; its real rubric lives per item
     # The cap keeps rubric points tickable, not to limit coverage: an entry that
     # must answer several question variants legitimately carries more points.
-    cap = 12 + 2 * max(0, len(e.get('prompts') or []) - 1)
+    cap = 14 + 2 * max(0, len(e.get('prompts') or []) - 1)  # 4-part (α–δ) questions need ~14
     if eid != 'e-minidefs' and not (6 <= len(kp) <= cap):
         errs.append(f"{src}:{eid} keyPoints {len(kp)} outside 6-{cap}")
     for k in kp:
@@ -96,6 +100,6 @@ if dupes: errs.append(f"duplicate entry ids: {dupes}")
 print(f"entries: {len(entries)}  minis: {len(minis)}")
 print(f"ERRORS ({len(errs)}):");  [print('  ✗', e) for e in errs]
 print(f"WARNINGS ({len(warns)}):"); [print('  ~', w) for w in warns]
-missing = set(EXPECT) - set(ids)
+missing = set(EXPECT) - set(ids) if COURSE == 'klados-zois' else set()
 if missing: print("MISSING ENTRIES:", sorted(missing))
 sys.exit(1 if errs else 0)
