@@ -434,3 +434,6 @@ table.cmp tr:not(.cmp-k) td { border-bottom: 1px solid var(--border); padding-bo
   .ring-fill { transition: none; }
   .sidebar-chevron { transition: none; }
 }
+/* End-of-session wrap-up (js/core/wrapup.js) */
+.wrapup { margin: 12px 0; padding: 10px 12px; border-radius: 10px; background: var(--bg); text-align: left; }
+.wrapup-line { margin: 0; font-weight: 700; }

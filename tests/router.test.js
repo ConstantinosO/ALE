@@ -52,3 +52,10 @@ test('recall routes to the picker, or straight to one item', () => {
     { view: 'recall', params: { courseId: 'klados-zois', itemId: 'e-anagkes' } });
   assert.equal(parseRoute('#/recall').view, 'dashboard');
 });
+
+test('warm-up runs once per day, only when something is due', async () => {
+  const { shouldWarmUp } = await import('../js/views/dashboard.js');
+  assert.equal(shouldWarmUp(null, '2026-11-06', 3), true);
+  assert.equal(shouldWarmUp('2026-11-06', '2026-11-06', 3), false);
+  assert.equal(shouldWarmUp('2026-11-05', '2026-11-06', 0), false);
+});

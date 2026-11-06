@@ -1,4 +1,4 @@
-const CACHE = 'ale-v31'; // bump on every content/app update
+const CACHE = 'ale-v32'; // bump on every content/app update
 // Every ES module the app boots from must be precached. Without them the
 // activate step (which deletes the previous cache) could leave the app
 // unbootable offline if the network drops before the modules are fetched.
@@ -20,6 +20,7 @@ const CORE = [
   './js/core/srs.js',
   './js/core/stats.js',
   './js/core/store.js',
+  './js/core/wrapup.js',
   './js/edit/editor.js',
   './js/edit/github.js',
   './js/edit/overlay.js',

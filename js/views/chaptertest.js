@@ -1,4 +1,5 @@
 import { escapeHtml, pageHeader } from '../ui.js';
+import { tally, wrapUpHtml } from '../core/wrapup.js';
 import { formatText } from '../core/format.js';
 import { newTopicProgress, recordAnswer, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
@@ -67,6 +68,7 @@ export async function render(el, ctx) {
     let correctCount = 0;
     let xpEarned = 0;
     const perTopic = {};
+    const answered = [];
 
     const show = () => {
       const { topicTitle, q } = questions[i];
@@ -102,6 +104,7 @@ export async function render(el, ctx) {
           perTopic[topicTitle] ??= { correct: 0, total: 0 };
           perTopic[topicTitle].total++;
           if (correct) perTopic[topicTitle].correct++;
+          answered.push({ topicId, topicTitle, correct });
 
           el.querySelectorAll('.qopt').forEach((b) => {
             b.disabled = true;
@@ -145,6 +148,7 @@ export async function render(el, ctx) {
             <div class="stat"><b>${pct}%</b><span>Επίδοση</span></div>
             <div class="stat"><b>+${xpEarned}</b><span>XP</span></div>
           </div>
+          ${wrapUpHtml(tally(answered), courseId)}
         </div>
         <div class="card">
           <h2>Ανά θέμα</h2>

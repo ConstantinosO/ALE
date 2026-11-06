@@ -1,4 +1,5 @@
 import { escapeHtml, pageHeader } from '../ui.js';
+import { tally, wrapUpHtml } from '../core/wrapup.js';
 import { pickExamQuestions } from '../core/picker.js';
 import { recordAnswer, newTopicProgress, XP } from '../core/progress.js';
 import { recordSession, evaluateBadges } from '../core/stats.js';
@@ -93,6 +94,7 @@ export async function render(el, ctx) {
       let correctCount = 0;
       let xpEarned = 0;
       const perTopic = {};
+      const answered = [];
       questions.forEach(({ topicId, topicTitle, q }, idx) => {
         const correct = answers[idx] === q.correctIndex;
         if (correct) { correctCount++; xpEarned += XP[q.difficulty] ?? 10; }
@@ -101,6 +103,7 @@ export async function render(el, ctx) {
         perTopic[topicTitle] ??= { correct: 0, total: 0 };
         perTopic[topicTitle].total++;
         if (correct) perTopic[topicTitle].correct++;
+        answered.push({ topicId, topicTitle, correct });
       });
       ctx.state.stats = recordSession(ctx.state.stats, { now: nowIso, xp: xpEarned, timeSeconds });
       const masteredTopics = Object.values(ctx.state.topics).filter((p) => p.mastery >= 80).length;
@@ -118,6 +121,7 @@ export async function render(el, ctx) {
             <div class="stat"><b>${pct}%</b><span>Επίδοση</span></div>
             <div class="stat"><b>${Math.round(timeSeconds / 60)}′</b><span>Χρόνος</span></div>
           </div>
+          ${wrapUpHtml(tally(answered), courseId)}
         </div>
         <div class="card">
           <h2>Ανά θέμα</h2>

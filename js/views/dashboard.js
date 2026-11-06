@@ -3,6 +3,16 @@ import { allTopics } from '../core/content.js';
 import { isDue } from '../core/srs.js';
 import { newTopicProgress } from '../core/progress.js';
 import { recentActivity, readinessPct } from '../shell.js';
+import { dateStr } from '../core/stats.js';
+
+// Warm-up: the first time the dashboard opens on a given day with reviews
+// due, go straight into them — reviews that wait for a tap tend not to
+// happen. Once per day per device (a convenience, so localStorage is fine and
+// every access is guarded); a return to «Αρχική» later never re-triggers it.
+const WARMUP_KEY = 'ale.warmup.v1';
+export function shouldWarmUp(lastDay, today, dueCount) {
+  return dueCount > 0 && lastDay !== today;
+}
 
 function ring(pct) {
   // Clamped at the render boundary, not upstream: a corrupted or hand-edited
@@ -45,6 +55,18 @@ export async function render(el, ctx) {
       if (c.status === 'active' && progs[i].weak) weak.push({ course: c, topic: ts[i] });
     }
     perCourse.push({ c, mastery, due, topicCount: ts.length });
+  }
+
+  const target = active.find((c) => perCourse.some((p) => p.c.id === c.id && p.due > 0));
+  if (target && (location.hash === '' || location.hash === '#/' || location.hash === '#')) {
+    const today = dateStr(new Date());
+    let last = null;
+    try { last = localStorage.getItem(WARMUP_KEY); } catch { /* storage unavailable */ }
+    if (shouldWarmUp(last, today, dueCount)) {
+      try { localStorage.setItem(WARMUP_KEY, today); } catch { /* best effort */ }
+      ctx.navigate(`#/quiz/${target.id}/warmup`);
+      return;
+    }
   }
 
   const s = ctx.state.stats;

@@ -5,19 +5,22 @@ import { recordSession, evaluateBadges } from '../core/stats.js';
 import { formatText } from '../core/format.js';
 import { editBtn, wireEditing, confirmLeaveEdit } from '../edit/editor.js';
 import { findTopic } from '../edit/overlay.js';
+import { tally, wrapUpHtml } from '../core/wrapup.js';
 
 const MODE_TITLES = {
   micro: '⚡ Γρήγορο Κουίζ',
   weak: '⚠️ Αδύναμα Σημεία',
   revision: '📅 Επανάληψη',
+  warmup: '🔥 Ζέσταμα',
 };
 
 export async function render(el, ctx) {
   const { courseId, mode } = ctx.params;
+  const pool = mode === 'warmup' ? 'revision' : mode;
   const content = await ctx.getContent(courseId);
   const excluded = ctx.state.settings.excludedChapters[courseId] || [];
   const questions = pickQuizQuestions({
-    content, topics: ctx.state.topics, mode,
+    content, topics: ctx.state.topics, mode: pool,
     now: new Date().toISOString(), excludedChapterIds: excluded, count: 10,
   });
 
@@ -25,7 +28,7 @@ export async function render(el, ctx) {
     el.innerHTML = `<div class="card"><h2>${MODE_TITLES[mode] || 'Κουίζ'}</h2>
       <p class="muted">${mode === 'weak'
         ? 'Κανένα αδύναμο θέμα — μπράβο! 🎉'
-        : mode === 'revision'
+        : pool === 'revision'
           ? 'Καμία επανάληψη δεν εκκρεμεί σήμερα. 🎉'
           : 'Δεν υπάρχουν διαθέσιμες ερωτήσεις.'}</p>
       <a class="btn" href="#/course/${courseId}">Πίσω στην ύλη</a></div>`;
@@ -36,10 +39,12 @@ export async function render(el, ctx) {
   let i = 0;
   let correctCount = 0;
   let xpEarned = 0;
+  const answered = [];
 
   const showQuestion = () => {
     const { topicId, topicTitle, q } = questions[i];
     el.innerHTML = `
+      ${mode === 'warmup' && i === 0 ? `<p class="muted" style="font-size:13px;margin:0 0 6px">Πρώτα όσα είναι για επανάληψη σήμερα — μετά ό,τι θες. ← για παράλειψη.</p>` : ''}
       ${pageHeader({
         title: MODE_TITLES[mode] || 'Κουίζ',
         back: `#/course/${courseId}`,
@@ -60,6 +65,7 @@ export async function render(el, ctx) {
         const chosen = Number(btn.dataset.idx);
         const correct = chosen === q.correctIndex;
         if (correct) { correctCount++; xpEarned += XP[q.difficulty] ?? 10; }
+        answered.push({ topicId, topicTitle, correct });
 
         const prev = ctx.state.topics[topicId] || newTopicProgress();
         ctx.state.topics[topicId] = recordAnswer(prev, {
@@ -98,7 +104,7 @@ export async function render(el, ctx) {
     const masteredTopics = Object.values(ctx.state.topics).filter((p) => p.mastery >= 80).length;
     ctx.state.stats = evaluateBadges(ctx.state.stats, { masteredTopics }, now);
     ctx.state.sessions.push({
-      date: now, mode, courseId,
+      date: now, mode: pool, courseId,
       total: questions.length, correct: correctCount, timeSeconds, xp: xpEarned,
     });
     ctx.state.sessions = ctx.state.sessions.slice(-50);
@@ -113,6 +119,7 @@ export async function render(el, ctx) {
           <div class="stat"><b>${pct}%</b><span>Επίδοση</span></div>
           <div class="stat"><b>+${xpEarned}</b><span>XP</span></div>
         </div>
+        ${wrapUpHtml(tally(answered), courseId)}
         <a class="btn btn-gold btn-block" href="#/quiz/${courseId}/${mode}">Νέο κουίζ</a>
         <a class="btn btn-ghost btn-block" href="#/">Αρχική</a>
       </div>`;
