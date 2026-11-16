@@ -32,11 +32,11 @@ test('CORE lists no JS file that does not exist', () => {
   assert.deepEqual(ghosts, [], 'addAll() rejects wholesale on a 404');
 });
 
-test('CORE still covers the shell and keeps the ale-v35 cache name', () => {
+test('CORE still covers the shell and keeps the ale-v36 cache name', () => {
   for (const f of ['./', './index.html', './css/app.css', './manifest.webmanifest']) {
     assert.ok(CORE.includes(f), f);
   }
-  assert.ok(/const CACHE = 'ale-v35'/.test(sw));
+  assert.ok(/const CACHE = 'ale-v36'/.test(sw));
 });
 
 // Pages sends max-age=600; without these the worker served (and even
