@@ -3,9 +3,12 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { diagramsFor } from '../js/core/diagrams.js';
 
-const EXPECTED = { 'z2-4': 2, 'z3-3': 1, 'z9-4': 1, 'z11-3': 1, 'z12-1': 1, 'z12-3': 1 };
+const EXPECTED = { 'z2-4': 2, 'z3-3': 1, 'z9-4': 1, 'z11-3': 1, 'z12-1': 1, 'z12-3': 1, 'g2-1': 1, 'g5-1': 1, 'g6-5': 1 };
+// The worked calculation is the one diagram that must show numbers: exactly
+// the 2/2019 paper's cases, recomputed here.
+const NUMBERS_OK = new Set(['g6-5']);
 const all = () => Object.keys(EXPECTED).flatMap((id) => diagramsFor(id).map((d) => ({ id, ...d })));
-const isTable = (d) => d.html.includes('<table');
+const isTable = (d) => !d.html.startsWith('<svg'); // tables and the calc flow are HTML, not charts
 
 test('each diagrammed topic gets exactly its diagrams, everything else none', () => {
   for (const [id, n] of Object.entries(EXPECTED)) assert.equal(diagramsFor(id).length, n, id);
@@ -14,8 +17,7 @@ test('each diagrammed topic gets exactly its diagrams, everything else none', ()
 });
 
 test('every diagrammed topic still exists in the material', () => {
-  const c = JSON.parse(readFileSync('data/klados-zois/content.json', 'utf8'));
-  const ids = new Set(c.chapters.flatMap((ch) => ch.topics.map((t) => t.id)));
+  const ids = new Set(['klados-zois', 'genikos-klados'].flatMap((cid) => JSON.parse(readFileSync(`data/${cid}/content.json`, 'utf8')).chapters.flatMap((ch) => ch.topics.map((t) => t.id))));
   for (const id of Object.keys(EXPECTED)) assert.ok(ids.has(id), `${id} missing from content`);
 });
 
@@ -51,8 +53,17 @@ test('the health comparison has every slide row, in slide column order', () => {
 // The slides gave no figures for these, and an invented value would be
 // studied as fact — the same trap as the fabricated "17 μονάδες".
 test('no diagram shows a number the slides did not give', () => {
-  for (const d of all()) {
+  for (const d of all().filter((x) => !NUMBERS_OK.has(x.id))) {
     const text = d.html.replace(/<[^>]*>/g, ' ');
     assert.ok(!/\d/.test(text + d.caption + d.title), `${d.id} shows a number: ${text.trim().slice(0, 80)}`);
   }
+});
+
+test('the worked average-clause results are arithmetically right', () => {
+  const [d] = diagramsFor('g6-5');
+  const pay = (value, cover, loss, excess) => Math.min(1, cover / value) * loss - excess;
+  assert.equal(pay(400000, 280000, 100000, 3000), 67000);
+  assert.equal(pay(300000, 400000, 100000, 5000), 95000);
+  assert.match(d.html, /€67\.000/);
+  assert.match(d.html, /€95\.000/);
 });

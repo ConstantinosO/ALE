@@ -262,7 +262,73 @@ function householdGoals() {
   };
 }
 
+// ---- Γενικός Κλάδος ---------------------------------------------------
+
+// A coverage matrix: rows are what is covered, columns are plans/clauses.
+// cell: true = covered, false = not covered, string = a short note.
+function matrix(cols, rows) {
+  const e = escapeHtml;
+  const cell = (v) => (v === true ? '<td class="mtx-y">✓</td>'
+    : v === false ? '<td class="mtx-n">✗</td>' : `<td class="mtx-note">${e(v)}</td>`);
+  return `<div class="cmp-wrap"><table class="mtx">
+    <thead><tr><th></th>${cols.map((c) => `<th>${e(c)}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map(([label, ...cells]) => `<tr><th scope="row">${e(label)}</th>${cells.map(cell).join('')}</tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+function motorPlans() {
+  // Slide «Σχέδια ασφάλισης Μηχανοκίνητων Οχημάτων»: (α) ΕΤ, (β) as (α) plus
+  // fire and theft of the vehicle, (γ) as (α) and (β) plus own damage.
+  return {
+    title: 'Τα τρία σχέδια ασφάλισης Μηχανοκινήτων',
+    html: matrix(['(α) Έναντι Τρίτου', '(β) + Πυρός & Κλοπής', '(γ) Περιεκτική'], [
+      ['Θάνατος / σωματική βλάβη τρίτων', true, true, true],
+      ['Ζημιά σε περιουσία τρίτων', true, true, true],
+      ['Το δικό σου όχημα: φωτιά', false, true, true],
+      ['Το δικό σου όχημα: κλοπή ή απόπειρα', false, true, true],
+      ['Το δικό σου όχημα: σύγκρουση, ανατροπή κ.ά.', false, false, true],
+    ]),
+    caption: 'Κάθε σχέδιο περιέχει ολόκληρο το προηγούμενο. Το (α) είναι η ελάχιστη υποχρεωτική κάλυψη του νόμου· μόνο η Περιεκτική καλύπτει την ίδια ζημιά του οχήματος από σύγκρουση.',
+  };
+}
+
+function cargoClauses() {
+  // Slide «Οι Ρήτρες Κάλυψης». The slides name B's perils and say only that
+  // C is the narrowest and excludes flood and earthquake — so C's other
+  // cells stay as notes, not ticks the slides never gave.
+  return {
+    title: 'Ρήτρες Α, Β, Γ μεταφερόμενων εμπορευμάτων',
+    html: matrix(['Ρήτρα Α', 'Ρήτρα Β', 'Ρήτρα Γ'], [
+      ['Πυρκαγιά', true, true, '—'],
+      ['Κλοπή', true, true, '—'],
+      ['Θαλασσοταραχή', true, true, '—'],
+      ['Σεισμός', true, true, false],
+      ['Πλημμύρα', true, true, false],
+    ]),
+    caption: 'Α = «Όλων των κινδύνων»: κάθε τυχαία ζημιά που δεν εξαιρείται ρητά, χωρίς να είναι απεριόριστη. Β = οι βασικοί κίνδυνοι του πίνακα. Γ = η χαμηλότερη κάλυψη, χωρίς πλημμύρα και σεισμό· προτιμάται για μικρές, ασφαλείς αποστάσεις σε κάποιες εποχές (π.χ. Ελλάδα–Ιταλία το καλοκαίρι). «—» = οι διαφάνειες δεν το διευκρινίζουν.',
+  };
+}
+
+function averageClause() {
+  // The 2/2019 paper's worked case (α), and its over-insurance case (δ).
+  const e = escapeHtml;
+  const step = (label, value) => `<div class="calc-step"><span class="muted">${e(label)}</span><b>${e(value)}</b></div>`;
+  const arrow = '<div class="calc-arrow" aria-hidden="true">→</div>';
+  return {
+    title: 'Αναλογικός Όρος — βήμα βήμα',
+    html: `<p class="calc-formula">Αποζημίωση = <b>(κάλυψη ÷ πραγματική αξία) × ζημιά − απαλλαγή</b></p>
+      <p class="muted" style="margin:6px 0 4px;font-size:13px">Υποασφάλιση — αξία €400.000, κάλυψη €280.000, ζημιά €100.000, απαλλαγή €3.000:</p>
+      <div class="calc-flow">${step('κάλυψη ÷ αξία', '280.000 ÷ 400.000 = 70%')}${arrow}${step('× ζημιά', '70% × 100.000 = 70.000')}${arrow}${step('− απαλλαγή', '70.000 − 3.000 = €67.000')}</div>
+      <p class="muted" style="margin:10px 0 4px;font-size:13px">Υπερασφάλιση — αξία €300.000, κάλυψη €400.000, ζημιά €100.000, απαλλαγή €5.000:</p>
+      <div class="calc-flow">${step('κάλυψη ÷ αξία', '400.000 ÷ 300.000 → μέγιστο 100%')}${arrow}${step('× ζημιά', '100% × 100.000 = 100.000')}${arrow}${step('− απαλλαγή', '100.000 − 5.000 = €95.000')}</div>`,
+    caption: 'Όταν το ασφαλισμένο ποσό είναι μικρότερο από την αξία, πληρώνεται μόνο το ίδιο ποσοστό της ζημιάς. Η υπερασφάλιση δεν δίνει ποτέ πάνω από το 100% της ζημιάς. Παραδείγματα από το δοκίμιο 2/2019.',
+  };
+}
+
 const BUILDERS = {
+  'g2-1': [motorPlans],
+  'g5-1': [cargoClauses],
+  'g6-5': [averageClause],
   'z2-4': [howItWorks, renewableVsLevel],
   'z3-3': [savingsCycle],
   'z9-4': [healthComparison],
